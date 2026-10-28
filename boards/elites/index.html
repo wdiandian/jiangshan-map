@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>历代精英政治 · 江山时序研究台</title>
+  <meta name="description" content="从先秦封建贵族到魏晋门阀、唐宋士大夫、明清士绅与近代知识分子：梳理中国统治精英的权力来源、选任制度、再生产机制与史学争论。">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../../core/tokens.css">
+  <link rel="stylesheet" href="../../core/research-panel.css">
+  <style>
+    :root {
+      --paper: #f3eee2;
+      --paper-2: #ebe3d2;
+      --card: #fbf7ec;
+      --card-2: #f6efe1;
+      --ink: #211e19;
+      --ink-2: #5f5749;
+      --ink-3: #8a8171;
+      --rule: #d3c8b3;
+      --rule-2: #e3dac8;
+      --accent: #8a3b2e;
+      --accent-deep: #6f2b21;
+      --accent-soft: #f0e0d6;
+      --gold: #b07d2a;
+      --src-lineage: #8a3b2e;
+      --src-military: #6b4a2f;
+      --src-classics: #2f5d50;
+      --src-exam: #b07d2a;
+      --src-wealth: #4a5b7a;
+      --src-favor: #7a5a7a;
+      --serif: "Noto Serif SC", "Songti SC", SimSun, serif;
+      --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    button { font-family: inherit; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ---------- 页头 ---------- */
+    .board-head { border-bottom: 1px solid var(--ink); background: var(--paper); }
+    .js-board-switcher.board-nav--inline {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 10px 28px 0;
+    }
+    .head-inner { max-width: 1180px; margin: 0 auto; padding: 26px 28px 22px; }
+    .kicker {
+      margin: 0 0 8px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .title-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: .06em;
+      line-height: 1.15;
+    }
+    .head-stats {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin: 0;
+      padding-bottom: 4px;
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+    .head-stats b {
+      display: block;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: .02em;
+    }
+    .dek { margin: 10px 0 0; color: var(--ink-2); font-size: 13.5px; max-width: 900px; }
+    .edition {
+      margin: 12px 0 0;
+      padding-top: 9px;
+      border-top: 1px dashed var(--rule);
+      font-size: 11.5px;
+      letter-spacing: .04em;
+      color: var(--ink-3);
+    }
+
+    /* ---------- 章节导航 ---------- */
+    .section-nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      gap: 2px;
+      padding: 7px max(16px, calc((100vw - 1180px) / 2 + 28px));
+      background: rgba(243, 238, 226, .96);
+      border-bottom: 1px solid var(--rule);
+      backdrop-filter: blur(8px);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .section-nav::-webkit-scrollbar { display: none; }
+    .section-nav a {
+      flex-shrink: 0;
+      padding: 5px 12px;
+      border-radius: 999px;
+      color: var(--ink-2);
+      font-size: 12.5px;
+      letter-spacing: .05em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color .15s, background .15s;
+    }
+    .section-nav a:hover { color: var(--accent); background: var(--card); }
+
+    /* ---------- 版面 ---------- */
+    main { max-width: 1180px; margin: 0 auto; padding: 8px 28px 84px; }
+    .doc-section { padding-top: 40px; scroll-margin-top: 54px; }
+    .section-label {
+      margin: 0 0 2px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 0 0 6px;
+      font-family: var(--serif);
+      font-size: clamp(23px, 2.6vw, 30px);
+      font-weight: 600;
+      letter-spacing: .05em;
+      line-height: 1.3;
+    }
+    h3 {
+      margin: 30px 0 10px;
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    h4 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--ink-2); }
+    .section-intro { margin: 0 0 20px; max-width: 860px; color: var(--ink-2); font-size: 13.8px; }
+    p { margin: 0 0 12px; }
+    .lead {
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--ink);
+      max-width: 900px;
+    }
+    .lead strong { font-weight: 600; color: var(--accent-deep); }
+
+    /* ---------- 总论 ---------- */
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin: 20px 0 8px;
+    }
+    .thesis {
+      padding: 18px 18px 16px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--accent);
+    }
+    .thesis .num {
+      font-family: var(--serif);
+      font-size: 26px;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .thesis h3 { margin: 7px 0 5px; font-size: 16px; }
+    .thesis p { margin: 0; font-size: 12.8px; color: var(--ink-2); }
+
+    .lineage-strip {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 18px 0 10px;
+      overflow-x: auto;
+      border: 1px solid var(--rule);
+      background: var(--card);
+      scrollbar-width: thin;
+    }
+    .lineage-node {
+      flex: 1 0 150px;
+      padding: 14px 14px 12px;
+      border-right: 1px dashed var(--rule);
+      text-align: center;
+    }
+    .lineage-node:last-child { border-right: 0; }
+    .lineage-node b {
+      display: block;
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .lineage-node span { display: block; margin-top: 3px; font-size: 10.5px; color: var(--ink-3); }
+    .lineage-node.is-break { background: var(--accent-soft); }
+
+    .compare-wrap { overflow-x: auto; margin: 12px 0 0; border: 1px solid var(--rule); background: var(--card); }
+    table.compare {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      font-size: 12.6px;
+    }
+    table.compare th, table.compare td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--rule-2);
+      text-align: left;
+      vertical-align: top;
+    }
+    table.compare thead th {
+      background: var(--paper-2);
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: var(--ink-2);
+      white-space: nowrap;
+    }
+    table.compare tbody th {
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    table.compare tbody tr:last-child th, table.compare tbody tr:last-child td { border-bottom: 0; }
+
+    .caveat {
+      margin: 16px 0 0;
+      padding: 13px 16px;
+      background: #f7efe3;
+      border-left: 3px solid var(--gold);
+      font-size: 12.8px;
+      color: var(--ink-2);
+    }
+    .caveat b { color: var(--ink); }
+
+    /* ---------- 分期长卷 ---------- */
+    .era-rail {
+      display: flex;
+      gap: 5px;
+      margin: 6px 0 14px;
+      padding-bottom: 6px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .era-btn {
+      flex: 1 0 98px;
+      padding: 9px 8px 8px;
+      border: 1px solid var(--rule);
+      background: var(--card);
+      color: var(--ink-2);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .era-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .era-btn[aria-pressed="true"] {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff8ee;
+    }
+    .era-btn b { display: block; font-family: var(--serif); font-size: 15px; font-weight: 600; letter-spacing: .04em; }
+    .era-btn span { display: block; margin-top: 2px; font-size: 10px; letter-spacing: .02em; opacity: .74; }
+
+    .era-panel {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      padding: 22px 24px 20px;
+    }
+    .era-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule-2);
+    }
+    .era-range { margin: 0 0 2px; font-size: 11.5px; letter-spacing: .12em; color: var(--ink-3); }
+    .era-head h3 { margin: 0; font-size: clamp(21px, 2.4vw, 27px); }
+    .era-head .era-tag { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-deep); font-family: var(--sans); font-size: 11px; letter-spacing: .04em; vertical-align: 3px; }
+    .map-link {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      border: 1px solid var(--accent);
+      font-size: 12px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .map-link:hover { background: var(--accent); color: #fff8ee; }
+
+    .era-summary { margin: 14px 0 0; max-width: 940px; font-size: 13.8px; }
+    .era-insight {
+      margin: 12px 0 0;
+      padding: 10px 13px;
+      background: var(--paper-2);
+      border-left: 3px solid var(--accent);
+      font-size: 13px;
+    }
+    .era-insight b { font-family: var(--serif); }
+
+    .era-grid {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 26px;
+      margin-top: 16px;
+    }
+    .era-meta { margin: 0; }
+    .era-meta div { padding: 8px 0; border-bottom: 1px dashed var(--rule-2); }
+    .era-meta div:last-child { border-bottom: 0; }
+    .era-meta dt { font-size: 10.5px; letter-spacing: .1em; color: var(--ink-3); }
+    .era-meta dd { margin: 2px 0 0; font-size: 12.9px; }
+    .era-meta dd b { font-weight: 600; }
+
+    .power-bar {
+      display: flex;
+      width: 100%;
+      height: 26px;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+      background: var(--paper-2);
+    }
+    .power-seg { height: 100%; transition: width .25s ease; }
+    .power-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      margin: 9px 0 0;
+      font-size: 11.2px;
+      color: var(--ink-2);
+    }
+    .power-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .power-legend i { width: 9px; height: 9px; display: inline-block; }
+
+    .era-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .era-links a {
+      padding: 5px 10px;
+      border: 1px solid var(--rule);
+      background: var(--paper-2);
+      font-size: 11.6px;
+      text-decoration: none;
+      color: var(--ink-2);
+    }
+    .era-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+    .heat-wrap { margin: 14px 0 0; overflow-x: auto; }
+    .heat {
+      display: grid;
+      grid-template-columns: 92px repeat(6, minmax(58px, 1fr));
+      min-width: 640px;
+      gap: 2px;
+      font-size: 10.5px;
+    }
+    .heat .h-label { padding: 5px 6px; color: var(--ink-3); text-align: left; }
+    .heat .h-head { padding: 5px 4px; text-align: center; color: var(--ink-3); }
+    .heat .h-row { padding: 5px 6px; background: var(--paper-2); font-family: var(--serif); font-size: 12px; }
+    .heat .h-cell { padding: 5px 4px; text-align: center; font-variant-numeric: tabular-nums; }
+    .heat-caption { margin: 8px 0 0; font-size: 11.3px; color: var(--ink-3); }
+
+    /* ---------- 机制 ---------- */
+    .mech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin: 14px 0 0;
+    }
+    .mech {
+      padding: 15px 16px 13px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+    }
+    .mech .glyph { font-family: var(--serif); font-size: 21px; color: var(--accent); line-height: 1; }
+    .mech h3 { margin: 7px 0 4px; font-size: 15px; }
+    .mech p { margin: 0; font-size: 12.3px; color: var(--ink-2); }
+
+    .inst-table-wrap { overflow-x: auto; margin: 12px 0 0; border: 1px solid var(--rule); background: var(--card); }
+    table.inst { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 12.5px; }
+    table.inst th, table.inst td { padding: 9px 11px; border-bottom: 1px solid var(--rule-2); text-align: left; vertical-align: top; }
+    table.inst thead th { background: var(--paper-2); font-size: 10.8px; letter-spacing: .06em; color: var(--ink-2); white-space: nowrap; }
+    table.inst tbody th { font-family: var(--serif); font-weight: 600; font-size: 13.5px; white-space: nowrap; }
+    table.inst tbody tr:last-child th, table.inst tbody tr:last-child td { border-bottom: 0; }
+    .badge { display: inline-block; padding: 0 6px; border-radius: 3px; background: var(--accent-soft); color: var(--accent-deep); font-size: 10.5px; }
+
+    /* ---------- 地域 ---------- */
+    .region-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .region {
+      padding: 15px 16px 13px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--rule);
+    }
+    .region h3 { margin: 0 0 3px; font-size: 16px; }
+    .region .era { font-size: 10.5px; letter-spacing: .08em; color: var(--accent); }
+    .region p { margin: 6px 0 0; font-size: 12.4px; color: var(--ink-2); }
+    .region p b { color: var(--ink); font-weight: 600; }
+
+    /* ---------- 争论 ---------- */
+    .debate-list { margin-top: 12px; border-top: 1px solid var(--rule); }
+    details.debate { border-bottom: 1px solid var(--rule); background: transparent; }
+    details.debate[open] { background: var(--card); }
+    details.debate summary {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 13px 4px;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--serif);
+      font-size: 15.5px;
+      letter-spacing: .03em;
+    }
+    details.debate summary::-webkit-details-marker { display: none; }
+    details.debate summary::before {
+      content: "＋";
+      flex-shrink: 0;
+      width: 16px;
+      color: var(--accent);
+      font-family: var(--sans);
+      font-size: 13px;
+    }
+    details.debate[open] summary::before { content: "－"; }
+    details.debate summary .stance { margin-left: auto; font-family: var(--sans); font-size: 11px; color: var(--ink-3); text-align: right; }
+    .debate-body { padding: 0 4px 16px 30px; }
+    .debate-body dl { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 6px 12px; margin: 0; font-size: 12.9px; }
+    .debate-body dt { color: var(--ink-3); font-size: 11px; letter-spacing: .06em; padding-top: 2px; }
+    .debate-body dd { margin: 0; }
+    .debate-body dd.verdict { padding: 8px 11px; background: var(--paper-2); border-left: 2px solid var(--accent); }
+
+    /* ---------- 个案 ---------- */
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .case {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 17px 14px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--ink);
+    }
+    .case .case-era { font-size: 10.5px; letter-spacing: .1em; color: var(--accent); }
+    .case h3 { margin: 4px 0 6px; font-size: 18px; }
+    .case dl { margin: 0; font-size: 12.2px; }
+    .case dt { margin-top: 7px; color: var(--ink-3); font-size: 10.5px; letter-spacing: .06em; }
+    .case dd { margin: 1px 0 0; color: var(--ink-2); }
+
+    /* ---------- 书单 ---------- */
+    .reading-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .reading-col { padding: 18px 18px 14px; background: var(--card); border: 1px solid var(--rule); }
+    .reading-col h3 { margin: 0 0 3px; font-size: 16px; }
+    .reading-col .col-note { margin: 0 0 10px; font-size: 11.5px; color: var(--ink-3); }
+    .reading-col ol { margin: 0; padding-left: 18px; font-size: 12.6px; }
+    .reading-col li { margin: 7px 0; }
+    .reading-col li b { font-weight: 600; }
+    .reading-col li span { display: block; color: var(--ink-3); font-size: 11.4px; line-height: 1.5; }
+
+    .databases { margin-top: 18px; padding: 18px 20px; background: var(--card); border: 1px solid var(--rule); }
+    .databases h3 { margin: 0 0 4px; font-size: 16px; }
+    .databases .db-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .databases a {
+      padding: 6px 11px;
+      border: 1px solid var(--rule);
+      background: var(--paper-2);
+      font-size: 12px;
+      text-decoration: none;
+    }
+    .databases a:hover { border-color: var(--accent); color: var(--accent); }
+    .method {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--rule);
+      font-size: 12.2px;
+      color: var(--ink-3);
+    }
+    .method b { color: var(--ink-2); }
+
+    footer {
+      border-top: 1px solid var(--ink);
+      background: var(--paper-2);
+    }
+    .foot-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 20px 28px 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 11.8px;
+      color: var(--ink-3);
+    }
+    .foot-inner a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 820px) {
+      .era-grid { grid-template-columns: 1fr; gap: 16px; }
+      .era-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+    }
+    @media (max-width: 640px) {
+      .head-inner, main, .foot-inner { padding-left: 16px; padding-right: 16px; }
+      .board-head .js-board-switcher { padding-left: 16px; padding-right: 16px; }
+      .era-panel { padding: 18px 16px 16px; }
+      .era-meta { grid-template-columns: 1fr; }
+      .debate-body { padding-left: 4px; }
+      .debate-body dl { grid-template-columns: 1fr; gap: 2px; }
+      .debate-body dt { margin-top: 8px; }
+      details.debate summary { flex-wrap: wrap; }
+      details.debate summary .stance { width: 100%; margin-left: 26px; text-align: left; }
+    }
+    @media print {
+      .section-nav, .js-board-switcher, .map-link, .era-links, .research-fab { display: none !important; }
+      body { background: #fff; }
+      .doc-section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="board-head">
+    <nav data-board-nav class="js-board-switcher board-nav--inline" aria-label="研究台板块"></nav>
+    <div class="head-inner">
+      <p class="kicker">Research Atlas · 精英政治</p>
+      <div class="title-row">
+        <h1>历代精英政治</h1>
+        <p class="head-stats">
+          <span><b>10</b>个时期</span>
+          <span><b>6</b>类权力来源</span>
+          <span><b>7</b>组争论</span>
+          <span><b>8</b>个家族个案</span>
+        </p>
+      </div>
+      <p class="dek">从宗法封建贵族到门阀、科举士大夫、士绅与近代知识分子：统治精英如何取得权力，如何把优势传给下一代，又怎样被选官制度与国家暴力重新洗牌。</p>
+      <p class="edition">研究综述稿 · 2026 年 10 月 · 以制度史、家族史与地域集团为主线；所有比例均为定性示意，不是统计结果。</p>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="本页章节">
+    <a href="#overview">总论</a>
+    <a href="#eras">分期长卷</a>
+    <a href="#mechanisms">再生产机制</a>
+    <a href="#regions">地域底盘</a>
+    <a href="#debates">史学争论</a>
+    <a href="#cases">家族个案</a>
+    <a href="#reading">书单与检索</a>
+  </nav>
+
+  <main>
+    <!-- ================= 总论 ================= -->
+    <section class="doc-section" id="overview">
+      <p class="section-label">01 · 总论</p>
+      <h2>精英不是一种身份，而是一组获取权力的通道</h2>
+      <p class="lead">讨论中国历代精英，最容易犯的错误是把“精英”当成一个固定的阶层。更准确的说法是：<strong>每个时代都有一套筛选统治者的制度，制度决定了谁有资格进入权力，也决定了他们能把位置传给谁。</strong>血缘、军功、经学、考试、财富、皇恩，这六种资源在不同时代此消彼长，塑造出贵族、官僚、门阀、士大夫与士绅这些不同面孔。</p>
+
+      <div class="thesis-grid">
+        <article class="thesis">
+          <div class="num">一</div>
+          <h3>权力来源决定精英形态</h3>
+          <p>靠血缘与采邑的是封建贵族；靠军功与文书的是官僚；靠门第、婚宦与家学的是门阀；靠考试与功名的是士大夫与士绅。资源变了，精英的自我认同也随之改写。</p>
+        </article>
+        <article class="thesis">
+          <div class="num">二</div>
+          <h3>优势靠五条管道传下去</h3>
+          <p>教育、婚姻、宗族、地域网络与政治庇护。即使官位不能世袭，这五条管道仍能让文化资本、社会资本与经济资本跨代累积，形成“事实上的世袭”。</p>
+        </article>
+        <article class="thesis">
+          <div class="num">三</div>
+          <h3>皇权在吸纳与压制之间摆动</h3>
+          <p>皇权需要精英治理，又害怕精英坐大。察举、九品中正、科举、文字狱、党禁，都是同一道题的不同解法：怎样用人，又不被用人者反制。</p>
+        </article>
+      </div>
+
+      <h3>一条主线，三次断裂</h3>
+      <div class="lineage-strip" role="list" aria-label="精英形态主线">
+        <div class="lineage-node" role="listitem"><b>封建贵族</b><span>先秦 · 宗法与采邑</span></div>
+        <div class="lineage-node is-break" role="listitem"><b>军功官僚</b><span>秦汉 · 军功爵与文法吏</span></div>
+        <div class="lineage-node" role="listitem"><b>门阀士族</b><span>魏晋—唐初 · 门第与婚宦</span></div>
+        <div class="lineage-node is-break" role="listitem"><b>科举士大夫</b><span>唐宋 · 考试与官僚</span></div>
+        <div class="lineage-node" role="listitem"><b>士绅</b><span>明清 · 功名与地方</span></div>
+        <div class="lineage-node is-break" role="listitem"><b>近代知识分子</b><span>晚清民国 · 新学与舆论</span></div>
+      </div>
+      <p class="section-intro" style="margin-top:12px">三次断裂分别发生在秦汉之际、唐宋之际与晚清。第一次用官僚取代世卿，第二次用考试取代门第，第三次用现代教育与政党政治取代科举功名。每一次断裂都不是彻底替换，旧精英会以新的方式存活很久。</p>
+
+      <h3>六个容易混淆的概念</h3>
+      <p class="section-intro">这几个词经常被混用，但它们的时代、权力基础和世袭程度并不相同。把“门阀”泛化到整个帝制时代，是通俗叙述里最常见的偏差。</p>
+      <div class="compare-wrap">
+        <table class="compare">
+          <thead>
+            <tr><th>概念</th><th>大致时代</th><th>权力基础</th><th>世袭性</th><th>常见误用</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>豪族</th><td>秦汉</td><td>土地、宗族、宾客、地方武装</td><td>财产与人脉可传，身份未法律固化</td><td>把东汉豪族直接叫作门阀</td></tr>
+            <tr><th>门阀</th><td>魏晋—唐初</td><td>门第、婚宦、家学、谱牒、乡里</td><td>强，士庶界限近似法律身份</td><td>把宋明清的精英也叫门阀</td></tr>
+            <tr><th>士族</th><td>魏晋—唐</td><td>经学、官位、乡里网络</td><td>强，唐代逐渐弱化</td><td>与门阀完全等同</td></tr>
+            <tr><th>士大夫</th><td>宋—明</td><td>科举功名、儒学修养、官僚职位</td><td>官位不世袭，文化资本可传</td><td>把宋代士大夫说成门阀</td></tr>
+            <tr><th>士绅</th><td>明清</td><td>功名、捐纳、地方声望、宗族</td><td>功名不世袭，身份可代际经营</td><td>把士绅等同于一般地主</td></tr>
+            <tr><th>知识分子</th><td>晚清民国</td><td>新式教育、专业知识、舆论</td><td>否</td><td>与士大夫混为一谈</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="caveat"><b>概念警示：</b>严格意义上的“门阀政治”，按田余庆的界定只存在于东晋——皇权垂拱，几家高门轮流执政。魏晋是士族定型，唐初是门阀余晖，宋以后则是科举官僚与士绅，不宜一律称为门阀时代。</aside>
+    </section>
+
+    <!-- ================= 分期长卷 ================= -->
+    <section class="doc-section" id="eras">
+      <p class="section-label">02 · 分期长卷</p>
+      <h2>十个时期，十种精英配方</h2>
+      <p class="section-intro">点击任一时段查看该时期的精英构成、选任机制、代表集团与转折事件。右侧的“权力来源”条为定性示意：它表达的是相对权重，不是可比较的统计比例。</p>
+
+      <div class="era-rail" id="era-rail" role="group" aria-label="选择历史时期"></div>
+      <article class="era-panel" id="era-panel" aria-live="polite"></article>
+
+      <h3>六个时期放在一起看</h3>
+      <div class="heat-wrap">
+        <div class="heat" id="power-heat" role="img" aria-label="各时期六类权力来源的相对权重热力图，数值为定性示意"></div>
+      </div>
+      <p class="heat-caption">读法：颜色越深表示该资源在精英资格中的相对权重越高。数值是编者据制度安排与史料概括出的示意值，不可用于跨时代精确比较，更不是人口或任官统计。</p>
+    </section>
+
+    <!-- ================= 机制 ================= -->
+    <section class="doc-section" id="mechanisms">
+      <p class="section-label">03 · 机制</p>
+      <h2>精英怎样把自己再生产出来</h2>
+      <p class="lead">制度决定“谁可以进来”，家庭决定“谁留得住”。即使科举把入口打开，优势家庭仍会通过下面五条管道，把一次性的成功转化为跨代的结构性优势。</p>
+
+      <div class="mech-grid">
+        <article class="mech"><div class="glyph">学</div><h3>教育</h3><p>经学世家、书院、族学、私塾。教材、师承与应试技巧是最可合法继承的文化资本。</p></article>
+        <article class="mech"><div class="glyph">婚</div><h3>婚姻</h3><p>士庶不婚、门当户对、通婚圈层。婚姻把分散的家族连成利益网络，也把声望变成可交换的资源。</p></article>
+        <article class="mech"><div class="glyph">族</div><h3>宗族</h3><p>族田、义庄、祠堂、族谱。宗族提供救济、教育经费与地方动员能力，是精英的稳定器。</p></article>
+        <article class="mech"><div class="glyph">地</div><h3>地域</h3><p>郡望、籍贯、同乡、书院网络。地域集团在察举、科举与政局中反复出现，关陇、山东、江南都是典型。</p></article>
+        <article class="mech"><div class="glyph">庇</div><h3>庇护</h3><p>门生故吏、荐举、幕府、座主门生。政治庇护把上下级关系转化为可继承的政治资源。</p></article>
+        <article class="mech"><div class="glyph">财</div><h3>财富</h3><p>田产、商业、票号、实业。财富可以购买教育、捐纳功名，也能在科举之外提供替代性权力基础。</p></article>
+      </div>
+
+      <h3>选官制度的七次转向</h3>
+      <div class="inst-table-wrap">
+        <table class="inst">
+          <thead>
+            <tr><th>制度</th><th>确立时期</th><th>主要标准</th><th>受益者</th><th>固化风险</th></tr>
+          </thead>
+          <tbody>
+            <tr><th>世卿世禄</th><td>西周—春秋</td><td>宗法血缘、封建等级</td><td>姬姓宗室与世袭卿大夫</td><td>极高，官职与采邑一体世袭</td></tr>
+            <tr><th>军功爵</th><td>战国—秦</td><td>战功、首级、耕战</td><td>平民士兵、军功地主</td><td>中，军功可传但需持续战功维持</td></tr>
+            <tr><th>察举征辟</th><td>西汉—东汉</td><td>孝廉、茂才、经学、乡里清议</td><td>地方豪族、经学世家</td><td>高，东汉后期被门第与请托垄断</td></tr>
+            <tr><th>九品中正</th><td>曹魏—隋</td><td>中正品评，渐重家世</td><td>士族高门</td><td>极高，“上品无寒门，下品无势族”</td></tr>
+            <tr><th>科举</th><td>隋唐—清</td><td>考试成绩，唐重诗赋，宋明清重经义</td><td>庶族地主、城市读书人</td><td>中，录取率低，但入口原则上开放</td></tr>
+            <tr><th>恩荫与捐纳</th><td>宋—清</td><td>父祖官位、纳粟纳银</td><td>官僚子弟、富商</td><td>高，为优势家庭提供旁门</td></tr>
+            <tr><th>学堂与政党</th><td>晚清—民国</td><td>新学、留学、军功、党籍</td><td>新知识分子、军人、党工</td><td>中高，文凭与政治忠诚成为新门槛</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="heat-caption">说明：科举“始设进士科”的年代有隋大业元年（605）与唐武德五年（622）等不同说法，本表只取制度确立的大致时段。</p>
+
+      <h3>固化与流动：一条 U 形曲线</h3>
+      <p class="section-intro">如果把“精英身份的世袭程度”画成一条粗略曲线，会看到先秦极高、秦汉下降、魏晋至唐初回升、宋代以后再次下降、晚清又因制度断裂而上升。它只是解释框架，不是测量结果。</p>
+      <figure style="margin:0">
+        <svg viewBox="0 0 900 210" width="100%" role="img" aria-label="精英身份世袭程度的示意曲线：先秦高，秦汉下降，魏晋至唐初回升，宋代以后下降，晚清再上升">
+          <rect x="0" y="0" width="900" height="210" fill="#fbf7ec"></rect>
+          <g stroke="#e3dac8" stroke-width="1">
+            <line x1="70" y1="30" x2="860" y2="30"></line>
+            <line x1="70" y1="80" x2="860" y2="80"></line>
+            <line x1="70" y1="130" x2="860" y2="130"></line>
+            <line x1="70" y1="170" x2="860" y2="170"></line>
+          </g>
+          <g fill="#8a8171" font-size="10" font-family="sans-serif">
+            <text x="24" y="34">高</text>
+            <text x="24" y="134">中</text>
+            <text x="24" y="174">低</text>
+          </g>
+          <polyline points="90,38 210,105 300,85 390,58 470,68 560,80 650,128 740,118 830,58"
+            fill="none" stroke="#8a3b2e" stroke-width="2.4" stroke-linejoin="round"></polyline>
+          <g fill="#8a3b2e">
+            <circle cx="90" cy="38" r="4"></circle><circle cx="210" cy="105" r="4"></circle>
+            <circle cx="300" cy="85" r="4"></circle><circle cx="390" cy="58" r="4"></circle>
+            <circle cx="470" cy="68" r="4"></circle><circle cx="560" cy="80" r="4"></circle>
+            <circle cx="650" cy="128" r="4"></circle><circle cx="740" cy="118" r="4"></circle>
+            <circle cx="830" cy="58" r="4"></circle>
+          </g>
+          <g fill="#5f5749" font-size="10.5" font-family="sans-serif" text-anchor="middle">
+            <text x="90" y="196">先秦</text><text x="210" y="196">秦汉</text><text x="300" y="196">魏晋</text>
+            <text x="390" y="196">东晋</text><text x="470" y="196">南北朝</text><text x="560" y="196">隋唐</text>
+            <text x="650" y="196">两宋</text><text x="740" y="196">明清</text><text x="830" y="196">近代</text>
+          </g>
+        </svg>
+      </figure>
+      <p class="heat-caption">曲线含义：不是“社会越晚越平等”，而是精英再生产的合法性基础不断更换——从血缘，到门第，到考试，再到文凭与政治身份。</p>
+    </section>
+
+    <!-- ================= 地域 ================= -->
+    <section class="doc-section" id="regions">
+      <p class="section-label">04 · 地域</p>
+      <h2>精英的地理底盘</h2>
+      <p class="section-intro">中国精英从来不是均匀分布的。都城、交通线、农业核心区与科举学区叠加，形成几个反复出现的精英产地。地域集团既是政治资源，也是皇帝忌惮的对象。</p>
+      <div class="region-grid">
+        <article class="region">
+          <span class="era">西魏—唐初</span>
+          <h3>关陇</h3>
+          <p><b>代表：</b>宇文泰八柱国后裔、杨隋、李唐。<b>资源：</b>府兵、军功、婚姻联盟。<b>逻辑：</b>军事贵族共同体，靠军府与联姻维持，唐初进入皇权核心，武周以后逐渐瓦解。</p>
+        </article>
+        <article class="region">
+          <span class="era">北朝—唐</span>
+          <h3>山东</h3>
+          <p><b>代表：</b>崔、卢、李、郑、王“五姓七望”。<b>资源：</b>经学、谱牒、门第声望。<b>逻辑：</b>政治地位未必最高，社会声望极高；唐太宗修《氏族志》刻意压低，仍难撼动婚姻市场。</p>
+        </article>
+        <article class="region">
+          <span class="era">东晋—明清</span>
+          <h3>江南</h3>
+          <p><b>代表：</b>侨姓王谢、吴姓顾陆、明清江南望族。<b>资源：</b>庄园、水利、科举学区、商业。<b>逻辑：</b>经济重心南移后，江南成为进士最大产地，宗族与书院把财富转成功名。</p>
+        </article>
+        <article class="region">
+          <span class="era">北朝—隋唐</span>
+          <h3>河北</h3>
+          <p><b>代表：</b>清河崔、博陵崔、范阳卢。<b>资源：</b>地方宗族、经学传统、藩镇武力。<b>逻辑：</b>既是士族高地，也是安史之乱后的藩镇重心，文武两条线交织。</p>
+        </article>
+        <article class="region">
+          <span class="era">汉—唐</span>
+          <h3>河东</h3>
+          <p><b>代表：</b>闻喜裴、河东柳、河东薛。<b>资源：</b>经学、盐池、地近两京。<b>逻辑：</b>靠近政治中心又不算核心，容易在改朝换代中保持连续，唐代宰相辈出。</p>
+        </article>
+        <article class="region">
+          <span class="era">东汉—清</span>
+          <h3>江淮与徽州</h3>
+          <p><b>代表：</b>汝南袁、徽州汪程、扬州盐商。<b>资源：</b>农业、盐业、商业、宗族。<b>逻辑：</b>交通与盐利造就绅商一体，明清徽商把利润回流到祠堂、族学与科举。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= 争论 ================= -->
+    <section class="doc-section" id="debates">
+      <p class="section-label">05 · 争论</p>
+      <h2>七个仍在打的问题</h2>
+      <p class="section-intro">下面每一条都不是“常识”，而是有主张、有证据、也有批评的学术判断。点开可看双方论证与本文的取舍。</p>
+
+      <div class="debate-list">
+        <details class="debate" open>
+          <summary>唐宋之间真的发生了一次“精英断裂”吗？<span class="stance">内藤湖南 · 唐宋变革论</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>唐代是中世贵族社会，宋代是近世平民社会；贵族没落、君主独裁、科举社会与平民文化在唐宋之际同时出现。</dd>
+              <dt>证据</dt><dd>科举规模扩大、门阀谱牒衰亡、土地买卖与租佃普及、城市与商业繁荣、儒学从家学转向道学。</dd>
+              <dt>批评</dt><dd>分期过于整齐，遮蔽了区域差异与制度连续性；唐末五代是一个长达数十年的暴力过程，不是平滑转型；辽金元的存在也不符合“宋代即近世”的单线叙事。</dd>
+              <dt>判断</dt><dd>作为宏观框架仍然有用，但应把它理解为“精英资格的重组”，而不是某一年发生的断崖。真正的断裂点在唐末战乱，宋代只是新秩序的制度化。</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="debate">
+          <summary>“门阀政治”只属于东晋吗？<span class="stance">田余庆 · 皇权变态说</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>严格意义的门阀政治只存在于东晋：皇权垂拱，琅琊王氏、颍川庾氏、谯国桓氏、陈郡谢氏等几家高门与皇帝共治，门第高于皇权。</dd>
+              <dt>证据</dt><dd>“王与马，共天下”；侨姓士族控制荆扬方镇；九品中正与谱牒制度；皇位继承频繁受高门干预。</dd>
+              <dt>批评</dt><dd>概念界定较窄，南朝的士族政治、北魏的胡汉贵族联合是否也应纳入，仍有讨论空间；过度强调“变态”可能低估士族在地方上的常态权力。</dd>
+              <dt>判断</dt><dd>把门阀政治限定为东晋，能避免概念泛化。但“士族社会”可以更长，门阀政治只是其最极端的政治形态。</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="debate">
+          <summary>唐初的权力核心是“关陇集团”吗？<span class="stance">陈寅恪 · 集团说</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>西魏北周以宇文泰为首，融合关陇胡汉军功贵族，形成依靠府兵与婚姻联结的关陇集团；隋唐皇室皆出于此，唐初政治的核心是关陇集团与山东士族的博弈。</dd>
+              <dt>证据</dt><dd>八柱国十二大将军的婚姻网络；隋唐制度多承北周；唐初宰相与高级将领的地域构成。</dd>
+              <dt>批评</dt><dd>“集团”边界模糊，成员是否具有持续的共同意识存疑；唐高宗以后关陇色彩明显淡化，用集团解释中晚唐政治会失效。</dd>
+              <dt>判断</dt><dd>适合解释西魏至唐初的权力结构，不宜当作贯穿全唐的解释框架。它更像一个婚姻—军功网络，而非现代意义上的政党。</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="debate">
+          <summary>士族是被科举淘汰，还是被暴力消灭？<span class="stance">Tackett · 墓志统计</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>唐代士族并未因科举而自然衰落；直到九世纪末，他们仍占据高级官职。黄巢之乱与朱温白马驿之祸才对士族造成致命打击。</dd>
+              <dt>证据</dt><dd>利用数万方墓志建立的家族与任官数据库；唐末士族在中央官僚中的占比；战乱中具体家族的死亡与迁徙记录。</dd>
+              <dt>批评</dt><dd>墓志样本偏向有实力立碑的家族；地方士族的存续可能被中央视角遮蔽；暴力与制度变化并非互斥。</dd>
+              <dt>判断</dt><dd>“科举渐进淘汰说”需要修正。更合理的表述是：科举改变了精英再生产的长期逻辑，唐末战乱则完成了短期的物理清场。</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="debate">
+          <summary>科举真的带来了社会流动吗？<span class="stance">何炳棣 vs 样本批评</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>何炳棣等依据进士名录统计，认为明清科举有相当比例的成功者来自前三代无功名的家庭，科举是平民上升的重要通道。</dd>
+              <dt>证据</dt><dd>进士三代履历、乡试录、登科录；录取者的父祖功名分布。</dd>
+              <dt>批评</dt><dd>“前三代无功名”不等于“出身贫寒”，许多家庭有地主、商人或生员背景；录取率极低，科举更像精英内部的再分配；地区配额与应试教育使优势家庭更易胜出。</dd>
+              <dt>判断</dt><dd>科举扩大了文化精英的招募面，但没有消除阶层再生产。它最重要的效果，也许是让“读书—考试—做官”成为全社会的共同想象。</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="debate">
+          <summary>南宋精英为什么转向地方？<span class="stance">Hartwell &amp; Hymes · 地方化</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>北宋精英以全国性官僚网络为主，南宋精英则更多扎根地方，经营宗族、婚姻、书院与地方公益，形成“地方精英”模式。</dd>
+              <dt>证据</dt><dd>南宋地方志、墓志、书院记与族谱；精英婚姻圈的地方化；地方仓储、水利与慈善活动。</dd>
+              <dt>批评</dt><dd>“转向”可能被夸大，地方经营在北宋甚至唐代就已存在；全国性网络并未消失，明清士绅也同时具有全国与地方两面。</dd>
+              <dt>判断</dt><dd>与其说“转向”，不如说地方性变得更加可见、更加制度化。它解释了明清士绅社会的来源，但不能替代全国性官僚制的分析。</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="debate">
+          <summary>士绅是国家代理人，还是地方社会的代表？<span class="stance">张仲礼 · 中介说</span></summary>
+          <div class="debate-body">
+            <dl>
+              <dt>主张</dt><dd>士绅凭借功名与声望，在官方与地方之间充当中间人：协助征税、维持秩序、兴办公益，同时维护地方利益。</dd>
+              <dt>证据</dt><dd>士绅的收入、人数与职能统计；地方志中的士绅活动；团练、善堂、书院与宗族事务。</dd>
+              <dt>批评</dt><dd>士绅并非同质群体，上层官僚、下层生员、绅商与团练首领的利益并不一致；“中介”可能掩盖其剥削性与地方权力竞争。</dd>
+              <dt>判断</dt><dd>“中介”是理解帝制晚期国家能力的关键，但必须加上阶层分化与地域差异，否则会变成一种温和的万能解释。</dd>
+            </dl>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ================= 个案 ================= -->
+    <section class="doc-section" id="cases">
+      <p class="section-label">06 · 个案</p>
+      <h2>八个家族，八种活法</h2>
+      <p class="section-intro">家族是制度与个人之间的中介。下面八个案例分别对应门阀鼎盛、北朝士族、科举转型、纳土归宋、绅商一体与近代转型，用来检验“精英如何延续”这个问题。</p>
+      <div class="case-grid">
+        <article class="case">
+          <span class="case-era">东晋 · 侨姓门阀</span>
+          <h3>琅琊王氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>永嘉南渡，王导、王敦拥立司马睿，形成“王与马，共天下”。</dd>
+            <dt>资源</dt><dd>门第、政治拥立、荆扬兵权、婚姻网络。</dd>
+            <dt>结局</dt><dd>南朝仍为高门，但政治实权渐失；唐以后散为普通官僚与士人。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">东晋 · 侨姓门阀</span>
+          <h3>陈郡谢氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>谢鲲、谢尚起家，谢安执政，谢玄组建北府兵。</dd>
+            <dt>资源</dt><dd>门第、军功（淝水）、文学声望。</dd>
+            <dt>结局</dt><dd>南朝后逐渐衰落，成为“旧门”象征；文学传统比政治权力延续更久。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">东汉—唐 · 经学世家</span>
+          <h3>弘农杨氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>杨震以“四知”闻名，杨秉、杨赐、杨彪四世三公。</dd>
+            <dt>资源</dt><dd>经学、察举声望、官僚网络。</dd>
+            <dt>结局</dt><dd>汉末仍为高门；隋室自称弘农杨氏，血缘攀附存在争议；唐代继续列于士族。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">北朝—唐 · 山东士族</span>
+          <h3>博陵崔氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>北朝经学与地方宗族，列“五姓七望”。</dd>
+            <dt>资源</dt><dd>门第声望、婚宦网络、家学。</dd>
+            <dt>结局</dt><dd>唐太宗修《氏族志》刻意压低，社会声望仍高；唐末战乱中受重创。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">唐 · 河东士族</span>
+          <h3>闻喜裴氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>河东裴氏自汉魏以来累世官宦，唐代宰相辈出。</dd>
+            <dt>资源</dt><dd>经学、地缘、科举适应能力。</dd>
+            <dt>结局</dt><dd>比山东旧族更成功地转入科举官僚体系，是“士族科举化”的代表。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">五代—宋 · 纳土归宋</span>
+          <h3>吴越钱氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>钱镠割据两浙，保境安民，治理水利与城市。</dd>
+            <dt>资源</dt><dd>地方政权、财富、文化赞助。</dd>
+            <dt>结局</dt><dd>钱俶纳土归宋，家族以婚姻、科举与文化资本延续；近现代人才群星。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">明清 · 宗族与商帮</span>
+          <h3>徽州汪氏、程氏</h3>
+          <dl>
+            <dt>兴起</dt><dd>徽商经营盐、典、茶、木，利润回流宗族。</dd>
+            <dt>资源</dt><dd>族田、祠堂、族学、科举、商业网络。</dd>
+            <dt>结局</dt><dd>形成“贾而好儒”的绅商一体结构，清末随盐政与商路变化转型。</dd>
+          </dl>
+        </article>
+        <article class="case">
+          <span class="case-era">晚清民国 · 绅商转型</span>
+          <h3>南通张謇</h3>
+          <dl>
+            <dt>兴起</dt><dd>光绪状元，弃官回乡，创办大生纱厂与近代实业、教育、水利。</dd>
+            <dt>资源</dt><dd>功名声望、地方网络、实业资本、新式教育。</dd>
+            <dt>结局</dt><dd>从士绅转为绅商与地方建设者，展示科举精英在废科举前后的自我改造。</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= 书单 ================= -->
+    <section class="doc-section" id="reading">
+      <p class="section-label">07 · 书单与检索</p>
+      <h2>从哪里读起</h2>
+      <p class="section-intro">先读三本建立框架，再按断代深入。中文著作优先列可读性较好的版本；外文著作保留原名，便于检索。</p>
+
+      <div class="reading-grid">
+        <article class="reading-col">
+          <h3>入门 · 先搭框架</h3>
+          <p class="col-note">三本读完，能分清门阀、士大夫与士绅。</p>
+          <ol>
+            <li><b>田余庆《东晋门阀政治》</b><span>门阀政治的经典界定：皇权垂拱，高门共治。</span></li>
+            <li><b>包弼德《斯文：唐宋思想的转型》</b><span>从士族之学到士大夫之学的转变。</span></li>
+            <li><b>张仲礼《中国绅士》</b><span>清代士绅的人数、收入与地方职能。</span></li>
+          </ol>
+        </article>
+        <article class="reading-col">
+          <h3>断代 · 按需深入</h3>
+          <p class="col-note">每一本都对应一个具体机制，而不是通史。</p>
+          <ol>
+            <li><b>阎步克《察举制度变迁史稿》</b><span>汉魏选官如何从德才转向门第。</span></li>
+            <li><b>宫崎市定《九品官人法研究》</b><span>九品中正制的制度细节与贵族化。</span></li>
+            <li><b>川胜义雄《六朝贵族制社会研究》</b><span>六朝贵族的社会基础。</span></li>
+            <li><b>仇鹿鸣《魏晋之际的政治权力与家族网络》</b><span>用家族网络重看魏晋政权更替。</span></li>
+            <li><b>陈寅恪《唐代政治史述论稿》</b><span>关陇集团与山东士族的经典论述。</span></li>
+            <li><b>毛汉光《中国中古社会史论》</b><span>士族仕宦与婚姻的量化研究。</span></li>
+            <li><b>余英时《朱熹的历史世界》</b><span>宋代士大夫的政治文化。</span></li>
+            <li><b>小野和子《明季党社考》</b><span>东林、复社的组织与舆论。</span></li>
+          </ol>
+        </article>
+        <article class="reading-col">
+          <h3>理论与争论</h3>
+          <p class="col-note">想知道“共识”从哪里来，就读这些。</p>
+          <ol>
+            <li><b>内藤湖南《概括的唐宋时代观》</b><span>唐宋变革论的源头。</span></li>
+            <li><b>Nicolas Tackett, <i>The Destruction of the Medieval Chinese Aristocracy</i></b><span>墓志数据与唐末士族之死。</span></li>
+            <li><b>Patricia Ebrey, <i>The Aristocratic Families of Early Imperial China</i></b><span>博陵崔氏的个案研究。</span></li>
+            <li><b>Robert Hartwell, “Demographic, Political, and Social Transformations of China, 750–1550”</b><span>精英地方化的长时段论证。</span></li>
+            <li><b>Robert Hymes, <i>Statesmen and Gentlemen</i></b><span>南宋抚州精英的地方转向。</span></li>
+            <li><b>何炳棣, <i>The Ladder of Success in Imperial China</i></b><span>科举与社会流动的统计研究。</span></li>
+            <li><b>孔飞力《中华帝国晚期的叛乱及其敌人》</b><span>士绅、团练与国家权力。</span></li>
+            <li><b>罗志田《权势转移》</b><span>近代精英与思想权势的转移。</span></li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="databases">
+        <h3>可以直接检索的数据库</h3>
+        <p class="section-intro" style="margin:0">本页的许多判断可以在项目内外的数据库里回查。优先使用一手目录与人物资料，不要把综述当史料。</p>
+        <div class="db-row">
+          <a href="../sources/index.html?view=people" >CBDB 人物检索 · 本项目</a>
+          <a href="../sources/index.html?view=books&amp;q=氏族">古籍总目 · 检索“氏族”</a>
+          <a href="../sources/index.html?view=fulltext&amp;q=门阀">全文检索 · “门阀”</a>
+          <a href="https://projects.iq.harvard.edu/cbdb" target="_blank" rel="noopener">CBDB 官网 ↗</a>
+          <a href="https://www.kanripo.org/" target="_blank" rel="noopener">Kanripo 汉籍 ↗</a>
+          <a href="https://chgis.fas.harvard.edu/" target="_blank" rel="noopener">CHGIS 历史地理 ↗</a>
+          <a href="https://cbetaonline.dila.edu.tw/" target="_blank" rel="noopener">CBETA 藏经 ↗</a>
+        </div>
+        <p class="method" style="margin-top:14px"><b>检索建议：</b>人物用 CBDB 查生卒、籍贯、任官与亲属；制度用《通典》《文献通考》与正史职官志；家族用墓志、家谱与地方志；地域用 CHGIS 对照政区沿革。检索词可组合“门阀”“士族”“郡望”“察举”“九品中正”“进士”“乡绅”“宗族”。</p>
+      </div>
+
+      <p class="method"><b>方法与边界：</b>本页是研究综述与阅读地图，不是原始研究。所有年代、引文与统计，引用前请回查原书或数据库；“权力来源”条形图、热力图与世袭曲线均为编者据制度安排所作的定性示意，不具有统计效力。涉及族源、血统与家族攀附的内容，尤其需要区分史料记载、后世建构与现代研究推断。</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <span>江山时序研究台 · 子板块 · 历代精英政治</span>
+      <span><a href="../modules/index.html">返回子板块</a> · <a href="../../index.html">回到地图</a> · <a href="../sources/index.html">史料库</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const SOURCES = [
+        { key: 'lineage', label: '血缘门第', color: '#8a3b2e' },
+        { key: 'military', label: '军功武力', color: '#6b4a2f' },
+        { key: 'classics', label: '经学文化', color: '#2f5d50' },
+        { key: 'exam', label: '考试功名', color: '#b07d2a' },
+        { key: 'wealth', label: '财富土地', color: '#4a5b7a' },
+        { key: 'favor', label: '皇权恩宠', color: '#7a5a7a' },
+      ];
+
+      const ERAS = [
+        {
+          id: 'preqin', name: '先秦', range: '前1046 — 前221', year: -403,
+          elite: '宗法封建贵族', tagline: '血缘与封建等级决定身份',
+          summary: '西周以宗法制与分封制把王室子弟、功臣与先代贵族安置为诸侯，诸侯再分封卿大夫，形成“天子—诸侯—卿大夫—士”的等级链。官职、采邑与族属绑定，世卿世禄是常态。春秋以降，礼崩乐坏，士阶层游走列国，养士、荐举与军功开始侵蚀血缘原则；战国变法进一步把爵位与战功挂钩，为秦汉官僚制准备条件。',
+          insight: '这是唯一一个“身份即血缘”的时期；此后所有选官制度，本质上都在回答如何打破它。',
+          mechanism: '世卿世禄、宗法制、分封制；战国出现军功爵、养士、客卿、荐举',
+          crown: '诸侯与卿大夫共政，君主受宗法贵族约束；战国君主借军功与官僚削弱旧贵族',
+          groups: '周室姬姓、鲁国三桓、晋国六卿、齐国田氏、楚国屈景昭',
+          turn: '三家分晋（前403）、商鞅变法（前356）、秦并六国（前221）',
+          research: '许倬云《西周史》；朱凤瀚《商周家族形态研究》；阎步克《品位与职位》',
+          power: { lineage: 55, military: 25, classics: 5, exam: 0, wealth: 10, favor: 5 },
+        },
+        {
+          id: 'qinhan', name: '秦汉', range: '前221 — 220', year: 100,
+          elite: '军功官僚与经学豪族', tagline: '军功、文法与经学接替血缘',
+          summary: '秦以二十等军功爵奖励耕战，以郡县官僚取代世卿，形成皇帝—官僚—编户齐民的直接统治。汉初功臣列侯与军功集团占据高位，武帝以后察举孝廉、太学与“独尊儒术”结合，经学成为新的上升资本。东汉出现累世经学、累世公卿的家族，如弘农杨氏、汝南袁氏，但士庶尚未法律固化，仍属门阀的前身。',
+          insight: '官僚制打开了入口，却没有关闭家族优势；察举很快被地方豪族与请托网络俘获。',
+          mechanism: '二十等军功爵、察举（孝廉、茂才）、征辟、太学、以吏为师',
+          crown: '皇帝独尊、官僚为工具；东汉外戚宦官与士大夫清议冲突，终于党锢',
+          groups: '丰沛功臣集团、弘农杨氏、汝南袁氏、颍川荀氏与钟氏',
+          turn: '秦统一（前221）、独尊儒术（前134）、察举制度化、党锢之祸（166、169）',
+          research: '阎步克《察举制度变迁史稿》；田余庆《秦汉魏晋史探微》；杨联陞《东汉的豪族》',
+          power: { lineage: 15, military: 35, classics: 20, exam: 5, wealth: 15, favor: 10 },
+        },
+        {
+          id: 'weijin', name: '魏晋', range: '220 — 317', year: 260,
+          elite: '士族门第官僚', tagline: '九品中正把家世写进制度',
+          summary: '曹丕称帝后采纳陈群之议，行九品中正制，由中正官品评人物，原本兼顾德行与才能，随后逐渐以家世定品。西晋时“上品无寒门，下品无势族”，士族身份通过谱牒、婚宦与清议固化。皇权仍需依赖士族治理，宗王与士族、寒门武人之间反复博弈，最终以八王之乱与永嘉之乱收场。',
+          insight: '九品中正的关键不是“九品”，而是品评权落到地方大族手里，选官标准随之门第化。',
+          mechanism: '九品中正制、中正品评、清议、谱牒；察举仍存但地位下降',
+          crown: '皇权依赖士族，宗室与士族博弈；西晋宗王掌兵，酿成八王之乱',
+          groups: '颍川荀氏与陈氏、琅琊王氏、河东裴氏与卫氏、谯国桓氏',
+          turn: '曹丕称帝与九品中正（220）、高平陵之变（249）、八王之乱（291—306）、永嘉之乱（311）',
+          research: '宫崎市定《九品官人法研究》；唐长孺《魏晋南北朝史论丛》；仇鹿鸣《魏晋之际的政治权力与家族网络》',
+          power: { lineage: 45, military: 10, classics: 20, exam: 10, wealth: 10, favor: 5 },
+        },
+        {
+          id: 'dongjin', name: '东晋', range: '317 — 420', year: 380,
+          elite: '侨姓门阀', tagline: '皇权垂拱，高门共治',
+          summary: '永嘉南渡后，琅琊王氏拥立司马睿，形成“王与马，共天下”的格局。此后颍川庾氏、谯国桓氏、陈郡谢氏相继执政，侨姓高门控制中央与荆扬方镇，吴姓士族则退居地方。门第、婚宦、家学与乡里武装构成权力基础，皇权在多数时候只是共治的一方。淝水之战后，门阀政治达到顶点，也随着孙恩之乱与刘裕崛起而走向终结。',
+          insight: '田余庆的界定：门阀政治是皇权的变态，不是帝制中国的常态；它只在此际短暂成立。',
+          mechanism: '九品中正、门第婚宦、谱牒；高门子弟“平流进取，坐至公卿”',
+          crown: '皇权垂拱，王庾桓谢轮流执政；荆扬方镇与中央相互制衡',
+          groups: '琅琊王氏、颍川庾氏、谯国桓氏、陈郡谢氏、吴郡顾陆朱张',
+          turn: '永嘉南渡（311/317）、王敦之乱（322）、淝水之战（383）、孙恩之乱（399）、刘裕代晋（420）',
+          research: '田余庆《东晋门阀政治》；川胜义雄《六朝贵族制社会研究》',
+          power: { lineage: 55, military: 10, classics: 15, exam: 5, wealth: 10, favor: 5 },
+        },
+        {
+          id: 'nanbei', name: '南北朝', range: '420 — 589', year: 500,
+          elite: '南朝士族与北朝军功贵族', tagline: '南朝门第空心化，北朝军功集团崛起',
+          summary: '南朝沿袭九品中正，但高门日益脱离实务，皇帝转而倚重寒人恩幸与典签，士族政治逐渐空心化。北朝则走另一条路：宗主督护制被三长制取代，孝文帝改革推动汉化与门阀化，六镇之乱后军功贵族重新掌权。宇文泰整合关陇胡汉军功集团，建立府兵与八柱国体系，为隋唐帝国准备了新的统治核心。',
+          insight: '同一个“士族”标签下，南朝是文化声望的残余，北朝是军功与制度的重组，方向相反。',
+          mechanism: '南朝九品中正延续，寒人掌机要、典签监州；北朝三长制、府兵制、赐姓与胡汉联姻',
+          crown: '南朝皇权借寒人压制士族；北朝皇帝依靠军功集团与汉人士族，胡汉双轨',
+          groups: '兰陵萧氏、陈郡谢氏残余；北朝崔卢李郑、宇文泰八柱国',
+          turn: '刘裕代晋（420）、孝文帝改革（490年代）、六镇之乱（523）、宇文泰府兵（6世纪中叶）',
+          research: '陈爽《世家大族与北朝政治》；谷川道雄《隋唐帝国形成史论》',
+          power: { lineage: 40, military: 25, classics: 15, exam: 5, wealth: 10, favor: 5 },
+        },
+        {
+          id: 'suitang', name: '隋唐', range: '581 — 907', year: 741,
+          elite: '关陇集团与山东旧族', tagline: '军功贵族、门阀余晖与科举并立',
+          summary: '隋废九品中正，唐承其制并以科举取士，但唐初权力核心仍是关陇军事贵族。山东旧族崔卢李郑王社会声望极高，政治上却受皇权刻意压制，唐太宗修《氏族志》、高宗修《姓氏录》都在重排门第。科举录取人数很少，门荫仍是主要入仕途径；中晚唐宦官、藩镇与朋党交织，旧士族在黄巢之乱与白马驿之祸中遭到毁灭性打击。',
+          insight: '唐代不是“门阀时代”的简单延续，而是门阀最后的余晖与科举新秩序同时生长的过渡期。',
+          mechanism: '废九品中正；科举（进士、明经）、门荫、铨选；《氏族志》《姓氏录》重排谱系',
+          crown: '皇权主动压制山东士族、扶植科举；中晚唐宦官专权、藩镇割据、牛李党争',
+          groups: '关陇八柱国后裔（宇文、独孤、杨、李）、山东五姓（崔卢李郑王）、河东裴柳',
+          turn: '隋废中正、始设进士科（605 或 622，说法不一）、《氏族志》（638）、安史之乱（755）、白马驿之祸（905）',
+          research: '陈寅恪《唐代政治史述论稿》；毛汉光《中国中古社会史论》；Nicolas Tackett, The Destruction of the Medieval Chinese Aristocracy',
+          power: { lineage: 30, military: 20, classics: 15, exam: 20, wealth: 10, favor: 5 },
+        },
+        {
+          id: 'song', name: '五代两宋', range: '907 — 1279', year: 1100,
+          elite: '科举士大夫', tagline: '考试成为主通道，官僚不再世袭',
+          summary: '五代武人政治终结于北宋建国。宋代扩大科举，实行糊名、誊录、殿试，录取规模远超前代，“取士不问家世”成为制度理想。士大夫以儒学道统自任，与皇帝形成某种“共治”关系，台谏与朋党政治活跃。北宋精英多为全国性官僚；南宋以后，精英更多经营地方宗族、书院与公益，出现“地方化”转向。',
+          insight: '宋代最重要的变化不是“人人可考”，而是官僚身份不再世袭，精英必须持续用考试和文化资本证明自己。',
+          mechanism: '科举（糊名、誊录、殿试）、恩荫、学校、书院；南宋地方宗族与公益',
+          crown: '士大夫与皇帝共治，台谏与朋党活跃；南宋皇权与权相政治并存',
+          groups: '眉山苏氏、临川王氏、婺州吕氏、明州史氏等',
+          turn: '陈桥兵变（960）、庆历新政（1043）、王安石变法（1069）、靖康之变（1127）、南宋精英地方化',
+          research: '包弼德《斯文》；余英时《朱熹的历史世界》；Robert Hartwell（1982）；Robert Hymes, Statesmen and Gentlemen',
+          power: { lineage: 10, military: 10, classics: 15, exam: 45, wealth: 15, favor: 5 },
+        },
+        {
+          id: 'liaojinyuan', name: '辽金元', range: '916 — 1368', year: 1300,
+          elite: '征服精英与汉人世家', tagline: '族群、军功与根脚定义资格',
+          summary: '辽、金、元是北方民族建立的政权，精英结构呈二元甚至多元形态。辽以皇族耶律、后族萧氏为核心，汉人世家通过通婚与儒学进入官僚体系；金以猛安谋克为军事骨干，同时开科取士；元以怯薛、根脚世家与色目官僚为重，科举长期停废，1315 年才恢复。汉人儒户与地方世家在族群等级下维持文化网络。',
+          insight: '在征服王朝里，考试只是补充通道；真正决定地位的是族群身份、军功与对皇室的私人忠诚。',
+          mechanism: '辽世选制与斡鲁朵；金猛安谋克与汉人进士；元怯薛、根脚、承荫、科举（1315）',
+          crown: '皇权与征服贵族共治，族群等级制度化；汉人精英以儒学与地方网络求存',
+          groups: '辽耶律氏与萧氏；金完颜氏与徒单氏；元博尔术、木华黎等勋臣世家与色目官僚',
+          turn: '辽建国（916）、金灭辽（1125）、元灭宋（1279）、元恢复科举（1315）',
+          research: '萧启庆《元代史新探》；刘浦江《辽金史论》；姚大力《北方民族史十论》',
+          power: { lineage: 30, military: 30, classics: 5, exam: 10, wealth: 10, favor: 15 },
+        },
+        {
+          id: 'mingqing', name: '明清', range: '1368 — 1912', year: 1600,
+          elite: '士绅与绅商', tagline: '功名、宗族与地方社会',
+          summary: '明清科举鼎盛，生员、举人、进士构成庞大的士绅阶层。士绅既是国家在地方的代理人，协助征税、教化与公益，也是地方利益的代表，经营宗族、书院、水利与商业。晚明东林、复社把文人网络政治化，清代皇权则严厉压制结社，把士绅推回地方。商业发展催生绅商一体，徽商、晋商与江南望族把利润转化为功名与文化资本。',
+          insight: '士绅的权力不在朝堂，而在“国家够不着、宗族管得到”的地方缝隙里；这正是帝制晚期稳定的秘密。',
+          mechanism: '科举（乡试、会试、殿试）、监生、捐纳、保举；宗族、书院、讲学、善堂',
+          crown: '明初皇权极强，中后期绅权与党社兴起；清代压制党社，士绅成为地方中介',
+          groups: '江南望族、徽州汪程、山西票商、东林与复社',
+          turn: '明建国（1368）、一条鞭法（1581）、东林讲学（1604）、清军入关（1644）、摊丁入亩（1723）',
+          research: '张仲礼《中国绅士》；小野和子《明季党社考》；孔飞力《中华帝国晚期的叛乱及其敌人》',
+          power: { lineage: 10, military: 10, classics: 10, exam: 45, wealth: 20, favor: 5 },
+        },
+        {
+          id: 'modern', name: '近代', range: '1840 — 1949', year: 1920,
+          elite: '绅商、知识分子与军人', tagline: '科举废除，精英重新洗牌',
+          summary: '鸦片战争后，条约口岸、新式学堂、留学与报刊创造了新的精英资源。1905 年废科举，切断了“读书—做官—置产”的闭环，士绅分化为绅商、新式知识分子、地方自治者与军阀。辛亥革命后，军阀、政党、资本家与教授成为竞争性的精英群体；现代国家建设与政党动员，重新定义了谁有资格统治。',
+          insight: '废科举不是一次教育改革，而是整套精英再生产逻辑的断裂；此后文凭、军权与党籍取代了功名。',
+          mechanism: '废科举（1905）、新学堂、留学、报刊、捐纳与保举残余、军功、政党',
+          crown: '皇权崩溃，精英竞争转向国家建构；军阀割据与党国动员并存',
+          groups: '北洋军阀、江浙财阀、新式知识分子、地方绅商（张謇）',
+          turn: '鸦片战争（1840）、废科举（1905）、辛亥革命（1911）、五四运动（1919）、北伐（1926—1928）',
+          research: '罗志田《权势转移》；费孝通《中国绅士》；孔飞力《中华帝国晚期的叛乱及其敌人》',
+          power: { lineage: 5, military: 25, classics: 5, exam: 15, wealth: 30, favor: 20 },
+        },
+      ];
+
+      const $ = (sel, root) => (root || document).querySelector(sel);
+      const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+
+      function escapeHtml(value) {
+        return String(value == null ? '' : value).replace(/[&<>"]/g, (c) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;',
+        }[c]));
+      }
+
+      function hexToRgba(hex, alpha) {
+        const h = hex.replace('#', '');
+        const n = parseInt(h, 16);
+        const r = (n >> 16) & 255;
+        const g = (n >> 8) & 255;
+        const b = n & 255;
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+
+      const rail = $('#era-rail');
+      const panel = $('#era-panel');
+      const heat = $('#power-heat');
+      let activeId = null;
+
+      function renderRail() {
+        rail.innerHTML = ERAS.map((era) => `
+          <button class="era-btn" type="button" data-era="${era.id}" aria-pressed="false">
+            <b>${escapeHtml(era.name)}</b>
+            <span>${escapeHtml(era.range)}</span>
+          </button>
+        `).join('');
+
+        rail.addEventListener('click', (event) => {
+          const btn = event.target.closest('[data-era]');
+          if (btn) selectEra(btn.dataset.era, true);
+        });
+
+        rail.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+          const btns = $$('.era-btn', rail);
+          const index = btns.indexOf(document.activeElement);
+          if (index < 0) return;
+          event.preventDefault();
+          const next = btns[(index + (event.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length];
+          next.focus();
+          selectEra(next.dataset.era, true);
+        });
+      }
+
+      function powerSegments(power) {
+        return SOURCES.map((src) => {
+          const value = Number(power[src.key]) || 0;
+          return `<span class="power-seg" style="width:${value}%;background:${src.color}" title="${src.label} ${value}%（定性示意）"></span>`;
+        }).join('');
+      }
+
+      function renderPanel(era) {
+        panel.innerHTML = `
+          <div class="era-head">
+            <div>
+              <p class="era-range">${escapeHtml(era.range)} · 对应地图 ${era.year < 0 ? '前' + Math.abs(era.year) : era.year} 年</p>
+              <h3>${escapeHtml(era.name)}<span class="era-tag">${escapeHtml(era.elite)}</span></h3>
+            </div>
+            <a class="map-link" href="../../?year=${era.year}">在地图上查看 ↗</a>
+          </div>
+          <p class="era-summary">${escapeHtml(era.summary)}</p>
+          <p class="era-insight"><b>关键判断：</b>${escapeHtml(era.insight)}</p>
+          <div class="era-grid">
+            <dl class="era-meta">
+              <div><dt>精英构成</dt><dd><b>${escapeHtml(era.elite)}</b>。${escapeHtml(era.tagline)}</dd></div>
+              <div><dt>选任机制</dt><dd>${escapeHtml(era.mechanism)}</dd></div>
+              <div><dt>与皇权关系</dt><dd>${escapeHtml(era.crown)}</dd></div>
+              <div><dt>代表集团</dt><dd>${escapeHtml(era.groups)}</dd></div>
+              <div><dt>转折事件</dt><dd>${escapeHtml(era.turn)}</dd></div>
+              <div><dt>延伸阅读</dt><dd>${escapeHtml(era.research)}</dd></div>
+            </dl>
+            <div>
+              <h4>权力来源 · 定性示意</h4>
+              <div class="power-bar" role="img" aria-label="${escapeHtml(era.name)}时期六类权力来源的相对权重">${powerSegments(era.power)}</div>
+              <div class="power-legend">${SOURCES.map((src) => `<span><i style="background:${src.color}"></i>${src.label} ${era.power[src.key]}%</span>`).join('')}</div>
+              <h4 style="margin-top:18px">可以接着查</h4>
+              <div class="era-links">
+                <a href="../sources/index.html?view=fulltext&amp;q=${encodeURIComponent(era.name)}">史料库检索“${escapeHtml(era.name)}”</a>
+                <a href="../sources/index.html?view=people">CBDB 人物检索</a>
+                <a href="../../topics/index.html">朝代专题</a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderHeat() {
+        const header = ['<span class="h-label"></span>']
+          .concat(SOURCES.map((src) => `<span class="h-head">${src.label}</span>`));
+        const rows = ERAS.map((era) => {
+          const cells = SOURCES.map((src) => {
+            const value = era.power[src.key];
+            return `<span class="h-cell" style="background:${hexToRgba(src.color, 0.08 + (value / 100) * 0.72)}" title="${era.name} · ${src.label} ${value}%（定性示意）">${value}</span>`;
+          }).join('');
+          return `<span class="h-row">${era.name}</span>${cells}`;
+        });
+        heat.innerHTML = header.join('') + rows.join('');
+      }
+
+      function selectEra(id, updateUrl) {
+        const era = ERAS.find((item) => item.id === id) || ERAS[0];
+        activeId = era.id;
+        $$('.era-btn', rail).forEach((btn) => {
+          btn.setAttribute('aria-pressed', String(btn.dataset.era === era.id));
+        });
+        renderPanel(era);
+        if (updateUrl) {
+          const url = new URL(location.href);
+          url.searchParams.set('era', era.id);
+          history.replaceState(null, '', url);
+        }
+      }
+
+      function init() {
+        renderRail();
+        renderHeat();
+        const initial = new URLSearchParams(location.search).get('era');
+        selectEra(ERAS.some((era) => era.id === initial) ? initial : 'dongjin', false);
+      }
+
+      init();
+    })();
+  </script>
+
+  <script src="../../core/registry.js"></script>
+  <script src="../../core/context.js"></script>
+  <script src="../../core/store.js"></script>
+  <script src="../../core/nav.js"></script>
+  <script src="../../core/research-panel.js"></script>
+</body>
+</html>

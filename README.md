@@ -182,6 +182,28 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000` in your browser.
 
+### Local Tan Atlas cache (optional, recommended)
+
+The map reads Tan Atlas tiles from `assets/tan/` first and falls back to the live CCTS service only when a local tile is missing. To cache the Warring States–Qing layers:
+
+```bash
+node scripts/fetch_tan_tiles.js 5 6 7
+node scripts/fetch_tan_z8.js
+```
+
+This writes about 13.6k base tiles plus ~6.6k z8 detail tiles (~34 MB of file data, ~84 MB on disk) to `assets/tan/<layer>/<zoom>/<x>/<y>.png`; z8 is derived only from populated z7 areas. The directory is gitignored. Once cached, map loading no longer depends on CCTS.
+
+### Custom research topics
+
+Source files for standalone research topics live in `topics/custom/`. The current page is `northern-peoples.html` (Northern Peoples Genealogy Scroll). Run the topic builder to copy registered sources into their published paths and synchronize the topic index, homepage static index, and sitemap:
+
+```bash
+node scripts/build_seo_topics.js
+node scripts/validate_atlas.js
+```
+
+Custom topics keep their own layout and interactions instead of being folded into the main map app. The genealogy page uses the project's schematic map and links to the matching atlas year. The Historical Atlas of China by Tan Qixiang is a research reference; unlicensed scans or boundary files are not bundled.
+
 ---
 
 ## GeoJSON Export (for Leaflet / MapLibre / QGIS)
@@ -213,9 +235,11 @@ After exporting, serve the repository (`python3 -m http.server 8000`) and open `
 ## Credits & License
 
 - **Historical GIS References**: Tan Qixiang's *The Historical Atlas of China* (谭其骧主编《中国历史地图集》), **CHGIS** (Harvard-Yenching Institute & Fudan University), **Robert M. Hartwell** historical GIS datasets, and [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps) (GPL-3.0).
+- **Tan Atlas basemap layer**: the CCTS WMTS service from Academia Sinica's GIS Research Center, loading the *Historical Atlas of China* sheets for the current dynasty. Tiles are loaded on demand for local research only; map-sheet rights remain with the original atlas and CCTS.
 - **Modern Provincial Reference**: DataV GeoAtlas open administrative boundary data.
 - **Classical Guqin Audio**: Wikimedia Commons public-domain recordings (*Liu Shui*, *Pingsha Luoyan*, *Yangguan Sandie*, *Zuiyu Changwan*, *Jiu Kuang*).
 - **Note**: Historical territorial contours and prefecture boundaries in this atlas are schematic approximations intended to illustrate broad historical jurisdictions rather than modern surveyed borders.
 - **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md) ([中文贡献指南](CONTRIBUTING_ZH.md)) for repository structure, data conventions, and validation checks.
 - **License**: Released under **GPL-3.0** (see [LICENSE](LICENSE)). Copyright © 2026 DeanChensj.
   - **Exception**: Prefecture-level boundaries and Warring States territories derived from CHGIS V6 and the Hartwell China Historical GIS remain subject to their original terms (academic, non-commercial use only) and are not relicensed under GPL-3.0.
+  - **Tan Atlas basemap**: CCTS tiles are not stored in this repository and are fetched at runtime from the CCTS WMTS service. Do not redistribute cached tiles or use them commercially.

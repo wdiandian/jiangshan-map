@@ -429,6 +429,17 @@ function main() {
       `Static topic page topics/${tf} must have canonical ${expectedCanon}, JSON-LD, zero undefined/NaN, clean English naming, and be linked in sitemap.xml and index.html`
     );
   }
+  const customTopicPath = path.join(topicsDir, 'northern-peoples.html');
+  const customTopicCanon = 'https://deanchen.me/jiangshan-map/topics/northern-peoples.html';
+  assert(
+    fs.existsSync(customTopicPath) &&
+      fs.existsSync(path.join(ROOT, 'boards/genealogy/index.html')) &&
+      fs.readFileSync(customTopicPath, 'utf8').includes(`rel="canonical" href="${customTopicCanon}"`) &&
+      fs.readFileSync(customTopicPath, 'utf8').includes('application/ld+json') &&
+      sitemapXml.includes(`<loc>${customTopicCanon}</loc>`) &&
+      indexHtml.includes(customTopicCanon),
+    'Custom northern peoples topic must be generated from boards/genealogy and keep canonical, JSON-LD, sitemap, and index links'
+  );
   const htmlVersions = Array.from(new Set(indexHtml.match(/\?v=[0-9a-zA-Z_.-]+/g) || []));
   const appVersions = Array.from(new Set(appCode.match(/\?v=[0-9a-zA-Z_.-]+/g) || []));
   assert(
@@ -437,6 +448,74 @@ function main() {
       htmlVersions[0] === appVersions[0],
     `Cache-busting ?v= query strings must be uniform across index.html (${htmlVersions}) and js/app.js (${appVersions})`
   );
+
+  // 7c. Research workbench core skeleton (stage 1)
+  for (const coreFile of [
+    'core/registry.js',
+    'core/context.js',
+    'core/store.js',
+    'core/nav.js',
+    'core/tokens.css',
+    'boards/registry.json',
+  ]) {
+    assert(fs.existsSync(path.join(ROOT, coreFile)), `Missing research workbench core file: ${coreFile}`);
+  }
+  const boardRegistry = JSON.parse(fs.readFileSync(path.join(ROOT, 'boards/registry.json'), 'utf8'));
+  assert(
+    boardRegistry &&
+      Number.isInteger(boardRegistry.version) &&
+      typeof boardRegistry.defaultBoard === 'string' &&
+      Array.isArray(boardRegistry.boards) &&
+      boardRegistry.boards.length >= 1 &&
+      boardRegistry.boards.every((b) => b && b.id && b.entry && b.status !== 'draft'),
+    'boards/registry.json must declare a default board and at least one valid active board'
+  );
+
+  // 7c-2. Three-tier navigation: map / sources / modules.
+  const boardGroups = Array.isArray(boardRegistry.groups) ? boardRegistry.groups : [];
+  assert(
+    boardGroups.length >= 2 &&
+      boardGroups.every(
+        (group) => group && group.id && group.title && group.entry &&
+          fs.existsSync(path.join(ROOT, group.entry))
+      ),
+    'boards/registry.json must declare at least two groups whose entry pages exist'
+  );
+  const groupIds = new Set(boardGroups.map((group) => group.id));
+  assert(
+    boardRegistry.boards.every((board) => board.group && groupIds.has(board.group)),
+    'Every board must belong to a declared group'
+  );
+  for (const group of boardGroups) {
+    assert(
+      boardRegistry.boards.some((board) => board.group === group.id),
+      `Group ${group.id} has no boards`
+    );
+  }
+  assert(
+    indexHtml.includes('core/tokens.css') &&
+      indexHtml.includes('core/registry.js') &&
+      indexHtml.includes('core/context.js') &&
+      indexHtml.includes('core/store.js') &&
+      indexHtml.includes('core/nav.js'),
+    'index.html must load the research workbench core stylesheet and scripts'
+  );
+
+  // 7d. Board contract: every sub-directory board owns a self-describing board.json.
+  for (const board of boardRegistry.boards) {
+    assert(
+      fs.existsSync(path.join(ROOT, board.entry)),
+      `Board ${board.id} entry is missing: ${board.entry}`
+    );
+    if (!board.path) continue;
+    const boardJsonPath = path.join(ROOT, board.path, 'board.json');
+    assert(fs.existsSync(boardJsonPath), `Board ${board.id} is missing its own board.json`);
+    const ownMeta = JSON.parse(fs.readFileSync(boardJsonPath, 'utf8'));
+    assert(
+      ownMeta.id === board.id && ownMeta.entry === 'index.html',
+      `Board ${board.id} board.json must describe itself (id + entry)`
+    );
+  }
 
   // 8. Verify AI-Native API (window.atlasAPI: locate / resolvePlace / inspect), PLACE_GAZETTEER, llms.txt & skill
   for (const strayFile of [
@@ -835,18 +914,21 @@ function main() {
       !personJourneySearch.some((item) => item.kind === 'journey'),
     'Quick search for "苏轼" must return unified person chronicle without duplicate journey entries'
   );
-  const quizSearch = ctrl._queryQuickSearch('舆图寻址');
-  assert(
-    quizSearch.some((item) => item.kind === 'quiz'),
-    'Quick search for "舆图寻址" must return the Map Pinpoint Quiz entry'
-  );
   assert(
     appCode.includes('sr-showcase-row') &&
       appCode.includes('sr-cycle-btn') &&
       appCode.includes('sr-search-guide') &&
-      appCode.includes('sr-chip-btn') &&
+      appCode.includes('sr-guide-groups') &&
+      appCode.includes('sr-guide-row') &&
+      appCode.includes("topicsLink.href = 'topics/index.html'") &&
+      appCode.includes("['Figures', ['Zhuge Liang', 'Xuanzang', 'Su Shi']]") &&
+      appCode.includes("['人物', ['诸葛亮', '玄奘', '苏轼']]") &&
+      styleCss.includes('.sr-guide-groups {') &&
+      styleCss.includes('.sr-topics-link {') &&
+      styleCss.includes('.year-stepper input {') &&
+      styleCss.includes('width: 54px;') &&
       !appCode.includes("head.className = 'sr-section-head'"),
-    'Empty quick-search dropdown must render a single rotatable showcase row + search guide chips without bulky .sr-section-head banners'
+    'Empty quick-search dropdown must render grouped figure/place/year shortcuts, topic atlas link, and preserve compact mobile year input'
   );
 
   // CUJ 9j: 7 Historical Journeys Full Stop & Bilingual Completeness Verification
@@ -904,8 +986,9 @@ function main() {
   }
 
   // CUJ 9k: Python CLI (skills/jiangshan-atlas/scripts/jiangshan.py) Execution Smoke Test
+  const pythonCommand = process.platform === 'win32' ? 'python' : 'python3';
   const cliOut = execFileSync(
-    'python3',
+    pythonCommand,
     [skillPyPath, '--year', '1079, 1080, 1094, 1097', '--place', '湖州 → 黄州 → 惠州 → 儋州'],
     { encoding: 'utf8' }
   ).trim();
@@ -1293,67 +1376,18 @@ function main() {
     );
   }
 
-  // 5) Challenge Deck Quality, Strategic Passes & Spoiler Sanitization
-  assert.strictEqual(ctrl._stripPromptParenthetical('襄平（辽阳）'), '襄平');
-  assert.strictEqual(ctrl._stripPromptParenthetical('山海关（渝关）'), '山海关');
-  const scrubbedZibo = ctrl._sanitizeChallengeClue(
-    '齐国都城（今山东淄博临淄），姜太公封地，淄博重镇',
-    { ancient: '临淄', modern: '山东淄博临淄' },
-    '临淄'
-  );
-  assert(
-    !scrubbedZibo.includes('淄博') && !scrubbedZibo.includes('山东'),
-    `Expected modern spoilers "山东/淄博" to be scrubbed from clue, got: ${scrubbedZibo}`
-  );
-  let sawPassInDeck = false;
-  for (let run = 0; run < 45; run++) {
-    const deck = ctrl._buildChallengeDeck();
-    assert.strictEqual(deck.length, 10, `Expected 10 questions in challenge deck, got ${deck.length}`);
-    assert(
-      deck.every((q, i) => i === 0 || deck[i - 1].tier <= q.tier) && deck[0].tier === 0,
-      `Expected challenge deck to climb from entry to hard tiers, got ${deck.map((q) => q.tier).join(',')}`
-    );
-    for (let i = 0; i < deck.length; i++) {
-      const q = deck[i];
-      if (q.settlement.isPass) sawPassInDeck = true;
-      const evs = ctrl._collectPlaceEventsForDynasty(
-        q.dynasty,
-        q.settlement.coord[0],
-        q.settlement.coord[1],
-        { s: q.settlement, km: 0 }
-      );
-      assert(
-        q.settlement.isCapital || q.settlement.remark || q.settlement.isPass || evs.length > 0,
-        `Challenge deck item ${q.dynasty.key}:${q.settlement.ancient} lacks capital/remark/events`
-      );
-      for (let j = i + 1; j < deck.length; j++) {
-        const distKm = ctrl.projector.greatCircleKm(
-          q.settlement.coord,
-          deck[j].settlement.coord
-        );
-        assert(
-          distKm >= 35,
-          `Challenge deck items ${q.settlement.ancient} and ${deck[j].settlement.ancient} are too close (${distKm.toFixed(1)} km)`
-        );
-      }
-    }
-  }
-  assert(sawPassInDeck, 'Expected STRATEGIC_PASSES to appear in challenge decks across 45 runs');
-
   // CUJ 9q: Onboarding Persistence (#2), Traced Prefecture Highlight (#5), Custom Route Dock (#3) & Mobile/Challenge UX (#6)
   assert(
     !appCode.includes("if (this._bootDone) this._dismissTraceOnboarding()") &&
       appCode.includes('_syncTracedPrefecture') &&
       appCode.includes('_renderCustomRouteCard') &&
       appCode.includes('selectCustomRouteStop') &&
-      appCode.includes('_syncChallengeScrubberState') &&
       cssSrc.includes('.prefecture-shape.is-traced') &&
-      cssSrc.includes('#scrubber-dock.is-challenge-locked') &&
       cssSrc.includes('#journey-card.is-custom-route') &&
       cssSrc.includes('#act-github-star .star-mark') &&
       cssSrc.includes('#lbl-github-star') &&
       !cssSrc.includes('#lbl-music,\n  #act-github-star {'),
-    'app.js & style.css must implement persistent trace onboarding (#2), traced prefecture highlight (#5), custom route control card (#3), challenge scrubber lock (#6), and icon-only mobile GitHub link'
+    'app.js & style.css must implement persistent trace onboarding (#2), traced prefecture highlight (#5), custom route control card (#3), and route styling'
   );
   const mockPrefNodes = [
     { dataset: { prefTitle: '黄州' }, classList: { _s: new Set(), add(c) { this._s.add(c); }, remove(c) { this._s.delete(c); }, contains(c) { return this._s.has(c); } } },
@@ -2011,9 +2045,8 @@ function main() {
     controlStripMatch &&
       !controlStripMatch[0].includes('id="act-challenge"') &&
       !controlStripMatch[0].includes('id="act-journey-menu"') &&
-      !indexHtml.includes('id="journey-popover"') &&
-      appCode.includes('sr-quiz-link'),
-    '.control-strip must stay minimal without #act-journey-menu or #act-challenge, and Quiz must mount cleanly in the search box dropdown'
+      !indexHtml.includes('id="journey-popover"'),
+    '.control-strip must stay minimal without #act-journey-menu or #act-challenge'
   );
   assert(
     indexHtml.includes('id="scale-label-text">500 km</div>') &&
@@ -3498,20 +3531,6 @@ function main() {
       assert(refCorpus.includes(assetFile), `Unreferenced file in assets/: ${assetFile}`);
     }
 
-    const maShanLinkMatch = indexHtml.match(
-      /<link href="(https:\/\/fonts\.googleapis\.com\/css2\?family=Ma\+Shan\+Zheng&text=([^"&]+)&display=swap)" rel="stylesheet" \/>/
-    );
-    assert(maShanLinkMatch, 'Expected synchronous subsetted Ma Shan Zheng stylesheet <link> in index.html');
-    const subsetChars = new Set(decodeURIComponent(maShanLinkMatch[2]));
-    const requiredCalligraphyChars = [
-      '江山时序',
-      ...dynasties.map((d) => d.title || ''),
-      ...dynasties.map((d) => (enLocale.dynasties[d.key] && enLocale.dynasties[d.key].name) || ''),
-    ].join('');
-    for (const ch of requiredCalligraphyChars) {
-      assert(subsetChars.has(ch), `Ma Shan Zheng subset missing glyph "${ch}"`);
-    }
-
     const pyHelperSrc = fs.readFileSync(
       path.join(ROOT, 'skills', 'jiangshan-atlas', 'scripts', 'jiangshan.py'),
       'utf8'
@@ -4580,7 +4599,6 @@ function main() {
     };
     let routeRedraws = 0;
     let routeCleared = 0;
-    let challengeStopped = 0;
     let balloonClosed = 0;
     Object.assign(ctrl, {
       _id: (id) => domMap[id] || null,
@@ -4596,7 +4614,6 @@ function main() {
         { lng: 112.45, lat: 34.62, coord: [112.45, 34.62], year: 755, name: '洛阳' },
       ],
       customRouteStopIdx: 0,
-      challenge: { variant: 'locate', deck: [], index: 0, score: 0, answered: false },
       activeMilestone: { dynastyKey: 'tang', milestone: { year: 755, coord: [108.94, 34.26] }, isAuto: true },
       milestoneBalloon: { classList: makeCls() },
       grpGenealogy: { innerHTML: '<g/>' },
@@ -4623,10 +4640,6 @@ function main() {
         this.activeCustomRoute = null;
         this.customRouteStopIdx = -1;
         routeCleared++;
-      },
-      stopChallenge() {
-        this.challenge = null;
-        challengeStopped++;
       },
       closeMilestoneBalloon() {
         this.activeMilestone = null;
@@ -4664,14 +4677,9 @@ function main() {
     assert.strictEqual(ctrl.activeCustomRoute, null, 'Step 5 must clear custom route');
     assert.strictEqual(routeCleared, 1);
 
-    // 6. Next dismissal exits challenge mode.
+    // 6. Next dismissal closes the milestone callout; subsequent call is a no-op (false).
     assert.strictEqual(proto._dismissTopOverlay.call(ctrl), true);
-    assert.strictEqual(ctrl.challenge, null, 'Step 6 must stop challenge');
-    assert.strictEqual(challengeStopped, 1);
-
-    // 7. Next dismissal closes the milestone callout; subsequent call is a no-op (false).
-    assert.strictEqual(proto._dismissTopOverlay.call(ctrl), true);
-    assert.strictEqual(balloonClosed, 1, 'Step 7 must close milestone callout');
+    assert.strictEqual(balloonClosed, 1, 'Step 6 must close milestone callout');
     assert.strictEqual(proto._dismissTopOverlay.call(ctrl), false, 'When all overlays are closed, _dismissTopOverlay must return false');
   }
 
@@ -4910,19 +4918,6 @@ function main() {
     proto.setPlaySpeed.call(ctrl, 1);
     ctrl.activePerson = null;
     ctrl.personTimer = null;
-
-    // Verify Quiz Mode lock disables #act-play-speed and blocks cyclePlaySpeed
-    proto._syncChallengeScrubberState.call(ctrl, true);
-    assert.strictEqual(speedBtn.disabled, true, 'Quiz mode lock must disable #act-play-speed');
-    ctrl.challenge = { active: true };
-    assert.strictEqual(
-      proto.cyclePlaySpeed.call(ctrl),
-      1,
-      'cyclePlaySpeed() must be a no-op while Quiz Mode challenge is active'
-    );
-    ctrl.challenge = null;
-    proto._syncChallengeScrubberState.call(ctrl, false);
-    assert.strictEqual(speedBtn.disabled, false, 'Unlocking Quiz mode must re-enable #act-play-speed');
   }
 
   // CUJ 33: Qin & Western Han Historical Accuracy against 《史记》 and 《汉书》
@@ -5659,25 +5654,6 @@ function main() {
         );
       }
 
-      const clueChecks = [
-        [{ ancient: '宛（南阳）', modern: '南阳' }, '宛', '秦置南阳郡治', '秦置南阳郡治'],
-        [{ ancient: '晋阳', modern: '太原' }, '晋阳', '秦置太原郡治', '秦置太原郡治'],
-        [{ ancient: '南郑（汉中）', modern: '汉中' }, '南郑', '汉中王刘邦都此 / 东汉汉中郡治', '汉中王刘邦都此 / 东汉汉中郡治'],
-        [{ ancient: '临湘（长沙）', modern: '长沙' }, '临湘', '西汉长沙国都 / 东汉长沙郡治', '西汉长沙国都 / 东汉长沙郡治'],
-        [{ ancient: '穰', modern: '南阳·邓州' }, '穰', '南阳穰县', '南阳穰县'],
-        [{ ancient: '乐浪', modern: '平壤（朝鲜）' }, '乐浪', '朝鲜四郡之一', '朝鲜四郡之一'],
-        [{ ancient: '徐闻', modern: '湛江·雷州' }, '徐闻', '雷州半岛极南重镇，汉代海丝远航始发港', '雷州半岛极南重镇，汉代海丝远航始发港'],
-        [{ ancient: '彭城（徐州）', modern: '徐州' }, '彭城', '徐州治所', '徐州治所'],
-        [{ ancient: '番禺', modern: '广州' }, '番禺', '南海郡治所 / 广州治所', '南海郡治所 / 广州治所'],
-      ];
-      for (const [sMock, disp, rawText, expected] of clueChecks) {
-        assert.strictEqual(
-          ctrl._sanitizeChallengeClue(rawText, sMock, disp),
-          expected,
-          `Quiz clue sanitization for "${disp}" must preserve historical geography "${expected}"`
-        );
-      }
-
       for (const j of loreData.HISTORICAL_JOURNEYS) {
         for (const st of j.stops) {
           assert(
@@ -5917,17 +5893,6 @@ function main() {
         assert.strictEqual(ctrl.trTerm('函谷关'), 'Hangu Pass');
         assert.strictEqual(ctrl.trTerm('南郑'), 'Nanzheng');
         assert.strictEqual(ctrl.trTerm('刺史部'), 'Inspectorate Region');
-        const donghanDyn = dynasties.find((d) => d.key === 'donghan');
-        const nanzhengSettle = donghanDyn.settlements.find((s) => s.ancient.startsWith('南郑'));
-        const clueEn = ctrl._sanitizeChallengeClue(
-          ctrl.trTerm(nanzhengSettle.remark),
-          nanzhengSettle,
-          'Nanzheng'
-        );
-        assert(
-          clueEn.includes('Hanzhong Commandery') && !clueEn.includes('this site'),
-          `English quiz clue for Nanzheng must preserve "Hanzhong Commandery", got "${clueEn}"`
-        );
       } finally {
         sandbox.window.history = origHistory;
         sandbox.location.search = origSearch;

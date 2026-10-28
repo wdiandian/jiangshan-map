@@ -21,6 +21,16 @@ const JS_DIR = path.join(ROOT, 'js');
 const TOPICS_DIR = path.join(ROOT, 'topics');
 const BASE_URL = 'https://deanchen.me/jiangshan-map';
 const LASTMOD = '2026-10-21';
+const CUSTOM_TOPICS = [
+  {
+    slug: 'northern-peoples',
+    source: 'boards/genealogy/index.html',
+    titleZh: '北族谱系长卷：中国古代周边族群研究图谱',
+    titleEn: 'Northern Peoples Genealogy Scroll · A Research Atlas of Ancient Frontier Communities',
+    descZh: '以东胡、肃慎、匈奴、鲜卑、契丹、女真、蒙古等族系为主线，串联谱系年表、人物、事件、地点、关系与史料争议。',
+    descEn: 'An interactive genealogy and research atlas covering northern and northeastern peoples, political succession, migration, places, events, and source debates.',
+  },
+];
 
 function escHtml(str) {
   return String(str || '')
@@ -1325,7 +1335,32 @@ ${renderFooter(allDynasties)}
   };
 }
 
-function buildTopicsIndexPage(dynMeta, journeyMeta, featuredMeta, allDynasties) {
+function buildCustomTopicPages() {
+  return CUSTOM_TOPICS.map((topic) => {
+    // 板块页是唯一维护源；这里只生成一份去掉研究台外壳的静态专题副本。
+    const sourcePath = path.join(ROOT, topic.source);
+    const outputPath = path.join(TOPICS_DIR, `${topic.slug}.html`);
+    let html = fs.readFileSync(sourcePath, 'utf8');
+    // 板块页在 boards/<id>/，专题页在 topics/，两者的 ../ 深度不同。
+    html = html
+      .split('href="../../?year=')
+      .join('href="../?year=')
+      .split('href="../../topics/index.html"')
+      .join('href="./index.html"')
+      .split('href="../../index.html"')
+      .join('href="../index.html"')
+      .replace(/\s*<nav data-board-nav[^>]*><\/nav>/g, '')
+      .replace(/\s*<link rel="stylesheet" href="\.\.\/\.\.\/core\/[^"]+">/g, '')
+      .replace(/\s*<script src="\.\.\/\.\.\/core\/[^"]+"><\/script>/g, '');
+    fs.writeFileSync(outputPath, html, 'utf8');
+    return {
+      ...topic,
+      url: `${BASE_URL}/topics/${topic.slug}.html`,
+    };
+  });
+}
+
+function buildTopicsIndexPage(dynMeta, journeyMeta, featuredMeta, customMeta, allDynasties) {
   const canonicalUrl = `${BASE_URL}/topics/index.html`;
   const pageTitle = '江山时序 · 中国历史地图专题图志总览（18朝代疆域 · 人物生平行迹 · 古诗词路线 · 历史战役）';
   const pageDesc =
@@ -1357,6 +1392,16 @@ function buildTopicsIndexPage(dynMeta, journeyMeta, featuredMeta, allDynasties) 
             <td><a href="${BASE_URL}/topics/${j.slug}.html"><strong>${escHtml(j.titleZh)}</strong></a><br/><small>${escHtml(j.titleEn)}</small></td>
             <td>${escHtml(j.descZh)}</td>
             <td><a href="${BASE_URL}/topics/${j.slug}.html">查阅路线 &rarr;</a></td>
+          </tr>`
+    )
+    .join('\n');
+
+  const customListHtml = customMeta
+    .map(
+      (c) => `          <tr>
+            <td><a href="${BASE_URL}/topics/${c.slug}.html"><strong>${escHtml(c.titleZh)}</strong></a><br/><small>${escHtml(c.titleEn)}</small></td>
+            <td>${escHtml(c.descZh)}</td>
+            <td><a href="${BASE_URL}/topics/${c.slug}.html">查阅专题 &rarr;</a></td>
           </tr>`
     )
     .join('\n');
@@ -1401,7 +1446,7 @@ ${renderTopHeader()}
       <span class="kicker">江山时序 · 历史地理百科与专题索引（共 ${dynMeta.length + journeyMeta.length + featuredMeta.length} 篇静态图志）</span>
       <h1>中国历代疆域、点人溯事、古诗词路线与历史大战专题图志总览</h1>
       <p class="en-sub">Complete Directory of Chinese Historical Territory Maps, Person Chronicles, Classical Poetry Routes &amp; Famous Battles (403 BCE – Present)</p>
-      <p>本目录汇总「江山时序」全部静态专题图志，每篇均提供完整古今地名对照表、帝王年号编年、两千四百年政区沿革及一键进入交互式古舆图的直达链接。</p>
+      <p>本目录汇总「江山时序」静态专题图志，包括疆域政区、人物行迹、路线战役与独立研究专题。</p>
       <div class="cta-row">
         <a class="cta-btn" href="${BASE_URL}/">进入「江山时序」交互式主地图（前403年—现代）&rarr;</a>
       </div>
@@ -1461,6 +1506,18 @@ ${jListHtml}
       </div>
     </section>
 
+    <section class="section-card">
+      <h2>四、独立研究专题（${customMeta.length} 篇）</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>专题名称</th><th>研究内容</th><th>专题链接</th></tr></thead>
+          <tbody>
+${customListHtml}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
 ${renderFooter(allDynasties)}
   </main>
 </body>
@@ -1470,7 +1527,7 @@ ${renderFooter(allDynasties)}
   fs.writeFileSync(path.join(TOPICS_DIR, 'index.html'), html, 'utf8');
 }
 
-function updateSitemapXml(dynMeta, journeyMeta, featuredMeta) {
+function updateSitemapXml(dynMeta, journeyMeta, featuredMeta, customMeta) {
   const sitemapPath = path.join(ROOT, 'sitemap.xml');
   const existingXml = fs.readFileSync(sitemapPath, 'utf8');
 
@@ -1485,6 +1542,7 @@ function updateSitemapXml(dynMeta, journeyMeta, featuredMeta) {
     ...featuredMeta.map((f) => ({ loc: f.url, priority: '0.9' })),
     ...dynMeta.map((d) => ({ loc: d.url, priority: '0.9' })),
     ...journeyMeta.map((j) => ({ loc: j.url, priority: '0.9' })),
+    ...customMeta.map((c) => ({ loc: c.url, priority: '0.85' })),
   ];
 
   const topicBlocks = topicUrls
@@ -1512,7 +1570,7 @@ function computeCalligraphySubsetText(dynasties, enLocale) {
   return Array.from(new Set(sources.join(''))).sort().join('');
 }
 
-function updateIndexHtmlSeoDirectory(dynMeta, journeyMeta, featuredMeta, dynasties, snapshots, loreData, enLocale) {
+function updateIndexHtmlSeoDirectory(dynMeta, journeyMeta, featuredMeta, customMeta, dynasties, snapshots, loreData, enLocale) {
   const indexPath = path.join(ROOT, 'index.html');
   let html = fs.readFileSync(indexPath, 'utf8');
 
@@ -1601,7 +1659,7 @@ function updateIndexHtmlSeoDirectory(dynMeta, journeyMeta, featuredMeta, dynasti
   );
 
   const allItems = [
-    `          <li><a href="${BASE_URL}/topics/index.html"><strong>江山时序专题图志总览（34篇静态历史地理百科目录）</strong></a></li>`,
+    `          <li><a href="${BASE_URL}/topics/index.html"><strong>江山时序专题图志总览（${dynMeta.length + journeyMeta.length + featuredMeta.length + customMeta.length}篇静态历史地理百科目录）</strong></a></li>`,
     ...featuredMeta.map(
       (f) => `          <li><a href="${f.url}"><strong>${escHtml(f.titleZh)}（静态图文考据专题）</strong></a></li>`
     ),
@@ -1611,6 +1669,9 @@ function updateIndexHtmlSeoDirectory(dynMeta, journeyMeta, featuredMeta, dynasti
     ...journeyMeta.map(
       (j) => `          <li><a href="${j.url}"><strong>${escHtml(j.titleZh)}生平行迹与诗词路线图志（静态专题页）</strong></a></li>`
     ),
+    ...customMeta.map(
+      (c) => `          <li><a href="${c.url}"><strong>${escHtml(c.titleZh)}（独立研究专题页）</strong></a></li>`
+    ),
   ].join('\n');
 
   const sectionFive = `      <section id="seo-static-topics-section">
@@ -1618,14 +1679,16 @@ function updateIndexHtmlSeoDirectory(dynMeta, journeyMeta, featuredMeta, dynasti
         <ul>
 ${allItems}
         </ul>
-      </section>
-    </nav>`;
+      </section>`;
 
-  const target = '      </section>\n    </nav>';
-  if (!html.includes(target)) {
-    throw new Error('Could not find closing </section>\\n    </nav> in index.html');
+  const seoNavStart = html.indexOf('<nav id="seo-atlas-directory"');
+  const navClose = /\s*<\/nav>/g;
+  navClose.lastIndex = Math.max(0, seoNavStart);
+  const match = seoNavStart >= 0 ? navClose.exec(html) : null;
+  if (!match) {
+    throw new Error('Could not find closing </nav> for #seo-atlas-directory in index.html');
   }
-  html = html.replace(target, `      </section>\n${sectionFive}`);
+  html = html.slice(0, match.index) + `\n${sectionFive}` + html.slice(match.index);
   fs.writeFileSync(indexPath, html, 'utf8');
 }
 
@@ -1643,12 +1706,14 @@ function main() {
     buildFeaturedTopicPage(t, dynasties, ctrl)
   );
 
-  buildTopicsIndexPage(dynMeta, journeyMeta, featuredMeta, dynasties);
-  const addedSitemapCount = updateSitemapXml(dynMeta, journeyMeta, featuredMeta);
+  const customMeta = buildCustomTopicPages();
+  buildTopicsIndexPage(dynMeta, journeyMeta, featuredMeta, customMeta, dynasties);
+  const addedSitemapCount = updateSitemapXml(dynMeta, journeyMeta, featuredMeta, customMeta);
   updateIndexHtmlSeoDirectory(
     dynMeta,
     journeyMeta,
     featuredMeta,
+    customMeta,
     dynasties,
     snapshots,
     loreData,

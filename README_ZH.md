@@ -182,6 +182,28 @@ python3 -m http.server 8000
 
 随后在浏览器打开 `http://localhost:8000`。
 
+### 谭图本地缓存（可选，推荐）
+
+地图默认优先读取 `assets/tan/` 下的本地谭图瓦片；本地缺失时才回退到中研院 CCTS 在线服务。首次使用可先缓存战国至清的谭图瓦片：
+
+```bash
+node scripts/fetch_tan_tiles.js 5 6 7
+node scripts/fetch_tan_z8.js
+```
+
+脚本会输出 `assets/tan/<朝代图层>/<缩放层级>/<x>/<y>.png`：基础 z5–z7 约 1.36 万张，z8 高清细节再补约 6600 张；合计约 2 万张、实际约 34 MB（受小文件块影响，磁盘占用约 84 MB）。`fetch_tan_z8.js` 只对 z7 中有内容的瓦片补 z8，不会把海面空白放大四份。该目录已加入 `.gitignore`，不会进入版本库。缓存完成后，地图加载不再依赖 CCTS 网络。
+
+### 自定义研究专题
+
+独立研究专题的源文件放在 `topics/custom/`，当前包含 `northern-peoples.html`（北族谱系长卷）。运行下面的命令会把源文件同步到公开专题路径，并更新 `topics/index.html`、首页静态专题索引和 `sitemap.xml`：
+
+```bash
+node scripts/build_seo_topics.js
+node scripts/validate_atlas.js
+```
+
+自定义专题保留自己的交互和样式，不直接并入主地图应用。专题中的历史地图目前使用项目内示意图和主地图年代入口；谭其骧《中国历史地图集》作为校核参考，未将未确认授权的扫描图或边界文件打包进项目。
+
 ---
 
 ## GeoJSON 导出（供 Leaflet / MapLibre / QGIS 使用）
@@ -213,9 +235,11 @@ hit.prefecture.properties.title; // 应天府（本身是 GeoJSON Feature，可�
 ## 致谢与开源协议
 
 - **历史疆域与政区参考**：谭其骧主编《中国历史地图集》、**CHGIS**（哈佛燕京学社与复旦大学中国历史地理信息系统）、**Robert M. Hartwell** 历史 GIS 数据集，以及 [aourednik/historical-basemaps](https://github.com/aourednik/historical-basemaps)（GPL-3.0）。
+- **谭图底图图层**：中央研究院人社中心 GIS 专题中心「中华文明之时空基础架构」（CCTS）WMTS 服务，按当前朝代加载《中国历史地图集》图组；仅在本地研究时按需加载，图幅版权归原图集与 CCTS 所有。
 - **现代省界参考**：DataV GeoAtlas 开放行政边界数据。
 - **古琴雅乐录音**：Wikimedia Commons 公有领域古琴录音（《流水》《平沙落雁》《阳关三叠》《醉渔唱晚》《酒狂》）。
 - **说明**：地图中的历史疆域轮廓与州郡政区边界为示意性近似，旨在直观呈现各时期大致统治与管辖范围，非精确现代测绘边界。
 - **参与贡献**：参见 [中文贡献指南 (`CONTRIBUTING_ZH.md`)](CONTRIBUTING_ZH.md)（[English Contributing Guide](CONTRIBUTING.md)）了解项目结构、史料校勘规范与自动化校验流程。
 - **开源协议**：采用 **GPL-3.0**（见 [LICENSE](LICENSE)）。Copyright © 2026 DeanChensj。
   - **例外**：源自 CHGIS V6 与 Hartwell China Historical GIS 的府州郡政区边界及战国疆域数据，仍受其原始条款约束（仅限学术、非商业用途），不适用 GPL-3.0。
+  - **谭图底图**：CCTS 提供的《中国历史地图集》瓦片不在本项目仓库内，运行时从 CCTS WMTS 按需加载；不得将缓存瓦片随项目再分发或用于商业用途。

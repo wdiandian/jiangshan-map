@@ -1,0 +1,10 @@
+{
+  "id": "sources",
+  "title": "史料库",
+  "titleEn": "Sources",
+  "description": "古籍书目、核心史籍全文、CBETA 总目与 CBDB 人物检索",
+  "entry": "index.html",
+  "order": 30,
+  "context": [],
+  "status": "active"
+}

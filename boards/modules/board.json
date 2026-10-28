@@ -1,0 +1,10 @@
+{
+  "id": "modules",
+  "title": "子板块",
+  "titleEn": "Modules",
+  "description": "可独立增删的研究单元总览",
+  "entry": "index.html",
+  "order": 30,
+  "context": [],
+  "status": "active"
+}

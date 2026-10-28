@@ -1,0 +1,92 @@
+{
+  "version": 2,
+  "defaultBoard": "territory",
+  "groups": [
+    {
+      "id": "map",
+      "title": "地图",
+      "titleEn": "Map",
+      "description": "疆域、政区与古城的时间切片",
+      "entry": "index.html",
+      "order": 10
+    },
+    {
+      "id": "sources",
+      "title": "可检索的史料",
+      "titleEn": "Sources",
+      "description": "书目、全文与人物资料的可检索库",
+      "entry": "boards/sources/index.html",
+      "order": 20
+    },
+    {
+      "id": "modules",
+      "title": "子板块",
+      "titleEn": "Modules",
+      "description": "可独立增删的研究单元",
+      "entry": "boards/modules/index.html",
+      "order": 30
+    }
+  ],
+  "boards": [
+    {
+      "id": "territory",
+      "title": "疆域时序",
+      "titleEn": "Territories",
+      "description": "18 个历史时期的疆域、政区与古城变迁",
+      "group": "map",
+      "path": "",
+      "entry": "index.html",
+      "order": 10,
+      "context": ["year", "place", "person", "trace", "zoom", "center"],
+      "status": "active"
+    },
+    {
+      "id": "sources",
+      "title": "史料库",
+      "titleEn": "Sources",
+      "description": "古籍书目、核心史籍全文、CBETA 总目与 CBDB 人物检索",
+      "group": "sources",
+      "path": "boards/sources/",
+      "entry": "boards/sources/index.html",
+      "order": 20,
+      "context": [],
+      "status": "active"
+    },
+    {
+      "id": "modules",
+      "title": "子板块",
+      "titleEn": "Modules",
+      "description": "可独立增删的研究单元总览",
+      "group": "modules",
+      "path": "boards/modules/",
+      "entry": "boards/modules/index.html",
+      "order": 30,
+      "context": [],
+      "status": "active"
+    },
+    {
+      "id": "genealogy",
+      "title": "族群谱系",
+      "titleEn": "Genealogy",
+      "description": "北族源流、承继与史学争议",
+      "group": "modules",
+      "path": "boards/genealogy/",
+      "entry": "boards/genealogy/index.html",
+      "order": 40,
+      "context": ["year"],
+      "status": "active"
+    },
+    {
+      "id": "elites",
+      "title": "历代精英政治",
+      "titleEn": "Elite Politics",
+      "description": "封建贵族、门阀、士大夫与士绅的权力来源、再生产机制与史学争论",
+      "group": "modules",
+      "path": "boards/elites/",
+      "entry": "boards/elites/index.html",
+      "order": 50,
+      "context": ["year"],
+      "status": "active"
+    }
+  ]
+}

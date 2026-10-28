@@ -1,0 +1,10 @@
+{
+  "id": "elites",
+  "title": "历代精英政治",
+  "titleEn": "Elite Politics",
+  "description": "从封建贵族到门阀、士大夫与士绅：统治精英的权力来源、再生产机制与史学争论",
+  "entry": "index.html",
+  "order": 50,
+  "context": ["year"],
+  "status": "active"
+}

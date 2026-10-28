@@ -1,0 +1,10 @@
+{
+  "id": "genealogy",
+  "title": "族群谱系",
+  "titleEn": "Genealogy",
+  "description": "北族源流、承继与史学争议",
+  "entry": "index.html",
+  "order": 20,
+  "context": ["year"],
+  "status": "active"
+}

@@ -1,0 +1,149 @@
+/* =========================================================================
+   江山时序 · 研究台共享设计令牌（阶段 1 骨架）
+   仅定义跨板块通用变量与外壳组件，不覆盖主地图既有样式。
+   ========================================================================= */
+
+:root {
+  --js-paper: #f3eee4;
+  --js-paper-alt: #ebe4d6;
+  --js-card: #fbf8f1;
+  --js-ink: #2b2622;
+  --js-ink-2: #5d554c;
+  --js-ink-3: #8d847a;
+  --js-vermilion: #b5452f;
+  --js-gold: #c6952b;
+  --js-hairline: rgba(43, 38, 34, 0.12);
+  --js-hairline-strong: rgba(43, 38, 34, 0.28);
+  --js-radius: 14px;
+  --js-radius-sm: 8px;
+  --js-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --js-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --js-space-1: 4px;
+  --js-space-2: 8px;
+  --js-space-3: 12px;
+  --js-space-4: 16px;
+  --js-space-5: 24px;
+}
+
+/* 研究台外壳：主地图顶部改为两行，第一行品牌与工具，第二行板块与研究入口 */
+#nav-bar {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 6px;
+  padding: 8px 16px 6px;
+}
+
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.nav-row-bottom {
+  padding-top: 6px;
+  border-top: 1px solid var(--js-hairline);
+}
+
+.research-open-btn {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 5px 15px;
+  border: 1px solid var(--js-vermilion);
+  border-radius: 999px;
+  background: var(--js-vermilion);
+  color: #fff8ee;
+  font-family: var(--js-serif);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.research-open-btn:hover {
+  background: #7d1e17;
+}
+
+.research-open-btn:focus-visible {
+  outline: 2px solid var(--js-vermilion);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  #nav-bar {
+    padding: 6px 8px 4px;
+  }
+  .nav-row-bottom {
+    gap: 6px;
+  }
+  .research-open-btn {
+    min-height: 30px;
+    padding: 4px 11px;
+    font-size: 11.5px;
+  }
+}
+
+/* 板块切换器：多板块时才出现，单板块时保持 hidden 不占位 */
+.js-board-switcher {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: var(--js-space-3);
+  margin-right: auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.js-board-switcher::-webkit-scrollbar {
+  display: none;
+}
+
+.js-board-switcher[hidden] {
+  display: none;
+}
+
+.js-board-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--js-serif);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--js-ink-2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.js-board-link:hover {
+  color: var(--js-vermilion);
+  border-color: var(--js-hairline-strong);
+  background: var(--js-card);
+}
+
+.js-board-link[aria-current="page"] {
+  color: var(--js-vermilion);
+  border-color: var(--js-vermilion);
+  font-weight: 600;
+}
+
+.js-board-link:focus-visible {
+  outline: 2px solid var(--js-vermilion);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .js-board-switcher {
+    margin-left: var(--js-space-2);
+  }
+  .js-board-link {
+    padding: 3px 7px;
+    font-size: 11.5px;
+  }
+}

@@ -19,5 +19,8 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Generate static topic pages
+        run: node scripts/build_seo_topics.js
+
       - name: Run Atlas Validation Suite
         run: node scripts/validate_atlas.js

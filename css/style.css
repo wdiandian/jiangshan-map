@@ -165,6 +165,106 @@ h2 {
   margin-bottom: 6px;
 }
 
+.layers-pop-note {
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* 谭图底图：CCTS WMTS 瓦片铺在历史疆域之下、地形之上 */
+#grp-tan image {
+  pointer-events: none;
+}
+
+#grp-tan {
+  transition: opacity 0.25s ease;
+}
+
+#atlas-svg.tan-loading #grp-tan {
+  opacity: 0;
+}
+
+#atlas-svg.tan-active.tan-loading #grp-terrain {
+  display: block !important;
+}
+
+#atlas-svg.tan-active #grp-terrain {
+  display: none;
+}
+
+#atlas-svg.tan-active #grp-prefectures {
+  opacity: 0.4;
+}
+
+#atlas-svg.tan-active #grp-rivers {
+  opacity: 0.72;
+}
+
+#atlas-svg.tan-active .polity-caption {
+  display: none;
+}
+
+#atlas-svg.tan-active .settlement-node .name,
+#atlas-svg.tan-active .cap-hint-tag {
+  display: none;
+}
+
+#atlas-svg.tan-active #grp-milestones {
+  opacity: 0.5;
+}
+
+#atlas-svg.tan-active #grp-provinces {
+  opacity: 0.35;
+}
+
+/* 谭图为主：疆域填充退为淡淡的政治底色，让谭图的界线与地名成为主视觉 */
+#atlas-svg.tan-active .polity-shape,
+#atlas-svg.tan-active .polity-shape.rival,
+#atlas-svg.tan-active .polity-shape.protectorate {
+  fill-opacity: 0.08;
+  stroke-opacity: 0.14;
+}
+
+#atlas-svg.tan-active .polity-shape.neighbor,
+#atlas-svg.tan-active .neighbor-shape {
+  fill-opacity: 0.05;
+  stroke-opacity: 0.18;
+}
+
+#atlas-svg.tan-active .polity-shape.is-focused {
+  fill-opacity: 0.26;
+  stroke-opacity: 0.7;
+}
+
+/* 谭图模式下压缩左下角图例，只保留阶段与政权色块 */
+body.tan-mode #map-key .key-note {
+  display: none;
+}
+
+.tan-credit {
+  position: absolute;
+  left: 14px;
+  top: 98px;
+  z-index: 12;
+  padding: 4px 9px;
+  border: 1px solid rgba(43, 38, 34, 0.16);
+  border-radius: 6px;
+  background: rgba(251, 248, 241, 0.94);
+  color: #6b6256;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .tan-credit {
+    top: 92px;
+    left: 8px;
+    font-size: 9.5px;
+  }
+}
+
 .layers-pop-grid {
   display: flex;
   flex-wrap: wrap;
@@ -1922,20 +2022,55 @@ h2 {
   background: transparent;
 }
 
+.sr-guide-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+.sr-guide-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+}
+
 .sr-guide-chips {
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 4px;
   min-width: 0;
-  overflow: hidden;
 }
 
 .sr-guide-label {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
   white-space: nowrap;
-  margin-right: 1px;
+  padding-top: 2px;
+}
+
+.sr-guide-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 5px;
+  border-top: 1px dotted var(--hairline);
+}
+
+.sr-topics-link {
+  font-family: var(--sans-stack);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--vermilion);
+  text-decoration: none;
+}
+
+.sr-topics-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .sr-chip-btn {
@@ -3111,7 +3246,16 @@ html[lang="en"] .genealogy-list li {
     gap: 2px;
     border-radius: 6px;
   }
-  .year-stepper input,
+  .year-stepper input {
+    display: block;
+    width: 54px;
+    height: 25px;
+    padding: 0 4px;
+    border: 0;
+    background: transparent;
+    font-size: 11px;
+    text-align: center;
+  }
   .year-stepper .unit-label {
     display: none;
   }
@@ -4587,4 +4731,16 @@ html[lang="en"] .genealogy-list li.person-ev-row {
   #viewport-frame.has-active-person #genealogy-card:not(.is-sheet-expanded) {
     max-height: min(50%, 360px);
   }
+}
+
+/* 精简地图：隐藏与地图研究无关的边缘入口（代码保留以便回退） */
+.music-pill-group,
+.locale-pill-group,
+#act-github-star,
+#challenge-card,
+#start-guide,
+#gesture-guide,
+.sr-quiz-link,
+.control-strip > .toolbar-divider {
+  display: none !important;
 }

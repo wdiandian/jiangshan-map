@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>子板块 · 江山时序研究台</title>
+  <meta name="description" content="江山时序研究台的第三层：族群谱系、专题图志等可独立增删的研究单元。">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../../core/tokens.css">
+  <link rel="stylesheet" href="../../core/research-panel.css">
+  <style>
+    :root {
+      --paper: #f3eee2;
+      --paper-2: #ebe3d2;
+      --card: #fbf7ec;
+      --ink: #211e19;
+      --ink-2: #5f5749;
+      --ink-3: #8a8171;
+      --rule: #d3c8b3;
+      --rule-2: #e3dac8;
+      --accent: #8a3b2e;
+      --accent-deep: #6f2b21;
+      --accent-soft: #f0e0d6;
+      --serif: "Noto Serif SC", "Songti SC", SimSun, serif;
+      --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    .board-head { border-bottom: 1px solid var(--ink); background: var(--paper); }
+    .js-board-switcher.board-nav--inline {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 28px 0;
+    }
+    .head-inner { max-width: 1100px; margin: 0 auto; padding: 28px 28px 22px; }
+    .kicker {
+      margin: 0 0 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .title-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: .06em;
+      line-height: 1.15;
+    }
+    .head-stats { margin: 0; padding-bottom: 4px; font-size: 12px; color: var(--ink-3); }
+    .head-stats b {
+      display: block;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .dek { margin: 10px 0 0; max-width: 820px; color: var(--ink-2); font-size: 13.5px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 26px 28px 72px; }
+    .section-title {
+      margin: 0 0 4px;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: .05em;
+    }
+    .section-note { margin: 0 0 18px; font-size: 12.5px; color: var(--ink-3); }
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 14px;
+    }
+    .unit-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 210px;
+      padding: 20px 20px 18px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--accent);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .15s, transform .15s, box-shadow .15s;
+    }
+    .unit-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(45, 36, 22, .08);
+    }
+    .unit-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .unit-kind {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      font-size: 10.5px;
+      letter-spacing: .08em;
+    }
+    .unit-card h3 {
+      margin: 10px 0 4px;
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .unit-card p { margin: 0; flex: 1; font-size: 12.8px; color: var(--ink-2); }
+    .unit-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--rule-2);
+      font-size: 11.5px;
+      color: var(--ink-3);
+    }
+    .unit-arrow { color: var(--accent); font-size: 13px; }
+    .unit-card.is-topics { border-top-color: var(--ink); }
+
+    .extend {
+      margin-top: 28px;
+      padding: 20px 22px;
+      background: var(--card);
+      border: 1px solid var(--rule);
+    }
+    .extend h2 {
+      margin: 0 0 4px;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .extend p { margin: 0 0 12px; font-size: 12.8px; color: var(--ink-2); }
+    .extend ol { margin: 0 0 14px; padding-left: 1.4em; font-size: 13px; color: var(--ink-2); }
+    .extend li { margin: 5px 0; }
+    .extend code {
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--paper-2);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 12px;
+    }
+    .contract {
+      margin: 0;
+      padding: 12px 14px;
+      overflow-x: auto;
+      background: #2b2622;
+      color: #f3eee2;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 11.5px;
+      line-height: 1.7;
+      white-space: pre;
+    }
+    .extend-note {
+      margin: 12px 0 0;
+      padding-top: 10px;
+      border-top: 1px dashed var(--rule-2);
+      font-size: 11.8px;
+      color: var(--ink-3);
+    }
+
+    @media (max-width: 640px) {
+      .head-inner, main { padding-left: 16px; padding-right: 16px; }
+      .unit-card { min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="board-head">
+    <nav data-board-nav class="js-board-switcher board-nav--inline" aria-label="研究台板块"></nav>
+    <div class="head-inner">
+      <p class="kicker">Research Atlas · 子板块</p>
+      <div class="title-row">
+        <h1>子板块</h1>
+        <p class="head-stats"><b id="unit-count">3</b>个可用单元</p>
+      </div>
+      <p class="dek">研究台的第三层。每个子单元独立成目录，可各自修改、替换或移除，不牵动地图与史料库；新增单元只需登记一条记录。</p>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="section-title">当前单元</h2>
+    <p class="section-note">按注册表自动汇总；没有 JavaScript 时也会保留基础入口。</p>
+
+    <div class="unit-grid" id="unit-grid">
+      <a class="unit-card" href="../genealogy/index.html" data-unit="genealogy">
+        <span class="unit-kind">谱系</span>
+        <h3>族群谱系</h3>
+        <p>北族源流、承继与史学争议。以长卷年表串联匈奴、鲜卑、柔然、突厥、回鹘、契丹、女真、蒙古、满洲等族群，并保留关系矩阵与舆图入口。</p>
+        <span class="unit-meta"><span>独立板块 · boards/genealogy</span><span class="unit-arrow">进入 ↗</span></span>
+      </a>
+
+      <a class="unit-card" href="../elites/index.html" data-unit="elites">
+        <span class="unit-kind">制度</span>
+        <h3>历代精英政治</h3>
+        <p>从封建贵族到门阀、科举士大夫、士绅与近代知识分子。梳理十个时期的权力来源、选任制度、再生产机制，以及唐宋变革、士族消亡等七组史学争论。</p>
+        <span class="unit-meta"><span>独立板块 · boards/elites</span><span class="unit-arrow">进入 ↗</span></span>
+      </a>
+
+      <a class="unit-card is-topics" href="../../topics/index.html" data-unit="topics">
+        <span class="unit-kind">专题</span>
+        <h3>专题图志</h3>
+        <p>18 个朝代的静态专题、7 条人物行迹与精选战役专题。适合按时间线通读，也适合作为地图之外的资料入口。</p>
+        <span class="unit-meta"><span>生成页 · topics/index.html</span><span class="unit-arrow">进入 ↗</span></span>
+      </a>
+    </div>
+
+    <section class="extend">
+      <h2>新增一个子板块</h2>
+      <p>子板块不写进内核，也不由生成器改写。三步即可挂上一个新单元：</p>
+      <ol>
+        <li>新建目录 <code>boards/&lt;id&gt;/</code>，放入自包含的 <code>index.html</code> 与 <code>board.json</code>。</li>
+        <li>在 <code>boards/registry.json</code> 的 <code>boards</code> 中登记，<code>group</code> 填 <code>"modules"</code>。</li>
+        <li>刷新页面：顶部导航与这个总览页会自动出现新单元。</li>
+      </ol>
+      <pre class="contract">{
+  "id": "your-unit",
+  "title": "你的子板块",
+  "description": "一句话说明",
+  "group": "modules",
+  "path": "boards/your-unit/",
+  "entry": "boards/your-unit/index.html",
+  "order": 50,
+  "context": [],
+  "status": "active"
+}</pre>
+      <p class="extend-note">约定：目录自包含；不引入 <code>core/</code> 也能打开；生成器不改写板块页；校验器只查契约。完整说明见 <code>docs/ARCHITECTURE.md</code>。</p>
+    </section>
+  </main>
+
+  <script src="../../core/registry.js"></script>
+  <script src="../../core/context.js"></script>
+  <script src="../../core/store.js"></script>
+  <script src="../../core/nav.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      const registry = window.JiangshanRegistry;
+      if (!registry) return;
+
+      function escapeHtml(value) {
+        return String(value == null ? '' : value).replace(/[&<>"]/g, (c) => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;',
+        }[c]));
+      }
+
+      registry.ready().then(() => {
+        const grid = document.getElementById('unit-grid');
+        if (!grid) return;
+        const units = registry.boardsInGroup
+          ? registry.boardsInGroup('modules').filter((board) => board.id !== 'modules')
+          : [];
+        const known = new Set(Array.from(grid.querySelectorAll('[data-unit]')).map((node) => node.dataset.unit));
+
+        units.forEach((board) => {
+          if (known.has(board.id)) return;
+          const link = document.createElement('a');
+          link.className = 'unit-card';
+          link.dataset.unit = board.id;
+          link.href = new URL(board.entry, registry.root()).href;
+          link.innerHTML = `
+            <span class="unit-kind">子板块</span>
+            <h3>${escapeHtml(board.title)}</h3>
+            <p>${escapeHtml(board.description || '未填写说明。')}</p>
+            <span class="unit-meta"><span>独立板块 · ${escapeHtml(board.path || board.id)}</span><span class="unit-arrow">进入 ↗</span></span>
+          `;
+          grid.appendChild(link);
+        });
+
+        const count = grid.querySelectorAll('.unit-card').length;
+        const countEl = document.getElementById('unit-count');
+        if (countEl) countEl.textContent = String(count);
+      });
+    })();
+  </script>
+</body>
+</html>
