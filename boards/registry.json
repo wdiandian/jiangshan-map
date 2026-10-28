@@ -44,7 +44,7 @@
       "id": "sources",
       "title": "史料库",
       "titleEn": "Sources",
-      "description": "古籍书目、核心史籍全文、CBETA 总目与 CBDB 人物检索",
+      "description": "古籍书目、核心史籍全文、CBETA 总目、CBDB 人物检索与研究书目",
       "group": "sources",
       "path": "boards/sources/",
       "entry": "boards/sources/index.html",
@@ -73,6 +73,18 @@
       "path": "boards/genealogy/",
       "entry": "boards/genealogy/index.html",
       "order": 40,
+      "context": ["year"],
+      "status": "active"
+    },
+    {
+      "id": "emperors",
+      "title": "帝王谱系",
+      "titleEn": "Imperial Genealogy",
+      "description": "秦至清的皇帝世系、继位关系、在位年与年号",
+      "group": "modules",
+      "path": "boards/emperors/",
+      "entry": "boards/emperors/index.html",
+      "order": 45,
       "context": ["year"],
       "status": "active"
     },

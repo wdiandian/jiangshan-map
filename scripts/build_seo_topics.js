@@ -30,6 +30,15 @@ const CUSTOM_TOPICS = [
     descZh: '以东胡、肃慎、匈奴、鲜卑、契丹、女真、蒙古等族系为主线，串联谱系年表、人物、事件、地点、关系与史料争议。',
     descEn: 'An interactive genealogy and research atlas covering northern and northeastern peoples, political succession, migration, places, events, and source debates.',
   },
+  {
+    slug: 'emperor-genealogy',
+    source: 'boards/emperors/index.html',
+    dataDir: 'boards/emperors/data',
+    titleZh: '帝王谱系：秦至清皇帝世系图',
+    titleEn: 'Imperial Genealogy · Emperors of China from Qin to Qing',
+    descZh: '从秦到清 17 个时期、239 位帝王，按父系、兄终弟及、旁支入继与追尊关系排列；含在位年、年号、继位说明与疆域图入口。',
+    descEn: 'A genealogy of 239 rulers across 17 periods from Qin to Qing, arranged by descent, sibling succession, collateral adoption, and posthumous honours, with reign years, era names, and map links.',
+  },
 ];
 
 function escHtml(str) {
@@ -1349,9 +1358,14 @@ function buildCustomTopicPages() {
       .join('href="./index.html"')
       .split('href="../../index.html"')
       .join('href="../index.html"')
+      .split('href="../sources/')
+      .join('href="../boards/sources/')
       .replace(/\s*<nav data-board-nav[^>]*><\/nav>/g, '')
       .replace(/\s*<link rel="stylesheet" href="\.\.\/\.\.\/core\/[^"]+">/g, '')
       .replace(/\s*<script src="\.\.\/\.\.\/core\/[^"]+"><\/script>/g, '');
+    if (topic.dataDir) {
+      html = html.split('src="data/').join(`src="../${topic.dataDir}/`);
+    }
     fs.writeFileSync(outputPath, html, 'utf8');
     return {
       ...topic,
@@ -1574,16 +1588,7 @@ function updateIndexHtmlSeoDirectory(dynMeta, journeyMeta, featuredMeta, customM
   const indexPath = path.join(ROOT, 'index.html');
   let html = fs.readFileSync(indexPath, 'utf8');
 
-  // 1. Subset Ma Shan Zheng calligraphy webfont to the exact characters rendered in #txt-seal and #dynasty-title (zero FOUT)
-  const calligraphyChars = computeCalligraphySubsetText(dynasties, enLocale);
-  const encodedCalligraphy = encodeURIComponent(calligraphyChars).replace(/'/g, '%27');
-  const fontLinksBlock = `  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet" />\n  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=${encodedCalligraphy}&display=swap" rel="stylesheet" />`;
-  const fontRegex = /  <link href="https:\/\/fonts\.googleapis\.com\/css2\?family=Noto\+Serif\+SC[^"]*" rel="stylesheet" \/>(?:\r?\n  <link href="https:\/\/fonts\.googleapis\.com\/css2\?family=Ma\+Shan\+Zheng[^"]*" rel="stylesheet" \/>)?/;
-  if (!fontRegex.test(html)) {
-    throw new Error('Could not find Google Fonts stylesheet link block in index.html');
-  }
-  html = html.replace(fontRegex, fontLinksBlock);
-
+  // 1. 站点已改用系统字体，不再注入 Google Fonts 外链。
   // 2. Synchronize pre-rendered Warring States opening summary & milestone list in #chronicle-pane
   const openingDyn = dynasties[0];
   html = html.replace(

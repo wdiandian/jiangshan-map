@@ -440,6 +440,46 @@ function main() {
       indexHtml.includes(customTopicCanon),
     'Custom northern peoples topic must be generated from boards/genealogy and keep canonical, JSON-LD, sitemap, and index links'
   );
+
+  // 7b-2. Imperial genealogy board + generated topic
+  const emperorDataFile = path.join(ROOT, 'boards', 'emperors', 'data', 'emperors.js');
+  const emperorPageFile = path.join(ROOT, 'boards', 'emperors', 'index.html');
+  const emperorTopicFile = path.join(topicsDir, 'emperor-genealogy.html');
+  const emperorTopicCanon = 'https://deanchen.me/jiangshan-map/topics/emperor-genealogy.html';
+  assert(fs.existsSync(emperorDataFile) && fs.existsSync(emperorPageFile), 'Emperor genealogy board and data must exist');
+  const emperorSandbox = { window: {} };
+  vm.createContext(emperorSandbox);
+  vm.runInContext(fs.readFileSync(emperorDataFile, 'utf8'), emperorSandbox, { filename: 'emperors.js' });
+  const emperorData = emperorSandbox.window.EMPEROR_GENEALOGY;
+  assert(emperorData && Array.isArray(emperorData.dynasties), 'Emperor data must expose window.EMPEROR_GENEALOGY.dynasties');
+  const emperorIds = new Set();
+  let emperorCount = 0;
+  let houseCount = 0;
+  for (const dynasty of emperorData.dynasties) {
+    assert(dynasty.id && dynasty.title && Array.isArray(dynasty.houses) && dynasty.houses.length > 0, `Emperor dynasty ${dynasty.id} must have houses`);
+    for (const house of dynasty.houses) {
+      houseCount += 1;
+      const localIds = new Set(house.nodes.map((node) => node.id));
+      for (const node of house.nodes) {
+        emperorCount += 1;
+        assert(node.id && node.name && node.reign && node.relation, `Emperor node in ${dynasty.id}/${house.id} must have id, name, reign, relation`);
+        assert(!emperorIds.has(node.id), `Duplicate emperor id ${node.id}`);
+        emperorIds.add(node.id);
+        assert(!node.parent || localIds.has(node.parent), `Emperor ${node.id} has parent ${node.parent} outside its house`);
+      }
+    }
+  }
+  assert(emperorData.dynasties.length >= 17, `Emperor genealogy must cover at least 17 dynasties, got ${emperorData.dynasties.length}`);
+  assert(emperorCount >= 200 && houseCount >= 25, `Emperor genealogy must include at least 200 rulers and 25 houses, got ${emperorCount}/${houseCount}`);
+  assert(
+    fs.existsSync(emperorTopicFile) &&
+      fs.readFileSync(emperorTopicFile, 'utf8').includes(`rel="canonical" href="${emperorTopicCanon}"`) &&
+      fs.readFileSync(emperorTopicFile, 'utf8').includes('application/ld+json') &&
+      fs.readFileSync(emperorTopicFile, 'utf8').includes('../boards/emperors/data/emperors.js') &&
+      sitemapXml.includes(`<loc>${emperorTopicCanon}</loc>`) &&
+      indexHtml.includes(emperorTopicCanon),
+    'Emperor topic must be generated from boards/emperors with canonical, JSON-LD, data script, sitemap, and index links'
+  );
   const htmlVersions = Array.from(new Set(indexHtml.match(/\?v=[0-9a-zA-Z_.-]+/g) || []));
   const appVersions = Array.from(new Set(appCode.match(/\?v=[0-9a-zA-Z_.-]+/g) || []));
   assert(

@@ -1,0 +1,10 @@
+{
+  "id": "emperors",
+  "title": "帝王谱系",
+  "titleEn": "Imperial Genealogy",
+  "description": "秦至清的皇帝世系、继位关系、在位年与年号",
+  "entry": "index.html",
+  "order": 45,
+  "context": ["year"],
+  "status": "active"
+}

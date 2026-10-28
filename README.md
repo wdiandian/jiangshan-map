@@ -170,6 +170,20 @@ Modern scholarship is copyrighted, so the project includes **bibliographic data 
 
 ---
 
+## Sub-board: Imperial Genealogy
+
+`boards/emperors/` is a standalone genealogy of Chinese rulers from Qin to Qing: 17 periods, 239 rulers, and 29 descent lines.
+
+- Trees are built from parent links and labelled by succession type: son, younger brother, grandson, nephew, adopted son, posthumous honour, or empress regnant.
+- Honoured, non-blood, and disputed nodes use dashed or dotted lines.
+- Click any card for reign years, era names, predecessor, succession note, and a link to the atlas at that year.
+- Switch dynasties, or search rulers across the whole page by name, temple name, or era name.
+- All data lives in `boards/emperors/data/emperors.js`; add a node with `parent` and `relation` to extend a line. The static topic at `topics/emperor-genealogy.html` is generated from the same source.
+
+The data follows the standard dynastic histories and common reign tables; short-lived regimes, posthumous honours, and disputed cases are noted on the cards.
+
+---
+
 ## Run Locally
 
 No dependencies or build steps required. Clone and serve with any static HTTP server:

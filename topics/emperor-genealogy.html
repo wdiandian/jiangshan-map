@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>帝王谱系 · 江山时序研究台</title>
+  <meta name="description" content="从秦到清，按父系、兄终弟及、旁支入继与追尊关系排列的皇帝世系图。含在位年、年号、继位关系与地图年份入口。">
+  <link rel="canonical" href="https://deanchen.me/jiangshan-map/topics/emperor-genealogy.html">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"帝王谱系 · 秦至清皇帝世系图","description":"从秦到清，按父系、兄终弟及、旁支入继与追尊关系排列的皇帝世系图，含在位年、年号与继位关系。","url":"https://deanchen.me/jiangshan-map/topics/emperor-genealogy.html","inLanguage":"zh-CN","isPartOf":{"@type":"WebSite","name":"江山时序","url":"https://deanchen.me/jiangshan-map/"}}
+  </script>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <style>
+    :root {
+      --paper: #f3eee2;
+      --paper-2: #ebe3d2;
+      --card: #fbf7ec;
+      --card-2: #f6efe1;
+      --ink: #211e19;
+      --ink-2: #5f5749;
+      --ink-3: #8a8171;
+      --rule: #d3c8b3;
+      --rule-2: #e3dac8;
+      --accent: #8a3b2e;
+      --accent-deep: #6f2b21;
+      --accent-soft: #f0e0d6;
+      --gold: #b07d2a;
+      --serif: "Noto Serif SC", "Songti SC", SimSun, serif;
+      --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --card-w: 186px;
+      --gen-gap: 58px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { font-family: inherit; color: inherit; }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    [hidden] { display: none !important; }
+
+    /* ---------- 页头 ---------- */
+    .masthead { border-bottom: 1px solid var(--ink); background: var(--paper); }
+    .js-board-switcher.board-nav--inline {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 12px 32px 0;
+    }
+    .mast-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 34px 32px 24px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .kicker {
+      margin: 0 0 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .26em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(32px, 4.5vw, 52px);
+      letter-spacing: .08em;
+      line-height: 1.12;
+    }
+    .dek { margin: 12px 0 0; max-width: 780px; color: var(--ink-2); font-size: 14px; }
+    .meta {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      padding-bottom: 4px;
+      font-size: 11.5px;
+      color: var(--ink-3);
+      letter-spacing: .05em;
+    }
+    .meta b {
+      display: block;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: .02em;
+    }
+
+    /* ---------- 工具栏 ---------- */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(243, 238, 226, .97);
+      border-bottom: 1px solid var(--rule);
+      backdrop-filter: blur(8px);
+    }
+    .toolbar-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 10px 32px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .dynasty-nav {
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .dynasty-nav::-webkit-scrollbar { display: none; }
+    .dynasty-chip {
+      flex: 0 0 auto;
+      padding: 5px 11px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-2);
+      font-size: 12.5px;
+      letter-spacing: .06em;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .dynasty-chip:hover { background: var(--card); border-color: var(--rule); }
+    .dynasty-chip[aria-pressed="true"] {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff8ee;
+    }
+    .dynasty-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .search-box {
+      display: flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: var(--card);
+      flex: 0 1 250px;
+    }
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: 12.5px var(--sans);
+      color: var(--ink);
+    }
+    .search-box input::placeholder { color: var(--ink-3); }
+
+    /* ---------- 主体 ---------- */
+    main { max-width: 1320px; margin: 0 auto; padding: 24px 32px 84px; }
+    .dynasty-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .dynasty-head h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: .08em;
+    }
+    .dynasty-head .span {
+      font-family: var(--serif);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: .06em;
+    }
+    .dynasty-head p { margin: 0; flex: 1 1 420px; font-size: 12.5px; color: var(--ink-3); }
+    .legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 14px 0 4px;
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .legend i { display: inline-block; width: 22px; height: 0; border-top: 1.5px solid var(--ink-3); }
+    .legend i.dashed { border-top-style: dashed; border-top-color: var(--accent); }
+    .legend i.dotted { border-top-style: dotted; border-top-color: var(--gold); }
+
+    .house { max-width: 1120px; margin: 26px auto 0; }
+    .house-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .house-head h3 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: .05em;
+    }
+    .house-head span { font-size: 11.5px; color: var(--ink-3); }
+    .house-head em {
+      font-style: normal;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: var(--card-2);
+      color: var(--ink-3);
+      font-size: 10.5px;
+    }
+    .tree-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 8px 2px 18px;
+      border: 1px solid var(--rule);
+      background:
+        linear-gradient(90deg, rgba(211,200,179,.18) 1px, transparent 1px) 0 0 / 28px 100%,
+        var(--card);
+    }
+    .tree {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 42px;
+      width: 100%;
+      min-width: 660px;
+      padding: 18px 22px 26px;
+    }
+    .generation {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      width: 100%;
+    }
+    .gen-label {
+      flex: 0 0 58px;
+      width: 58px;
+      padding-top: 9px;
+      text-align: right;
+      font-size: 9.5px;
+      letter-spacing: .12em;
+      color: var(--ink-3);
+      text-transform: uppercase;
+    }
+    .gen-list { display: flex; flex: 1 1 auto; justify-content: center; gap: 16px; align-items: flex-start; }
+    .tree-links {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .tree-links path {
+      fill: none;
+      stroke: rgba(95, 87, 73, .42);
+      stroke-width: 1.2;
+    }
+    .tree-links path.is-honored { stroke: rgba(138, 59, 46, .55); stroke-dasharray: 4 4; }
+    .tree-links path.is-disputed { stroke: rgba(176, 125, 42, .65); stroke-dasharray: 2 3; }
+    .tree-links path.is-nonblood { stroke: rgba(138, 59, 46, .5); stroke-dasharray: 6 4; }
+
+    /* ---------- 皇帝卡片 ---------- */
+    .emperor-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 0 0 var(--card-w);
+      width: var(--card-w);
+      min-height: 88px;
+      padding: 10px 11px 9px;
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--ink);
+      background: var(--paper);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .14s, transform .14s, box-shadow .14s;
+    }
+    .emperor-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(45, 36, 22, .08);
+    }
+    .emperor-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .emperor-card.is-honored { border-top-style: dashed; border-top-color: var(--accent); background: var(--card-2); }
+    .emperor-card.is-disputed { border-top-style: dotted; border-top-color: var(--gold); }
+    .emperor-card.is-highlight { box-shadow: 0 0 0 3px var(--accent-soft); border-color: var(--accent); }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--ink-3);
+      letter-spacing: .04em;
+    }
+    .card-top .temple { color: var(--accent-deep); }
+    .card-top .reign { white-space: nowrap; }
+    .emperor-card strong {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      line-height: 1.3;
+    }
+    .emperor-card .personal { font-size: 11.5px; color: var(--ink-2); }
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      padding-top: 5px;
+      border-top: 1px dashed var(--rule-2);
+      font-size: 10px;
+      color: var(--ink-3);
+    }
+    .rel-tag {
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      white-space: nowrap;
+    }
+    .rel-tag.is-honored { background: var(--card-2); color: var(--ink-3); }
+    .rel-tag.is-women { background: #efe0d0; color: var(--gold); }
+    .era { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ---------- 搜索结果 ---------- */
+    .search-results { padding-top: 16px; }
+    .search-results h2 {
+      margin: 0 0 4px;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .search-results .hint { margin: 0 0 16px; font-size: 12px; color: var(--ink-3); }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+    }
+    .result-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px solid var(--rule);
+      background: var(--card);
+      text-align: left;
+      cursor: pointer;
+    }
+    .result-row:hover { border-color: var(--accent); }
+    .result-row strong { font-family: var(--serif); font-size: 15px; }
+    .result-row span { font-size: 11px; color: var(--ink-3); }
+    .result-row em { margin-left: auto; font-style: normal; font-size: 10.5px; color: var(--accent); }
+    .empty { padding: 24px 0; color: var(--ink-3); font-size: 13px; }
+
+    /* ---------- 抽屉 ---------- */
+    .drawer-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(33, 30, 25, .18);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .18s, visibility .18s;
+    }
+    .drawer-scrim.is-open { opacity: 1; visibility: visible; }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 90;
+      width: min(480px, 100vw);
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 30px 60px;
+      border-left: 1px solid var(--ink);
+      background: var(--paper);
+      transform: translateX(102%);
+      transition: transform .22s ease;
+    }
+    .drawer.is-open { transform: none; }
+    .drawer-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      background: var(--card);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .drawer-close:hover { border-color: var(--accent); color: var(--accent); }
+    .drawer h2 {
+      margin: 0 46px 2px 0;
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: .05em;
+    }
+    .drawer .sub { margin: 0 0 16px; font-size: 12.5px; color: var(--ink-3); }
+    .drawer .lead {
+      margin: 0 0 14px;
+      font-family: var(--serif);
+      font-size: 14.5px;
+      line-height: 1.9;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 14px;
+      margin: 0 0 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      font-size: 12px;
+    }
+    .detail-grid dt { color: var(--ink-3); }
+    .detail-grid dd { margin: 0; color: var(--ink); }
+    .detail-note {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border-left: 3px solid var(--accent);
+      background: var(--card-2);
+      font-size: 12px;
+      color: var(--ink-2);
+      line-height: 1.8;
+    }
+    .detail-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .detail-actions a, .detail-actions button {
+      padding: 6px 12px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--ink-2);
+      font-size: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .detail-actions a:hover, .detail-actions button:hover { border-color: var(--accent); color: var(--accent); }
+    .detail-actions a.is-primary { background: var(--accent); border-color: var(--accent); color: #fff8ee; }
+
+    @media (max-width: 760px) {
+      .js-board-switcher.board-nav--inline, .mast-inner, .toolbar-inner, main { padding-left: 16px; padding-right: 16px; }
+      .mast-inner { padding-top: 24px; }
+      .meta { gap: 14px; }
+      .toolbar-inner { gap: 8px; }
+      .search-box { flex: 1 1 100%; }
+      :root { --card-w: 164px; --gen-gap: 40px; }
+      .drawer { padding: 22px 18px 48px; }
+      .detail-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .drawer, .drawer-scrim, .emperor-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="mast-inner">
+      <div>
+        <p class="kicker">Research Atlas · 帝系</p>
+        <h1>帝王谱系</h1>
+        <p class="dek">从秦到清，按父系、兄终弟及、旁支入继与追尊关系排列的皇帝世系。点开任一卡片，查看在位年、年号、继位关系与对应年份的疆域图。</p>
+      </div>
+      <div class="meta" aria-label="统计">
+        <span><b id="stat-dynasties">—</b>个朝代</span>
+        <span><b id="stat-emperors">—</b>位帝王</span>
+        <span><b id="stat-houses">—</b>条世系</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div class="dynasty-nav" id="dynasty-nav" role="group" aria-label="选择朝代"></div>
+      <label class="search-box">
+        <input id="emperor-q" type="search" placeholder="检索帝王、姓名、年号" aria-label="检索帝王" autocomplete="off">
+      </label>
+    </div>
+  </div>
+
+  <main>
+    <section id="dynasty-view" aria-live="polite">
+      <div class="dynasty-head">
+        <h2 id="dynasty-title">—</h2>
+        <span class="span" id="dynasty-span"></span>
+        <p id="dynasty-note"></p>
+      </div>
+      <div class="legend" aria-label="图例">
+        <span><i></i>父系/继嗣</span>
+        <span><i class="dashed"></i>追尊、养子或非血亲</span>
+        <span><i class="dotted"></i>正统性有争议</span>
+      </div>
+      <div id="houses"></div>
+    </section>
+
+    <section class="search-results" id="search-view" hidden>
+      <h2>检索结果</h2>
+      <p class="hint" id="search-hint"></p>
+      <div class="result-grid" id="search-results"></div>
+      <p class="empty" id="search-empty" hidden>没有找到匹配的帝王。</p>
+    </section>
+  </main>
+
+  <div class="drawer-scrim" id="drawer-scrim"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true" inert>
+    <button class="drawer-close" type="button" id="drawer-close" aria-label="关闭">×</button>
+    <div id="drawer-body"></div>
+  </aside>
+
+  <script src="../boards/emperors/data/emperors.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      const DATA = window.EMPEROR_GENEALOGY;
+      if (!DATA || !Array.isArray(DATA.dynasties)) {
+        document.getElementById('dynasty-title').textContent = '帝王谱系数据未载入';
+        return;
+      }
+
+      const $ = (sel) => document.querySelector(sel);
+      const esc = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      }[ch]));
+
+      const dynastyById = new Map(DATA.dynasties.map((dyn) => [dyn.id, dyn]));
+      const emperorById = new Map();
+      let totalEmperors = 0;
+      let totalHouses = 0;
+      DATA.dynasties.forEach((dyn) => {
+        dyn.houses.forEach((house) => {
+          totalHouses += 1;
+          house.nodes.forEach((node) => {
+            totalEmperors += 1;
+            node.dynastyId = dyn.id;
+            node.houseId = house.id;
+            emperorById.set(node.id, node);
+          });
+        });
+      });
+
+      const state = { dynasty: DATA.dynasties[0].id, query: '' };
+
+      $('#stat-dynasties').textContent = String(DATA.dynasties.length);
+      $('#stat-emperors').textContent = String(totalEmperors);
+      $('#stat-houses').textContent = String(totalHouses);
+
+      /* ---------- 朝代导航 ---------- */
+      function renderDynastyNav() {
+        $('#dynasty-nav').innerHTML = DATA.dynasties.map((dyn) => `
+          <button type="button" class="dynasty-chip" data-dynasty="${esc(dyn.id)}"
+            aria-pressed="${dyn.id === state.dynasty}">${esc(dyn.title)}</button>
+        `).join('');
+      }
+
+      $('#dynasty-nav').addEventListener('click', (event) => {
+        const chip = event.target.closest('[data-dynasty]');
+        if (!chip) return;
+        state.dynasty = chip.dataset.dynasty;
+        state.query = '';
+        $('#emperor-q').value = '';
+        renderDynastyNav();
+        renderDynasty();
+      });
+
+      /* ---------- 世系深度 ---------- */
+      function computeDepths(nodes) {
+        const byId = new Map(nodes.map((node) => [node.id, node]));
+        const cache = new Map();
+        const visiting = new Set();
+        function depth(node) {
+          if (cache.has(node.id)) return cache.get(node.id);
+          if (!node.parent || !byId.has(node.parent)) return 0;
+          if (visiting.has(node.id)) return 0;
+          visiting.add(node.id);
+          const value = depth(byId.get(node.parent)) + 1;
+          visiting.delete(node.id);
+          cache.set(node.id, value);
+          return value;
+        }
+        return { byId, depth };
+      }
+
+      function relationClass(node) {
+        if (node.status === 'honored') return 'is-honored';
+        if (node.status === 'disputed') return 'is-disputed';
+        if (node.relation === '养子' || node.relation === '皇后称帝') return 'is-nonblood';
+        return '';
+      }
+
+      function renderCard(node) {
+        const statusClass = node.status === 'honored' ? 'is-honored'
+          : node.status === 'disputed' ? 'is-disputed' : '';
+        const relClass = node.status === 'honored' ? 'is-honored'
+          : node.relation === '皇后称帝' ? 'is-women' : '';
+        return `
+          <button type="button" class="emperor-card ${statusClass}" data-emperor="${esc(node.id)}">
+            <span class="card-top">
+              <span class="temple">${esc(node.temple || '')}</span>
+              <span class="reign">${esc(node.reign || '')}</span>
+            </span>
+            <strong>${esc(node.name)}</strong>
+            <span class="personal">${esc(node.personal || '')}</span>
+            <span class="card-bottom">
+              <span class="rel-tag ${relClass}">${esc(node.tag || node.relation || '—')}</span>
+              <span class="era">${esc(node.era || '')}</span>
+            </span>
+          </button>
+        `;
+      }
+
+      function renderHouse(house, index) {
+        const { depth } = computeDepths(house.nodes);
+        const maxDepth = Math.max(...house.nodes.map((node) => depth(node)));
+        const columns = [];
+        for (let i = 0; i <= maxDepth; i += 1) columns.push([]);
+        house.nodes.forEach((node, order) => {
+          const d = depth(node);
+          columns[d].push({ node, order });
+        });
+        columns.forEach((column) => column.sort((a, b) => a.order - b.order));
+
+        const columnHtml = columns.map((column, depthIndex) => `
+          <div class="generation" data-depth="${depthIndex}">
+            <span class="gen-label">${depthIndex === 0 ? '始迁 / 追尊' : `第 ${depthIndex + 1} 代`}</span>
+            <div class="gen-list">
+              ${column.map((item) => renderCard(item.node)).join('')}
+            </div>
+          </div>
+        `).join('');
+
+        return `
+          <section class="house" data-house-id="${esc(house.id)}">
+            <div class="house-head">
+              <h3>${esc(house.title)}</h3>
+              <span>${esc(house.note || '')}</span>
+              <em>${house.nodes.length} 位</em>
+            </div>
+            <div class="tree-scroll" tabindex="0" aria-label="${esc(house.title)}世系，可横向滚动">
+              <div class="tree" data-tree="${esc(house.id)}">
+                ${columnHtml}
+                <svg class="tree-links" aria-hidden="true"></svg>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      function drawLinks(tree) {
+        const svg = tree.querySelector('.tree-links');
+        if (!svg) return;
+        const treeRect = tree.getBoundingClientRect();
+        const width = tree.scrollWidth;
+        const height = tree.scrollHeight;
+        svg.setAttribute('width', String(width));
+        svg.setAttribute('height', String(height));
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        const paths = [];
+        tree.querySelectorAll('[data-emperor]').forEach((card) => {
+          const node = emperorById.get(card.dataset.emperor);
+          if (!node || !node.parent) return;
+          const parentCard = tree.querySelector(`[data-emperor="${node.parent}"]`);
+          if (!parentCard) return;
+          const p = parentCard.getBoundingClientRect();
+          const c = card.getBoundingClientRect();
+          const x1 = p.left + p.width / 2 - treeRect.left;
+          const y1 = p.bottom - treeRect.top;
+          const x2 = c.left + c.width / 2 - treeRect.left;
+          const y2 = c.top - treeRect.top;
+          const midY = y1 + Math.max(14, (y2 - y1) / 2);
+          const cls = relationClass(node);
+          paths.push(`<path class="${cls}" d="M${x1.toFixed(1)},${y1.toFixed(1)} V${midY.toFixed(1)} H${x2.toFixed(1)} V${y2.toFixed(1)}"></path>`);
+        });
+        svg.innerHTML = paths.join('');
+      }
+
+      function renderDynasty() {
+        const dyn = dynastyById.get(state.dynasty) || DATA.dynasties[0];
+        $('#dynasty-title').textContent = dyn.title;
+        $('#dynasty-span').textContent = dyn.span;
+        $('#dynasty-note').textContent = dyn.note;
+        $('#houses').innerHTML = dyn.houses.map(renderHouse).join('');
+        requestAnimationFrame(() => {
+          document.querySelectorAll('#houses .tree').forEach(drawLinks);
+        });
+      }
+
+      /* ---------- 检索 ---------- */
+      function haystack(node) {
+        return [node.name, node.personal, node.temple, node.reign, node.era, node.note]
+          .filter(Boolean).join(' ').toLowerCase();
+      }
+
+      function searchScore(node, query) {
+        const name = String(node.name || '').toLowerCase();
+        const personal = String(node.personal || '').toLowerCase();
+        const temple = String(node.temple || '').toLowerCase();
+        if (name === query || personal === query) return 0;
+        if (name.startsWith(query) || personal.startsWith(query) || temple.startsWith(query)) return 1;
+        if (name.includes(query) || personal.includes(query) || temple.includes(query)) return 2;
+        return 3;
+      }
+
+      function renderSearch() {
+        const query = state.query.trim().toLowerCase();
+        if (!query) {
+          $('#search-view').hidden = true;
+          $('#dynasty-view').hidden = false;
+          return;
+        }
+        $('#dynasty-view').hidden = true;
+        $('#search-view').hidden = false;
+        const hits = [];
+        DATA.dynasties.forEach((dyn, dynIndex) => {
+          dyn.houses.forEach((house, houseIndex) => {
+            house.nodes.forEach((node, nodeIndex) => {
+              if (haystack(node).includes(query)) {
+                hits.push({ node, dyn, house, score: searchScore(node, query), dynIndex, houseIndex, nodeIndex });
+              }
+            });
+          });
+        });
+        hits.sort((a, b) => a.score - b.score || a.dynIndex - b.dynIndex || a.houseIndex - b.houseIndex || a.nodeIndex - b.nodeIndex);
+        $('#search-hint').textContent = `匹配 ${hits.length} 位帝王；点击结果可跳转到对应世系。`;
+        $('#search-empty').hidden = hits.length !== 0;
+        $('#search-results').innerHTML = hits.map(({ node, dyn, house }) => `
+          <button type="button" class="result-row" data-result="${esc(node.id)}" data-dynasty-id="${esc(dyn.id)}">
+            <strong>${esc(node.name)}</strong>
+            <span>${esc(node.personal || '')} · ${esc(node.reign || '')}</span>
+            <em>${esc(dyn.title)} / ${esc(house.title)}</em>
+          </button>
+        `).join('');
+      }
+
+      $('#emperor-q').addEventListener('input', (event) => {
+        state.query = event.target.value;
+        renderSearch();
+      });
+
+      $('#search-results').addEventListener('click', (event) => {
+        const row = event.target.closest('[data-result]');
+        if (!row) return;
+        const id = row.dataset.result;
+        state.dynasty = row.dataset.dynastyId;
+        state.query = '';
+        $('#emperor-q').value = '';
+        $('#search-view').hidden = true;
+        $('#dynasty-view').hidden = false;
+        renderDynastyNav();
+        renderDynasty();
+        requestAnimationFrame(() => {
+          const card = document.querySelector(`[data-emperor="${id}"]`);
+          if (!card) return;
+          card.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+          card.classList.add('is-highlight');
+          window.setTimeout(() => card.classList.remove('is-highlight'), 2600);
+          openEmperor(id);
+        });
+      });
+
+      /* ---------- 抽屉 ---------- */
+      let lastFocus = null;
+
+      function openDrawer(html) {
+        const drawer = $('#drawer');
+        const scrim = $('#drawer-scrim');
+        lastFocus = document.activeElement;
+        $('#drawer-body').innerHTML = html;
+        drawer.inert = false;
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        scrim.classList.add('is-open');
+        $('#drawer-close').focus({ preventScroll: true });
+      }
+
+      function closeDrawer() {
+        const drawer = $('#drawer');
+        const scrim = $('#drawer-scrim');
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        drawer.inert = true;
+        scrim.classList.remove('is-open');
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus({ preventScroll: true });
+      }
+
+      function relationSentence(node) {
+        if (!node.parent) {
+          if (node.parentLabel) return `${node.parentLabel}之${node.relation || '子'}。`;
+          return node.relation === '追尊' ? '追尊为帝，未及在位。' : '开国（或世系起点）。';
+        }
+        const parent = emperorById.get(node.parent);
+        if (!parent) return `继位关系：${node.tag || node.relation || '未详'}。`;
+        if (node.relation === '子') return `${parent.name}之子。`;
+        if (node.relation === '弟') return `${parent.name}之弟。`;
+        if (node.relation === '孙') return `${parent.name}之孙。`;
+        if (node.relation === '侄') return `${parent.name}之侄。`;
+        if (node.relation === '曾孙') return `${parent.name}之曾孙。`;
+        if (node.relation === '玄孙') return `${parent.name}之玄孙。`;
+        if (node.relation === '养子') return `${parent.name}养子。`;
+        if (node.relation === '皇后称帝') return `${parent.name}皇后，后改唐为周，称帝。`;
+        if (node.relation === '宗室') return `宗室继位。`;
+        return `继位关系：${node.relation || '未详'}。`;
+      }
+
+      function openEmperor(id) {
+        const node = emperorById.get(id);
+        if (!node) return;
+        const dyn = dynastyById.get(node.dynastyId);
+        const parent = node.parent ? emperorById.get(node.parent) : null;
+        const year = Number.isFinite(node.year) ? node.year : null;
+        openDrawer(`
+          <h2 id="drawer-title">${esc(node.name)}</h2>
+          <p class="sub">${esc(node.personal || '')}${node.temple ? ` · ${esc(node.temple)}` : ''}${dyn ? ` · ${esc(dyn.title)}` : ''}</p>
+          <p class="lead">${esc(relationSentence(node))}</p>
+          <dl class="detail-grid">
+            <div><dt>在位</dt><dd>${esc(node.reign || '未详')}</dd></div>
+            <div><dt>年号</dt><dd>${esc(node.era || '未详')}</dd></div>
+            <div><dt>前任/父系</dt><dd>${esc(parent ? parent.name : '—')}</dd></div>
+            <div><dt>继位关系</dt><dd>${esc(node.relation || '—')}</dd></div>
+          </dl>
+          ${node.note ? `<p class="detail-note">${esc(node.note)}</p>` : ''}
+          <div class="detail-actions">
+            ${year !== null ? `<a class="is-primary" href="../?year=${encodeURIComponent(year)}">看 ${esc(year < 0 ? '前' + Math.abs(year) : year)} 年疆域图 ↗</a>` : ''}
+            <a href="../boards/sources/index.html?view=research">查相关研究书目 ↗</a>
+            <button type="button" data-close-drawer>关闭</button>
+          </div>
+        `);
+      }
+
+      $('#houses').addEventListener('click', (event) => {
+        const card = event.target.closest('[data-emperor]');
+        if (card) openEmperor(card.dataset.emperor);
+      });
+
+      $('#drawer-close').addEventListener('click', closeDrawer);
+      $('#drawer-scrim').addEventListener('click', closeDrawer);
+      $('#drawer-body').addEventListener('click', (event) => {
+        if (event.target.closest('[data-close-drawer]')) closeDrawer();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && $('#drawer').classList.contains('is-open')) closeDrawer();
+      });
+
+      let resizeTimer = 0;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (!$('#dynasty-view').hidden) {
+            document.querySelectorAll('#houses .tree').forEach(drawLinks);
+          }
+        }, 160);
+      });
+
+      /* ---------- 初始化 ---------- */
+      renderDynastyNav();
+      renderDynasty();
+    })();
+  </script>
+</body>
+</html>

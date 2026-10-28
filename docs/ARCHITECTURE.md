@@ -73,6 +73,8 @@ jiangshan-map/
 │  │  └─ data/                 # 板块自有数据，不依赖主程序
 │  ├─ modules/                 # 子板块总览与扩展说明
 │  ├─ genealogy/               # 子板块：族群谱系（北族长卷）
+│  ├─ emperors/                # 子板块：帝王谱系（秦—清世系图）
+│  │  └─ data/emperors.js      # 帝王节点、parent 与继位关系
 │  ├─ elites/                  # 子板块：历代精英政治（制度、家族与争论）
 │  ├─ person/                  # 子板块（预留）：人物行迹
 │  └─ topics/                  # 子板块入口：专题图志（由生成器产出）
@@ -145,7 +147,7 @@ jiangshan-map/
 | ------ | --------------------------- | ------------ |
 | 地图     | `index.html`                | 疆域时序主地图      |
 | 可检索的史料 | `boards/sources/index.html` | 书目、全文、人物检索   |
-| 子板块    | `boards/modules/index.html` | 谱系、精英政治、专题与后续新增单元 |
+| 子板块    | `boards/modules/index.html` | 谱系、帝王世系、精英政治、专题与后续新增单元 |
 
 
 新增一个子单元不需要改 `core/`、导航或生成器：
