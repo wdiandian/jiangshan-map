@@ -11,8 +11,6 @@ _snap_skill_tmp_*.html
 !/geojson/demo.html
 !/geojson/jiangshan-locate.js
 
-# 本地谭图瓦片缓存（由 scripts/fetch_tan_tiles.js 生成）
-/assets/tan/
 
 # 本地验证截图
 /artifacts/
