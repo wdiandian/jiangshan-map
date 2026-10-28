@@ -75,25 +75,13 @@ Each time you step to the next event (`‹ / ›`, `← / →`, or `Space` to au
 
 ---
 
-### Feature 4: Easter Egg · Map Pinpoint Challenge — What Imperial Court Rank Would You Earn?
-
-Think you know Chinese historical geography? Click **`Quiz ›`** in the corner of the **Universal Search Box** guide bar (or type `quiz` for **`Map Pinpoint · Ancient Place Quiz`**):
-- **Dynastic Historical Clues + Blind Map Pinpointing**: City labels are hidden while the prompt asks you to locate an ancient city across a 10-round progressive difficulty deck—accompanied by **dynastic historical clues** (without spoiling the modern city name). Drop your pin to preview and adjust, click the on-pin **`✓ Confirm`** button to lock in your answer with concentric distance score rings, and earn points based on great-circle distance to the true coordinates!
-- Complete 10 rounds to receive a traditional imperial cartographic title such as **Grand Historian & Master Cartographer (太史令 · 舆图大家)**, **Director of the Bureau of Operations (职方郎中)**, or **Prefectural Retainer (州郡从事)**.
-
-> [Try It Live: Western Han Emperor Wu, Yuanshou 2 (121 BCE) · Start the Map Pinpoint Challenge →](https://deanchen.me/jiangshan-map/?year=-121&quiz=locate&lang=en)
-
-![Western Han 121 BCE · Map Pinpoint Challenge Preview](assets/preview_quiz_challenge_en.webp)
-
----
-
 ## Keyboard Shortcuts & Shareable Deep Links
 
 ### Keyboard Shortcuts
 
 | Key / Action | Effect |
 | :--- | :--- |
-| **`/`** or **`Cmd/Ctrl + K`** | Focus the **Universal Search Box**: search **historical figures** (`Qin Shi Huang`/`Zhang Qian`/`Su Shi`), **ancient & modern cities** (`Xianyang`/`Chang'an`/`Luoyang`/`Kaifeng`), **reigning monarchs** (`Emperor Wu of Han`/`Taizong of Tang`/`Liu Che`/`Li Shimin`), **imperial eras** (`Zhenguan`/`Yongle`/`Kangxi`), **poetic & battlefield landmarks** (`Red Cliffs`/`Wuzhang Plains`/`Languan`/`Lanting`), **mountain passes** (`Hangu Pass`/`Jianmen Pass`/`Yumen Pass`), **historical events**, or the **Ancient Place Quiz** |
+| **`/`** or **`Cmd/Ctrl + K`** | Focus the **Universal Search Box**: search **historical figures** (`Qin Shi Huang`/`Zhang Qian`/`Su Shi`), **ancient & modern cities** (`Xianyang`/`Chang'an`/`Luoyang`/`Kaifeng`), **reigning monarchs** (`Emperor Wu of Han`/`Taizong of Tang`/`Liu Che`/`Li Shimin`), **imperial eras** (`Zhenguan`/`Yongle`/`Kangxi`), **poetic & battlefield landmarks** (`Red Cliffs`/`Wuzhang Plains`/`Languan`/`Lanting`), **mountain passes** (`Hangu Pass`/`Jianmen Pass`/`Yumen Pass`), or **historical events** |
 | **`←` / `→`** or bottom **`‹ / ›`** | Jump to the previous / next historical phase, milestone event, or person event stop (hold `Shift + ← / →` to step by `10` years) |
 | **`Space`** | Auto-play / pause timeline evolution (or auto-advance stops in Person Chronicle mode) |
 | **`Esc`** | Close active popups/cards, clear search highlights, or exit custom multi-stop routes |
@@ -108,8 +96,6 @@ Append query parameters to share any historical moment, battle, city genealogy, 
 - **Inspect a city's 2,400-year genealogy**: [`?year=741&place=长安&lang=en`](https://deanchen.me/jiangshan-map/?year=741&place=长安&lang=en) (Chang'an / Xi'an) / [`?year=1415&place=应天府&lang=en`](https://deanchen.me/jiangshan-map/?year=1415&place=应天府&lang=en) (Jiankang / Yingtian / Nanjing) / [`?year=819&place=蓝关&lang=en`](https://deanchen.me/jiangshan-map/?year=819&place=蓝关&lang=en) (Han Yu at Languan Pass)
 - **Plot a custom poetic or campaign route**: [`?year=763&place=剑外,巴峡,巫峡,襄阳,洛阳&lang=en`](https://deanchen.me/jiangshan-map/?year=763&place=剑外,巴峡,巫峡,襄阳,洛阳&lang=en) (Du Fu's 763 CE homeward route) / [`?year=1079,1080,1094,1097&place=湖州,黄州,惠州,儋州&lang=en`](https://deanchen.me/jiangshan-map/?year=1079,1080,1094,1097&place=湖州,黄州,惠州,儋州&lang=en) (Su Shi's multi-year exile route across Huzhou, Huangzhou, Huizhou, and Danzhou)
 - **Open a person's spatio-temporal chronicle**: [`?person=qinshihuang&lang=en`](https://deanchen.me/jiangshan-map/?person=qinshihuang&lang=en) (Qin Shi Huang) / [`?person=zhangqian&lang=en`](https://deanchen.me/jiangshan-map/?person=zhangqian&lang=en) (Zhang Qian) / [`?person=zhugeliang&lang=en`](https://deanchen.me/jiangshan-map/?person=zhugeliang&lang=en) (Zhuge Liang) / [`?person=xuanzang&lang=en`](https://deanchen.me/jiangshan-map/?person=xuanzang&lang=en) (Xuanzang) / [`?person=libai&lang=en`](https://deanchen.me/jiangshan-map/?person=libai&lang=en) (Li Bai) / [`?person=sushi&lang=en`](https://deanchen.me/jiangshan-map/?person=sushi&lang=en) (Su Shi) / [`?person=wangyangming&lang=en`](https://deanchen.me/jiangshan-map/?person=wangyangming&lang=en) (Wang Yangming)
-- **Start a quiz round**: [`?year=-121&quiz=locate&lang=en`](https://deanchen.me/jiangshan-map/?year=-121&quiz=locate&lang=en) (Map Pinpoint Challenge)
-- **Switch UI language**: [`?lang=en`](https://deanchen.me/jiangshan-map/?lang=en) (English) / [`?lang=zh-tw`](https://deanchen.me/jiangshan-map/?lang=zh-tw) (Traditional Chinese) / [`/`](https://deanchen.me/jiangshan-map/) (Simplified Chinese)
 
 ---
 
@@ -167,6 +153,20 @@ In browser automation environments (Playwright) or WebMCP-enabled AI browsers (`
 - `window.atlasAPI.inspect({ year, place, person?, stop? })`: Read-only query returning the controlling polity, ancient prefecture, modern province/city, leg distances, person events, and canonical shareable URL.
 - `window.atlasAPI.resolvePlace(place, year?)`: Resolves ancient and modern names for cities, strategic passes, poetic landmarks, and battlefields.
 - `window.atlasAPI.openPerson(person, stop?)` & `window.atlasAPI.search(query)`: Opens a person chronicle on the map or searches across the entire atlas.
+
+---
+
+## Sources Library & Research Bibliography
+
+The second board lives in `boards/sources/` and can be edited independently of the map and modules:
+
+- **Kanripo catalog**: 9,349 classical titles, filterable by the traditional four-part and Daoist/Buddhist divisions.
+- **Core full texts**: 16 histories and classics, roughly 12.58 million characters, with cross-book full-text search.
+- **Source excerpts**: 18 passages on ethnogenesis and geography with citations and linked years.
+- **Person lookup**: live queries against the open CBDB API.
+- **Research bibliography**: 38 modern scholarly books with original summaries, key topics, and 6 reading paths (aristocratic politics, Wei–Jin–Northern–Southern dynasties, Sui–Tang, Song–Liao–Jin–Yuan, steppe and Inner Asia, Ming–Qing, historical geography, and general method). Each entry links back to related source excerpts, CBDB persons, and map years.
+
+Modern scholarship is copyrighted, so the project includes **bibliographic data and original summaries only, never book text**. Entries provide ISBNs and library/retail search links (WorldCat, Douban, Google Books). To add a book, append an object to the `books` array in `boards/sources/data/research_books.js`; to add a reading path, append to `paths`.
 
 ---
 

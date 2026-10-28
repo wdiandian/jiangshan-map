@@ -14,7 +14,7 @@
       "id": "sources",
       "title": "可检索的史料",
       "titleEn": "Sources",
-      "description": "书目、全文与人物资料的可检索库",
+      "description": "书目、全文、人物资料与研究书目、阅读路径的可检索库",
       "entry": "boards/sources/index.html",
       "order": 20
     },

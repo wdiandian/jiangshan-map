@@ -2,7 +2,7 @@
   "id": "sources",
   "title": "史料库",
   "titleEn": "Sources",
-  "description": "古籍书目、核心史籍全文、CBETA 总目与 CBDB 人物检索",
+  "description": "古籍书目、核心史籍全文、CBETA 总目、CBDB 人物检索与现代研究书目、阅读路径",
   "entry": "index.html",
   "order": 30,
   "context": [],

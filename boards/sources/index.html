@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>史料库 · 江山时序研究台</title>
-  <meta name="description" content="聚合 Kanripo 汉籍书目、核心正史全文、CBETA 藏经总目与 CBDB 人物资料，支持书目检索、全文检索与人物检索。">
+  <meta name="description" content="聚合 Kanripo 汉籍书目、核心正史全文、CBETA 藏经总目与 CBDB 人物资料，并附现代研究书目、阅读路径与馆藏入口，支持书目、全文、人物与研究著作检索。">
   <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
   <link rel="stylesheet" href="../../core/tokens.css">
   <link rel="stylesheet" href="../../core/research-panel.css">
@@ -189,6 +189,16 @@
     .source-meta dd { margin: 0; color: var(--ink); }
     .source-links { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12.5px; }
     .source-links a { text-decoration: none; border-bottom: 1px solid rgba(138, 59, 46, .3); }
+    .source-links button {
+      padding: 0;
+      border: 0;
+      border-bottom: 1px solid rgba(138, 59, 46, .3);
+      background: none;
+      color: var(--accent-deep);
+      font: inherit;
+      cursor: pointer;
+    }
+    .source-links button:hover { color: var(--accent); }
 
     .howto {
       margin-top: 24px;
@@ -592,6 +602,203 @@
     .reader-text p { margin: 0 0 1em; text-indent: 2em; }
     .reader-text mark { background: #f3dfa8; padding: 0 1px; }
 
+    /* ---------- 研究书目 ---------- */
+    .research-paths {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      margin: 14px 0 22px;
+    }
+    .research-path {
+      display: block;
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--ink);
+      background: var(--card);
+      text-align: left;
+      cursor: pointer;
+      color: inherit;
+      transition: border-color .15s, transform .15s;
+    }
+    .research-path:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .research-path:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .research-path h3 {
+      margin: 0 0 4px;
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .03em;
+    }
+    .research-path p { margin: 0; font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+    .research-path em {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .research-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 12px;
+      padding-top: 16px;
+    }
+    .research-book {
+      display: flex;
+      flex-direction: column;
+      padding: 15px 16px 13px;
+      border: 1px solid var(--rule);
+      background: var(--card);
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+      transition: border-color .15s, transform .15s;
+    }
+    .research-book:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .research-book:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .research-book h3 {
+      margin: 0 0 2px;
+      font-family: var(--serif);
+      font-size: 16.5px;
+      font-weight: 600;
+      letter-spacing: .02em;
+      line-height: 1.45;
+    }
+    .research-book .byline { font-size: 11.5px; color: var(--ink-3); }
+    .research-book .brief {
+      margin: 8px 0 0;
+      flex: 1;
+      font-size: 12.3px;
+      color: var(--ink-2);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .research-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .research-tag {
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      font-size: 10.5px;
+      letter-spacing: .04em;
+    }
+    .research-tag.is-level { background: var(--card-2); color: var(--ink-2); }
+    .research-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--rule-2);
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .research-detail h2 { margin-right: 48px; }
+    .research-detail .byline { margin: 0 0 14px; font-size: 12.5px; color: var(--ink-3); }
+    .research-detail .lead {
+      margin: 0 0 14px;
+      font-family: var(--serif);
+      font-size: 14.5px;
+      line-height: 1.9;
+      color: var(--ink);
+    }
+    .research-detail .why {
+      margin: 14px 0;
+      padding: 12px 14px;
+      border-left: 3px solid var(--accent);
+      background: var(--card-2);
+      font-size: 12.6px;
+      color: var(--ink-2);
+      line-height: 1.75;
+    }
+    .research-block-title {
+      margin: 18px 0 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--ink-3);
+      text-transform: uppercase;
+    }
+    .research-topic-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .research-topic {
+      padding: 3px 9px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--ink-2);
+      background: var(--paper);
+    }
+    .research-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .research-links a, .research-links button {
+      padding: 6px 12px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink-2);
+      font-size: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .research-links a:hover, .research-links button:hover { border-color: var(--accent); color: var(--accent); }
+    .research-related {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 12.5px;
+    }
+    .research-related li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 6px 0; }
+    .research-related .muted { flex-basis: 100%; line-height: 1.6; }
+    .research-related a { text-decoration: none; border-bottom: 1px solid rgba(138,59,46,.3); }
+    button.linkish {
+      padding: 0;
+      border: 0;
+      border-bottom: 1px solid rgba(138,59,46,.3);
+      background: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    button.linkish:hover { color: var(--accent); }
+    .muted { color: var(--ink-3); font-size: 11.5px; }
+    .section-note { margin: 0; font-size: 12px; letter-spacing: .05em; color: var(--ink-3); }
+    .quote.is-highlight { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .path-step {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rule-2);
+    }
+    .path-step:last-child { border-bottom: 0; }
+    button.path-step {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid var(--rule-2);
+      text-align: left;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    button.path-step:hover h4 { color: var(--accent); }
+    button.path-step:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .path-step .num {
+      width: 22px; height: 22px;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 12px; color: var(--accent);
+      background: var(--card);
+    }
+    .path-step h4 { margin: 0; font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .path-step p { margin: 2px 0 0; font-size: 12px; color: var(--ink-2); }
+    .path-step .why { margin-top: 3px; font-size: 11.5px; color: var(--ink-3); }
+
     /* ---------- 提示 ---------- */
     .toast {
       position: fixed;
@@ -644,15 +851,17 @@
           <span><b id="stat-texts">—</b>部全文</span>
           <span><b id="stat-canons">—</b>藏总目</span>
           <span><b id="stat-chars">—</b>万字可检索</span>
+          <span><b id="stat-research">—</b>部研究著作</span>
         </p>
       </div>
-      <p class="dek">把散在各处的古籍书目、核心正史全文与人物资料收进同一张书桌：先查书，再读原文，最后回到人物与疆域。书目来自 Kanripo，全文在浏览器本地检索。</p>
+      <p class="dek">把散在各处的古籍书目、核心正史全文、人物资料与现代研究著作收进同一张书桌：先查书，再读原文，最后回到人物与疆域。书目来自 Kanripo，全文在浏览器本地检索。</p>
     </div>
   </header>
 
   <nav class="view-tabs" role="tablist" aria-label="史料视图">
     <button class="tab" type="button" role="tab" id="tab-overview" aria-controls="view-overview" aria-selected="true" data-view="overview">数据源</button>
     <button class="tab" type="button" role="tab" id="tab-quotes" aria-controls="view-quotes" aria-selected="false" data-view="quotes">史料摘录</button>
+    <button class="tab" type="button" role="tab" id="tab-research" aria-controls="view-research" aria-selected="false" data-view="research">研究书目</button>
     <button class="tab" type="button" role="tab" id="tab-books" aria-controls="view-books" aria-selected="false" data-view="books">古籍总目</button>
     <button class="tab" type="button" role="tab" id="tab-fulltext" aria-controls="view-fulltext" aria-selected="false" data-view="fulltext">全文检索</button>
     <button class="tab" type="button" role="tab" id="tab-people" aria-controls="view-people" aria-selected="false" data-view="people">人物检索</button>
@@ -664,6 +873,19 @@
       <h2 class="panel-title">已接入的数据源</h2>
       <p class="panel-note">“已接入”表示书目、全文或 API 已在本板块内可直接使用；“外链”表示可在新窗口跳转检索。</p>
       <div class="source-grid">
+        <article class="source-card">
+          <div class="source-top"><h3>研究书目 · 阅读路径</h3><span class="source-tag">本站整理</span></div>
+          <p class="source-desc">现代学术著作的书目、原创提要与主题标签，按门阀政治、北族与内亚、制度与选官、历史地理、宋辽金元、明清等主题编排；每本书都能跳回史料摘录、CBDB 人物与地图年份。</p>
+          <dl class="source-meta">
+            <dt>著作</dt><dd><span id="card-research">—</span> 部</dd>
+            <dt>路径</dt><dd><span id="card-research-paths">—</span> 条</dd>
+            <dt>正文</dt><dd>不入库，提供馆藏与购买入口</dd>
+            <dt>许可</dt><dd>书目信息 + 本站原创提要</dd>
+          </dl>
+          <div class="source-links">
+            <button type="button" data-goto-view="research">打开研究书目 →</button>
+          </div>
+        </article>
         <article class="source-card">
           <div class="source-top"><h3>漢籍リポジトリ · Kanripo</h3><span class="source-tag">已接入</span></div>
           <p class="source-desc">京都大学人文科学研究所维护的汉籍全文库，一书一 GitHub 仓库，纯文本、可整仓下载。本板块的书目与核心史籍全文均取自这里。</p>
@@ -777,6 +999,21 @@
       <p class="empty" id="quote-empty" hidden>没有匹配的史料摘录。</p>
     </section>
 
+    <!-- 研究书目 -->
+    <section class="view" id="view-research" role="tabpanel" aria-labelledby="tab-research" hidden>
+      <h2 class="panel-title">研究书目与阅读路径</h2>
+      <p class="panel-note">现代学术著作的书目、原创提要与阅读入口；不含受版权保护的正文，请通过图书馆或正规渠道阅读。</p>
+      <div class="research-paths" id="research-paths"></div>
+      <div class="toolbar">
+        <div class="search-box"><input id="research-q" type="search" placeholder="检索书名、作者、出版社或议题" aria-label="检索研究书目" autocomplete="off"></div>
+        <span class="count" id="research-count" role="status"></span>
+      </div>
+      <div class="chips" id="research-themes" aria-label="按研究主题筛选"></div>
+      <div class="chips" id="research-levels" aria-label="按阅读难度筛选"></div>
+      <div class="research-list" id="research-list"></div>
+      <p class="empty" id="research-empty" hidden>没有匹配的研究著作。</p>
+    </section>
+
     <!-- 书目 -->
     <section class="view" id="view-books" role="tabpanel" aria-labelledby="tab-books" hidden>
       <div class="toolbar">
@@ -838,12 +1075,13 @@
   </aside>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data/catalog.js"></script>
-  <script src="data/cbeta_canons.js"></script>
-  <script src="data/text_manifest.js"></script>
-  <script src="data/quotes.js"></script>
-  <script src="data/meta.js"></script>
-  <script src="../../js/zh_hant.js"></script>
+  <script src="data/catalog.js?v=20261028j"></script>
+  <script src="data/cbeta_canons.js?v=20261028j"></script>
+  <script src="data/text_manifest.js?v=20261028j"></script>
+  <script src="data/quotes.js?v=20261028j"></script>
+  <script src="data/research_books.js?v=20261028j"></script>
+  <script src="data/meta.js?v=20261028j"></script>
+  <script src="../../js/zh_hant.js?v=20261028j"></script>
   <script>
     (function () {
       'use strict';
@@ -853,6 +1091,7 @@
       const CBETA = SRC.cbeta || { canons: [] };
       const TEXTS = SRC.texts || { books: [], count: 0, totalChars: 0 };
       const QUOTES = (SRC.quotes && SRC.quotes.items) || [];
+      const RESEARCH = SRC.research || { books: [], paths: [], themes: [] };
       const META = SRC.meta || {};
 
       const $ = (sel, root) => (root || document).querySelector(sel);
@@ -929,9 +1168,9 @@
       });
 
       /* ---------------- 视图切换 ---------------- */
-      const VIEWS = ['overview', 'quotes', 'books', 'fulltext', 'people'];
+      const VIEWS = ['overview', 'quotes', 'research', 'books', 'fulltext', 'people'];
       let currentView = 'overview';
-      const rendered = { quotes: false, books: false, fulltext: false };
+      const rendered = { quotes: false, research: false, books: false, fulltext: false };
 
       function syncUrl(view, q) {
         const url = new URL(location.href);
@@ -956,6 +1195,7 @@
           if (tab) tab.setAttribute('aria-selected', String(active));
         });
         if (name === 'quotes' && !rendered.quotes) { renderQuotes(); rendered.quotes = true; }
+        if (name === 'research' && !rendered.research) { renderResearchPaths(); renderResearchChips(); renderResearch(); rendered.research = true; }
         if (name === 'books' && !rendered.books) { renderBookGroups(); renderBooks(); rendered.books = true; }
         if (name === 'fulltext' && !rendered.fulltext) { renderTextPicker(); rendered.fulltext = true; }
         if (opts.updateUrl !== false) syncUrl(name, '');
@@ -977,6 +1217,7 @@
       $('#stat-books').textContent = fmt(CATALOG.count || CATALOG.books.length);
       $('#stat-texts').textContent = fmt(TEXTS.count);
       $('#stat-canons').textContent = fmt(CBETA.count);
+      $('#stat-research').textContent = fmt((RESEARCH.books || []).length);
       $('#stat-chars').textContent = wan(TEXTS.totalChars);
       $('#card-books').textContent = fmt(CATALOG.count || CATALOG.books.length);
       $('#card-texts').textContent = fmt(TEXTS.count);
@@ -1019,7 +1260,7 @@
           return (quote.text + quote.src + quote.note + quote.work + quote.chapter).includes(q);
         });
         $('#quote-list').innerHTML = list.map((quote) => `
-          <article class="quote">
+          <article class="quote" id="quote-${esc(quote.id)}">
             <div class="quote-top"><span class="quote-tag">${esc(quote.tag)}</span><cite>${esc(quote.src)}</cite></div>
             <blockquote>${esc(quote.text)}</blockquote>
             <p class="note">${esc(quote.note)}</p>
@@ -1040,6 +1281,255 @@
       $('#quote-q').addEventListener('input', (event) => {
         quoteState.q = event.target.value;
         renderQuotes();
+      });
+
+      /* ---------------- 研究书目 ---------------- */
+      const researchState = { q: '', theme: '全部', level: '全部' };
+      const researchBooks = RESEARCH.books || [];
+      const researchPaths = RESEARCH.paths || [];
+      const researchThemes = RESEARCH.themes || [];
+      const researchThemeTitle = new Map(researchThemes.map((item) => [item.id, item.title]));
+      const researchBookById = new Map(researchBooks.map((book) => [book.id, book]));
+      const researchLevels = Array.from(new Set(researchBooks.map((book) => book.level)));
+      const quoteById = new Map(QUOTES.map((quote) => [quote.id, quote]));
+      const cardResearch = $('#card-research');
+      const cardResearchPaths = $('#card-research-paths');
+      if (cardResearch) cardResearch.textContent = fmt(researchBooks.length);
+      if (cardResearchPaths) cardResearchPaths.textContent = fmt(researchPaths.length);
+      $$('[data-goto-view]').forEach((button) => {
+        button.addEventListener('click', () => showView(button.dataset.gotoView));
+      });
+
+      function researchThemeNames(book) {
+        return (book.themes || []).map((id) => researchThemeTitle.get(id) || id);
+      }
+
+      function researchText(book) {
+        return [
+          book.title, book.author, book.publisher, book.edition, book.isbn,
+          book.summary, book.why, (book.topics || []).join(' '),
+          researchThemeNames(book).join(' '),
+        ].filter(Boolean).join(' ');
+      }
+
+      function researchIncludes(text, query) {
+        if (!query) return true;
+        const haystacks = new Set([String(text || '').toLowerCase()]);
+        const queries = new Set([String(query).toLowerCase()]);
+        try {
+          const conv = window.ZH_HANT_CONV;
+          if (conv && conv.toHant && conv.toHans) {
+            Array.from(haystacks).forEach((value) => {
+              haystacks.add(conv.toHant(value).toLowerCase());
+              haystacks.add(conv.toHans(value).toLowerCase());
+            });
+            Array.from(queries).forEach((value) => {
+              queries.add(conv.toHant(value).toLowerCase());
+              queries.add(conv.toHans(value).toLowerCase());
+            });
+          }
+        } catch (_) { /* 忽略转换失败 */ }
+        for (const needle of queries) {
+          for (const haystack of haystacks) {
+            if (haystack.includes(needle)) return true;
+          }
+        }
+        return false;
+      }
+
+      function filteredResearch() {
+        const query = researchState.q.trim();
+        return researchBooks.filter((book) => {
+          if (researchState.theme !== '全部' && !(book.themes || []).includes(researchState.theme)) return false;
+          if (researchState.level !== '全部' && book.level !== researchState.level) return false;
+          return researchIncludes(researchText(book), query);
+        });
+      }
+
+      function renderResearchPaths() {
+        $('#research-paths').innerHTML = researchPaths.map((path) => {
+          const titles = (path.books || []).map((id) => researchBookById.get(id)).filter(Boolean).map((book) => book.title);
+          const preview = titles.slice(0, 3).join(' / ') + (titles.length > 3 ? ' …' : '');
+          return `
+            <button type="button" class="research-path" data-research-path="${esc(path.id)}">
+              <h3>${esc(path.title)}</h3>
+              <p>${esc(path.description)}</p>
+              <em>${titles.length} 本 · ${esc(preview)}</em>
+            </button>
+          `;
+        }).join('') || '<p class="empty">暂无阅读路径。</p>';
+      }
+
+      function renderResearchChips() {
+        const themeCounts = {};
+        researchBooks.forEach((book) => {
+          (book.themes || []).forEach((id) => { themeCounts[id] = (themeCounts[id] || 0) + 1; });
+        });
+        const themeChips = [`<button type="button" class="chip${researchState.theme === '全部' ? ' is-active' : ''}" data-rtheme="全部">全部<em>${researchBooks.length}</em></button>`];
+        researchThemes.forEach((theme) => {
+          themeChips.push(`<button type="button" class="chip${researchState.theme === theme.id ? ' is-active' : ''}" data-rtheme="${esc(theme.id)}">${esc(theme.title)}<em>${themeCounts[theme.id] || 0}</em></button>`);
+        });
+        $('#research-themes').innerHTML = themeChips.join('');
+
+        const levelCounts = {};
+        researchBooks.forEach((book) => { levelCounts[book.level] = (levelCounts[book.level] || 0) + 1; });
+        const levelChips = [`<button type="button" class="chip${researchState.level === '全部' ? ' is-active' : ''}" data-rlevel="全部">全部难度<em>${researchBooks.length}</em></button>`];
+        researchLevels.forEach((level) => {
+          levelChips.push(`<button type="button" class="chip${researchState.level === level ? ' is-active' : ''}" data-rlevel="${esc(level)}">${esc(level)}<em>${levelCounts[level] || 0}</em></button>`);
+        });
+        $('#research-levels').innerHTML = levelChips.join('');
+      }
+
+      function renderResearch() {
+        const list = filteredResearch();
+        $('#research-list').innerHTML = list.map((book) => {
+          const themes = researchThemeNames(book).slice(0, 3);
+          const tags = themes.map((title) => `<span class="research-tag">${esc(title)}</span>`).join('')
+            + `<span class="research-tag is-level">${esc(book.level)}</span>`;
+          const topics = (book.topics || []).slice(0, 2).join(' · ');
+          return `
+            <button type="button" class="research-book" data-research-book="${esc(book.id)}">
+              <h3>${esc(book.title)}</h3>
+              <span class="byline">${esc([book.author, book.publisher, book.year].filter(Boolean).join(' · '))}</span>
+              <p class="brief">${esc(book.summary)}</p>
+              <span class="research-tags">${tags}</span>
+              <span class="research-meta-row"><span>${esc(topics || '—')}</span><span>${esc(book.edition || '')}</span></span>
+            </button>
+          `;
+        }).join('');
+        $('#research-count').textContent = `共 ${researchBooks.length} 部 · 匹配 ${list.length} 部`;
+        $('#research-empty').hidden = list.length !== 0;
+      }
+
+      function researchYearLabel(year) {
+        const value = Number(year);
+        if (!Number.isFinite(value)) return String(year);
+        return value < 0 ? `前 ${Math.abs(value)} 年` : `${value} 年`;
+      }
+
+      function researchRelatedHtml(related) {
+        const rows = [];
+        (related.quotes || []).forEach((id) => {
+          const quote = quoteById.get(id);
+          if (!quote) return;
+          rows.push(`<li><button type="button" class="linkish" data-quote-jump="${esc(id)}">《${esc(quote.work)}·${esc(quote.chapter)}》摘录 ↗</button><span class="muted">${esc(quote.text.slice(0, 34))}…</span></li>`);
+        });
+        (related.persons || []).forEach((name) => {
+          rows.push(`<li><button type="button" class="linkish" data-person-lookup="${esc(name)}">CBDB 人物：${esc(name)} ↗</button></li>`);
+        });
+        (related.years || []).forEach((year) => {
+          rows.push(`<li><a href="../../?year=${encodeURIComponent(year)}">看 ${esc(researchYearLabel(year))}疆域图 ↗</a></li>`);
+        });
+        if (!rows.length) return '';
+        return `
+          <p class="research-block-title">回到史料与地图</p>
+          <ul class="research-related">${rows.join('')}</ul>
+        `;
+      }
+
+      function openResearchBook(id) {
+        const book = researchBookById.get(id);
+        if (!book) return;
+        const isbn = book.isbn || '';
+        const searchTerm = [book.title, book.author].filter(Boolean).join(' ');
+        const links = [
+          isbn
+            ? `<a href="https://search.worldcat.org/search?q=${encodeURIComponent('bn:' + isbn)}" target="_blank" rel="noopener">WorldCat 馆藏 ↗</a>`
+            : `<a href="https://search.worldcat.org/search?q=${encodeURIComponent(searchTerm)}" target="_blank" rel="noopener">WorldCat 检索 ↗</a>`,
+          `<a href="https://search.douban.com/book/subject_search?search_text=${encodeURIComponent(searchTerm)}" target="_blank" rel="noopener">豆瓣检索 ↗</a>`,
+          `<a href="https://www.google.com/search?tbm=bks&q=${encodeURIComponent('ISBN ' + (isbn || searchTerm))}" target="_blank" rel="noopener">Google Books ↗</a>`,
+        ];
+        const topics = (book.topics || []).map((topic) => `<span class="research-topic">${esc(topic)}</span>`).join('');
+        const themes = researchThemeNames(book).map((title) => `<span class="research-tag">${esc(title)}</span>`).join('')
+          + `<span class="research-tag is-level">${esc(book.level)}</span>`;
+        openDrawer(`
+          <div class="research-detail">
+            <h2 id="drawer-title">${esc(book.title)}</h2>
+            <p class="byline">${esc([book.author, book.publisher, book.year, book.edition].filter(Boolean).join(' · '))}</p>
+            <p class="lead">${esc(book.summary)}</p>
+            <p class="why"><strong>为什么读：</strong>${esc(book.why)}</p>
+            ${topics ? `<p class="research-block-title">核心议题</p><div class="research-topic-list">${topics}</div>` : ''}
+            <p class="research-block-title">主题与难度</p>
+            <div class="research-tags">${themes}</div>
+            ${isbn ? `<p class="research-block-title">ISBN</p><p class="section-note">${esc(isbn)}</p>` : ''}
+            <p class="research-block-title">找书与购书</p>
+            <div class="research-links">${links.join('')}</div>
+            ${researchRelatedHtml(book.related || {})}
+            <p class="detail-note">本书目只提供书目信息与本站原创提要，不含正文。请通过图书馆、出版社或正规电子书渠道阅读。</p>
+          </div>
+        `);
+      }
+
+      function openResearchPath(id) {
+        const path = researchPaths.find((item) => item.id === id);
+        if (!path) return;
+        const books = (path.books || []).map((bookId) => researchBookById.get(bookId)).filter(Boolean);
+        const steps = books.map((book, index) => `
+          <button type="button" class="path-step" data-research-book="${esc(book.id)}">
+            <span class="num">${index + 1}</span>
+            <span>
+              <h4>${esc(book.title)}</h4>
+              <p>${esc([book.author, book.year].filter(Boolean).join(' · '))}　<span class="research-tag is-level">${esc(book.level)}</span></p>
+              <p class="why">${esc(book.why)}</p>
+            </span>
+          </button>
+        `).join('');
+        openDrawer(`
+          <div class="research-detail">
+            <h2 id="drawer-title">${esc(path.title)}</h2>
+            <p class="lead">${esc(path.description)}</p>
+            <p class="research-block-title">阅读顺序 · ${books.length} 本</p>
+            <div>${steps || '<p class="empty">这条路径还没有书目。</p>'}</div>
+            ${researchRelatedHtml({ quotes: path.quotes, persons: path.persons, years: path.years })}
+            <p class="detail-note">点任一本书可查看提要、核心议题与馆藏入口。路径顺序是建议，不是必须。</p>
+          </div>
+        `);
+      }
+
+      function jumpToQuote(id) {
+        const quote = quoteById.get(id);
+        if (!quote) return;
+        quoteState.q = '';
+        quoteState.tag = '全部';
+        const input = $('#quote-q');
+        if (input) input.value = '';
+        renderQuoteTags();
+        renderQuotes();
+        showView('quotes');
+        requestAnimationFrame(() => {
+          const target = document.getElementById(`quote-${id}`);
+          if (!target) return;
+          target.scrollIntoView({ block: 'center' });
+          target.classList.add('is-highlight');
+          setTimeout(() => target.classList.remove('is-highlight'), 2400);
+        });
+      }
+
+      $('#research-paths').addEventListener('click', (event) => {
+        const button = event.target.closest('[data-research-path]');
+        if (button) openResearchPath(button.dataset.researchPath);
+      });
+      $('#research-themes').addEventListener('click', (event) => {
+        const chip = event.target.closest('[data-rtheme]');
+        if (!chip) return;
+        researchState.theme = chip.dataset.rtheme;
+        renderResearchChips();
+        renderResearch();
+      });
+      $('#research-levels').addEventListener('click', (event) => {
+        const chip = event.target.closest('[data-rlevel]');
+        if (!chip) return;
+        researchState.level = chip.dataset.rlevel;
+        renderResearchChips();
+        renderResearch();
+      });
+      $('#research-q').addEventListener('input', (event) => {
+        researchState.q = event.target.value;
+        renderResearch();
+      });
+      $('#research-list').addEventListener('click', (event) => {
+        const card = event.target.closest('[data-research-book]');
+        if (card) openResearchBook(card.dataset.researchBook);
       });
 
       /* ---------------- 书目 ---------------- */
@@ -1151,6 +1641,22 @@
       }
 
       $('#drawer-body').addEventListener('click', (event) => {
+        const researchBook = event.target.closest('[data-research-book]');
+        if (researchBook) {
+          openResearchBook(researchBook.dataset.researchBook);
+          return;
+        }
+        const researchPath = event.target.closest('[data-research-path]');
+        if (researchPath) {
+          openResearchPath(researchPath.dataset.researchPath);
+          return;
+        }
+        const quoteJump = event.target.closest('[data-quote-jump]');
+        if (quoteJump) {
+          closeDrawer();
+          jumpToQuote(quoteJump.dataset.quoteJump);
+          return;
+        }
         const read = event.target.closest('[data-open-text]');
         if (read) {
           showView('fulltext');
@@ -1525,14 +2031,18 @@
           quoteState.q = initialQuery;
           $('#quote-q').value = initialQuery;
           renderQuotes();
+        } else if (initialView === 'research') {
+          researchState.q = initialQuery;
+          $('#research-q').value = initialQuery;
+          renderResearch();
         }
       }
     })();
   </script>
-  <script src="../../core/registry.js"></script>
-  <script src="../../core/context.js"></script>
-  <script src="../../core/store.js"></script>
-  <script src="../../core/nav.js"></script>
-  <script src="../../core/research-panel.js"></script>
+  <script src="../../core/registry.js?v=20261028j"></script>
+  <script src="../../core/context.js?v=20261028j"></script>
+  <script src="../../core/store.js?v=20261028j"></script>
+  <script src="../../core/nav.js?v=20261028j"></script>
+  <script src="../../core/research-panel.js?v=20261028j"></script>
 </body>
 </html>

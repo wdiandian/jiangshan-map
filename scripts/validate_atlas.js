@@ -1262,11 +1262,11 @@ function main() {
     !readmeZhSrc.includes('点右上角的 **「开始挑战」**') &&
       !readmeZhSrc.includes('青史行迹 ▾') &&
       readmeZhSrc.includes('点人溯事') &&
-      readmeZhSrc.includes('舆图寻址 · 古地名小试') &&
+      readmeZhSrc.includes('研究书目') &&
       readmeZhSrc.includes('href="README.md"') &&
       !readmeSrc.includes('Journeys ▾') &&
       readmeSrc.includes('Person Chronicles') &&
-      readmeSrc.includes('Map Pinpoint · Ancient Place Quiz') &&
+      readmeSrc.includes('Research bibliography') &&
       readmeSrc.includes('href="README_ZH.md"') &&
       contributingSrc.includes('href="CONTRIBUTING_ZH.md"') &&
       contributingSrc.includes('lore_data.js') &&
@@ -1276,7 +1276,7 @@ function main() {
       !readmeZhSrc.includes('&event=') &&
       !appCode.includes("q.has('event')") &&
       !/\b\d{3}\s*(幅|座|处|条|桩|段)/.test(readmeZhSrc),
-    'README.md, README_ZH.md, CONTRIBUTING.md, CONTRIBUTING_ZH.md, and app.js must cross-link between English and Chinese docs, reference lore_data.js, document unified Person Chronicles & search-box Quiz entry point, avoid redundant &event= query params, and avoid hardcoded 3-digit entity counts'
+    'README.md, README_ZH.md, CONTRIBUTING.md, CONTRIBUTING_ZH.md, and app.js must cross-link between English and Chinese docs, reference lore_data.js, document Person Chronicles and the Sources research bibliography, avoid redundant &event= query params, and avoid hardcoded 3-digit entity counts'
   );
   const llmsSrc = fs.readFileSync(path.join(ROOT, 'llms.txt'), 'utf8');
   for (const d of dynasties) {
@@ -2933,7 +2933,6 @@ function main() {
     ['assets/preview_741_tang_trace_en.webp', 'assets/preview_741_tang_trace.webp'],
     ['assets/preview_1415_ming_yingtian_en.webp', 'assets/preview_1415_ming_yingtian.webp'],
     ['assets/preview_journey_sushi_en.webp', 'assets/preview_journey_sushi.webp'],
-    ['assets/preview_quiz_challenge_en.webp', 'assets/preview_quiz_challenge.webp'],
   ]) {
     assert(readmeSrc.includes(enAsset), `README.md must reference English preview ${enAsset}`);
     assert(readmeZhSrc.includes(zhAsset), `README_ZH.md must reference Chinese preview ${zhAsset}`);

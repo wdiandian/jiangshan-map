@@ -75,18 +75,6 @@
 
 ---
 
-### 玩法四：彩蛋 · 舆图寻址挑战 —— 测测你在古代能当几品官？
-
-觉得自己历史地理很熟？点开左上角 **搜索框** 引导栏右下角的 **「古地名小试 ›」**（或直接搜 `小试` / `寻址` 开启 **「舆图寻址 · 古地名小试」**）试试身手：
-- **当朝掌故线索 + 舆图盲猜扎针**：地图隐去所有城池标注，十道题按梯度递进，给出「西汉时期的姑臧（凉州）」「南宋时期的泉州」或「六朝古都建康」，并附上**当朝掌故与史事线索**（不剧透现代城市名），凭你的山河水系直觉在舆图上落针预览、点击图钉内嵌的**「`✓ 确定`」**揭晓同心圆环距离得分！
-- 十道题答完，系统会根据总分授予你 **「太史令 · 舆图大家」「职方郎中」「州郡从事」** 等传统官阶封号。
-
-> [点击直达：西汉武帝元狩二年（前 121 年）· 开启「舆图寻址」挑战模式 →](https://deanchen.me/jiangshan-map/?year=-121&quiz=locate)
-
-![西汉前 121 年 · 舆图寻址挑战模式预览](assets/preview_quiz_challenge.webp)
-
----
-
 ## 实用快捷键与任意门（Deep Links）
 
 ### 快捷键一览
@@ -108,8 +96,6 @@
 - **查某座古城或名胜的千年故事**：[`?year=741&place=长安`](https://deanchen.me/jiangshan-map/?year=741&place=长安)（长安/西安） / [`?year=1415&place=应天府`](https://deanchen.me/jiangshan-map/?year=1415&place=应天府)（建康/应天/南京） / [`?year=819&place=蓝关`](https://deanchen.me/jiangshan-map/?year=819&place=蓝关)（韩愈「雪拥蓝关马不前」）
 - **画一条自定义诗词/行军路线**：[`?year=763&place=剑外,巴峡,巫峡,襄阳,洛阳`](https://deanchen.me/jiangshan-map/?year=763&place=剑外,巴峡,巫峡,襄阳,洛阳)（杜甫《闻官军收河南河北》同年归乡路） / [`?year=1079,1080,1094,1097&place=湖州,黄州,惠州,儋州`](https://deanchen.me/jiangshan-map/?year=1079,1080,1094,1097&place=湖州,黄州,惠州,儋州)（苏轼「黄州惠州儋州」跨年贬谪路）
 - **展阅历史人物生平与行迹**：[`?person=qinshihuang`](https://deanchen.me/jiangshan-map/?person=qinshihuang)（秦始皇一统六国） / [`?person=zhangqian`](https://deanchen.me/jiangshan-map/?person=zhangqian)（张骞凿空西域） / [`?person=zhugeliang`](https://deanchen.me/jiangshan-map/?person=zhugeliang)（诸葛亮出山北伐） / [`?person=xuanzang`](https://deanchen.me/jiangshan-map/?person=xuanzang)（玄奘西行求法） / [`?person=libai`](https://deanchen.me/jiangshan-map/?person=libai)（李白仗剑壮游） / [`?person=sushi`](https://deanchen.me/jiangshan-map/?person=sushi)（苏轼宦海贬谪） / [`?person=wangyangming`](https://deanchen.me/jiangshan-map/?person=wangyangming)（王阳明心学立功）
-- **直接开一局挑战**：[`?year=-121&quiz=locate`](https://deanchen.me/jiangshan-map/?year=-121&quiz=locate)（舆图寻址挑战）
-- **切换繁简与英文界面**：[`?lang=zh-tw`](https://deanchen.me/jiangshan-map/?lang=zh-tw)（繁体中文） / [`?lang=en`](https://deanchen.me/jiangshan-map/?lang=en)（英文版）
 
 ---
 
@@ -167,6 +153,20 @@ python3 skills/jiangshan-atlas/scripts/jiangshan.py --year 1079,1080,1094,1097 -
 - `window.atlasAPI.inspect({ year, place, person?, stop? })`：只读查询指定时空点、多站路线或人物纪事的所属政权、州郡政区、现代省市、各站里程与标准分享链接。
 - `window.atlasAPI.resolvePlace(place, year?)`：解析历代城池、天下名关、诗词名胜与古战场古今地名。
 - `window.atlasAPI.openPerson(person, stop?)` & `window.atlasAPI.search(query)`：在地图上展开人物生平纪事或执行全局检索。
+
+---
+
+## 史料库与研究书目
+
+研究台的第二个板块位于 `boards/sources/`，可以独立修改，不影响地图与子板块：
+
+- **古籍总目**：Kanripo 9,349 部汉籍书目，可按经、史、子、集、道、佛筛选。
+- **核心史籍全文**：16 部正史与核心典籍，约 1,258 万字，支持跨书全文检索。
+- **史料摘录**：18 条族源、地理类原始史料，附出处与关联年份。
+- **人物检索**：直接调用 CBDB 开放接口查询生卒、籍贯、郡望。
+- **研究书目**：38 部现代研究著作的书目、原创提要、核心议题与 6 条阅读路径，覆盖门阀政治、魏晋南北朝、隋唐、宋辽金元、北族与内亚、明清、历史地理、通史与方法。每本书可跳转到关联史料摘录、CBDB 人物与对应年份的疆域图。
+
+现代研究著作受版权保护，本站**不收录正文**，只提供书目信息、原创提要、主题标签、ISBN 与图书馆／正规渠道检索入口（WorldCat、豆瓣、Google Books）。新增一本书只需在 `boards/sources/data/research_books.js` 的 `books` 数组追加对象；新增阅读路径则在 `paths` 中追加，不需要改动其他板块。
 
 ---
 
