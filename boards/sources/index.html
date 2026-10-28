@@ -380,6 +380,13 @@
     }
     .ft-side h2 { margin: 0 0 4px; font-family: var(--serif); font-size: 15.5px; font-weight: 600; }
     .ft-side p { margin: 0 0 10px; font-size: 11.8px; color: var(--ink-3); }
+    .ft-side p.ft-note {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--rule-2);
+      line-height: 1.6;
+    }
+    .ft-side p.ft-note a { color: var(--accent-deep); text-decoration: none; border-bottom: 1px solid rgba(138,59,46,.3); }
     .ft-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
     .ft-presets button {
       padding: 3px 9px;
@@ -1035,6 +1042,7 @@
         <aside class="ft-side">
           <h2>核心史籍</h2>
           <p>勾选后载入本地全文，首次检索会读取对应数据文件。</p>
+          <p class="ft-note">已收入《明史》。Kanripo 未收《清史稿》，清代史料可在<a href="https://zh.wikisource.org/wiki/%E6%B8%85%E5%8F%B2%E7%A8%BF" target="_blank" rel="noopener">維基文庫</a>阅读，或在「史料摘录」查看本站选段。</p>
           <div class="ft-presets">
             <button type="button" data-preset="none">清空</button>
             <button type="button" data-preset="north">北族史料</button>
@@ -1075,13 +1083,13 @@
   </aside>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="data/catalog.js?v=20261028j"></script>
-  <script src="data/cbeta_canons.js?v=20261028j"></script>
-  <script src="data/text_manifest.js?v=20261028j"></script>
-  <script src="data/quotes.js?v=20261028j"></script>
-  <script src="data/research_books.js?v=20261028j"></script>
-  <script src="data/meta.js?v=20261028j"></script>
-  <script src="../../js/zh_hant.js?v=20261028j"></script>
+  <script src="data/catalog.js?v=20261028k"></script>
+  <script src="data/cbeta_canons.js?v=20261028k"></script>
+  <script src="data/text_manifest.js?v=20261028k"></script>
+  <script src="data/quotes.js?v=20261028k"></script>
+  <script src="data/research_books.js?v=20261028k"></script>
+  <script src="data/meta.js?v=20261028k"></script>
+  <script src="../../js/zh_hant.js?v=20261028k"></script>
   <script>
     (function () {
       'use strict';
@@ -1700,7 +1708,6 @@
       }
 
       function updateFtSelected() {
-        $('#ft-selected').textContent = ftState.selected.size;
         $('#ft-status').innerHTML = ftState.selected.size
           ? `已选 <b id="ft-selected">${ftState.selected.size}</b> 部，合计约 <b>${wan(selectedChars())}</b> 万字。按 Enter 或点“检索”。`
           : '请至少勾选一部史籍。';
@@ -2039,10 +2046,10 @@
       }
     })();
   </script>
-  <script src="../../core/registry.js?v=20261028j"></script>
-  <script src="../../core/context.js?v=20261028j"></script>
-  <script src="../../core/store.js?v=20261028j"></script>
-  <script src="../../core/nav.js?v=20261028j"></script>
-  <script src="../../core/research-panel.js?v=20261028j"></script>
+  <script src="../../core/registry.js?v=20261028k"></script>
+  <script src="../../core/context.js?v=20261028k"></script>
+  <script src="../../core/store.js?v=20261028k"></script>
+  <script src="../../core/nav.js?v=20261028k"></script>
+  <script src="../../core/research-panel.js?v=20261028k"></script>
 </body>
 </html>

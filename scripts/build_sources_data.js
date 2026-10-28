@@ -51,6 +51,7 @@ const CORE_BOOKS = [
   'KR2a0033', // 遼史
   'KR2a0035', // 金史
   'KR2a0036', // 元史
+  'KR2a0038', // 明史
   'KR2d0014', // 元朝祕史
 ];
 
@@ -158,6 +159,17 @@ function cleanLine(line) {
     .trim();
 }
 
+function chineseNumber(value) {
+  const n = Number(value);
+  const digits = '零一二三四五六七八九';
+  if (!Number.isInteger(n) || n < 0 || n > 999) return String(value);
+  if (n < 10) return digits[n];
+  if (n < 20) return `十${n % 10 ? digits[n % 10] : ''}`;
+  if (n < 100) return `${digits[Math.floor(n / 10)]}十${n % 10 ? digits[n % 10] : ''}`;
+  const rest = n % 100;
+  return `${digits[Math.floor(n / 100)]}百${rest ? (rest < 10 ? `零${digits[rest]}` : chineseNumber(rest)) : ''}`;
+}
+
 /**
  * 解析一部 Kanripo 书籍目录。
  * 以文件为卷单位；文件内出现 《篇名》 独占行时，再切成篇。
@@ -175,6 +187,14 @@ function parseBook(id, dir) {
     const text = fs.readFileSync(path.join(dir, name), 'utf8');
     bookTitle = bookTitle || readMeta(text, 'TITLE');
     const juan = readMeta(text, 'JUAN');
+    // 部分仓库只写数字卷次（如 `#+PROPERTY: JUAN 1`），补成“卷一”便于阅读。
+    const juanLabel = juan === '0' ? '卷首' : /^\d+$/.test(juan) ? `卷${chineseNumber(juan)}` : juan;
+    const lines = text.split(/\r?\n/).filter((line) => !/^#/.test(line)).map(cleanLine).filter(Boolean);
+    // 四库本常在正文首行另写实际卷次（如“明史卷二百二十四考證”），优先采用。
+    const volumeTitle = bookTitle
+      ? lines.slice(0, 3).find((line) => line.startsWith(`${bookTitle}卷`) && line.length <= bookTitle.length + 24)
+      : '';
+    const chapterTitle = (volumeTitle ? volumeTitle.slice(bookTitle.length) : '') || juanLabel || '正文';
 
     let current = null;
     const pushChapter = () => {
@@ -183,11 +203,7 @@ function parseBook(id, dir) {
       if (body.length >= 40) chapters.push({ t: current.title, x: body });
     };
 
-    for (const line of text.split(/\r?\n/)) {
-      if (/^#/.test(line)) continue;
-      const cleaned = cleanLine(line);
-      if (!cleaned) continue;
-
+    for (const cleaned of lines) {
       const heading = /^(\d+(?:\.\d+)*)?\s*《([^》]{1,40})》$/.exec(cleaned);
       if (heading) {
         pushChapter();
@@ -196,7 +212,7 @@ function parseBook(id, dir) {
       }
 
       if (!current) {
-        current = { title: juan || '正文', parts: [] };
+        current = { title: chapterTitle, parts: [] };
       }
       current.parts.push(cleaned);
     }

@@ -161,8 +161,8 @@ In browser automation environments (Playwright) or WebMCP-enabled AI browsers (`
 The second board lives in `boards/sources/` and can be edited independently of the map and modules:
 
 - **Kanripo catalog**: 9,349 classical titles, filterable by the traditional four-part and Daoist/Buddhist divisions.
-- **Core full texts**: 16 histories and classics, roughly 12.58 million characters, with cross-book full-text search.
-- **Source excerpts**: 18 passages on ethnogenesis and geography with citations and linked years.
+- **Core full texts**: 17 histories and classics, roughly 15.54 million characters, with cross-book full-text search. The *History of Ming* is included; the *Qing History Draft* is not in Kanripo, so the site offers selected excerpts and a Wikisource link.
+- **Source excerpts**: 24 passages on ethnogenesis, geography, and institutions, including Yuan, Ming, and Qing selections, with citations and linked years.
 - **Person lookup**: live queries against the open CBDB API.
 - **Research bibliography**: 38 modern scholarly books with original summaries, key topics, and 6 reading paths (aristocratic politics, Wei–Jin–Northern–Southern dynasties, Sui–Tang, Song–Liao–Jin–Yuan, steppe and Inner Asia, Ming–Qing, historical geography, and general method). Each entry links back to related source excerpts, CBDB persons, and map years.
 

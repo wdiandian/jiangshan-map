@@ -422,7 +422,7 @@ window.JIANGSHAN_SOURCES.research = {
       summary: '从明末秩序崩溃、满洲兴起与士绅选择出发，解释清朝如何在多方竞争中建立统治。',
       why: '清初不是简单的“入关”；这本书展示多方政治力量的选择与偶然。',
       topics: ['明清易代', '满洲兴起', '士绅', '南明', '三藩'],
-      related: { quotes: ['manchu-name'], persons: [], years: [1616, 1683] },
+      related: { quotes: ['manchu-name', 'qing-taizu'], persons: [], years: [1616, 1683] },
     },
     {
       id: 'qinggong',
@@ -436,7 +436,7 @@ window.JIANGSHAN_SOURCES.research = {
       summary: '从宫廷仪式、族群身份与帝国礼仪讨论清朝如何维持满洲特性，同时统治多民族帝国。',
       why: '理解“满洲”作为政治共同体，而不只是族称。',
       topics: ['宫廷', '满洲认同', '礼仪', '多民族帝国'],
-      related: { quotes: ['manchu-name'], persons: [], years: [1644, 1912] },
+      related: { quotes: ['manchu-name', 'qing-shengzu-sanfan', 'qing-shihuo-ding'], persons: [], years: [1644, 1912] },
     },
     {
       id: 'changshui',
@@ -520,7 +520,7 @@ window.JIANGSHAN_SOURCES.research = {
       summary: '以1587年为切口，通过万历皇帝、张居正、海瑞、戚继光、李贽等人物，展示明代制度的结构性困境。',
       why: '适合作为“从人物进入制度”的入门读物，但需注意其大历史观的争议。',
       topics: ['万历', '张居正', '海瑞', '戚继光', '明代制度'],
-      related: { quotes: [], persons: ['張居正'], years: [1587] },
+      related: { quotes: ['ming-shihuo'], persons: ['張居正'], years: [1587] },
     },
     {
       id: 'jiaohun',
@@ -602,7 +602,7 @@ window.JIANGSHAN_SOURCES.research = {
       title: '明清易代与帝国治理',
       description: '从明清易代、宫廷政治到官僚体系，理解帝国后期的治理逻辑。',
       books: ['hongye', 'qinggong', 'wanli-shiwu', 'jiaohun'],
-      quotes: ['manchu-name'],
+      quotes: ['ming-taizu', 'ming-shihuo', 'manchu-name', 'qing-taizu', 'qing-shengzu-sanfan', 'qing-shihuo-ding'],
       persons: [],
       years: [1587, 1912],
     },
