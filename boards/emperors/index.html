@@ -315,7 +315,13 @@
       color: var(--ink-3);
       letter-spacing: .04em;
     }
-    .card-top .temple { color: var(--accent-deep); }
+    .card-top .temple {
+      color: var(--accent-deep);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 108px;
+    }
     .card-top .reign { white-space: nowrap; }
     .emperor-card strong {
       font-family: var(--serif);
@@ -489,7 +495,7 @@
       <div>
         <p class="kicker">Research Atlas · 帝系</p>
         <h1>帝王谱系</h1>
-        <p class="dek">从秦到清，按父系、兄终弟及、旁支入继与追尊关系排列的皇帝世系。点开任一卡片，查看在位年、年号、继位关系与对应年份的疆域图。</p>
+        <p class="dek">从秦到清，按父系、兄终弟及、旁支入继与追尊关系排列的皇帝世系。卡片按「庙号 / 谥号（或通行称号）/ 年号 / 姓名」分列；无庙号者以谥号标注，无年号者留空。点开任一卡片可查看继位说明与对应年份的疆域图。</p>
       </div>
       <div class="meta" aria-label="统计">
         <span><b id="stat-dynasties">—</b>个朝代</span>
@@ -628,17 +634,22 @@
           : node.status === 'disputed' ? 'is-disputed' : '';
         const relClass = node.status === 'honored' ? 'is-honored'
           : node.relation === '皇后称帝' ? 'is-women' : '';
+        const titleLine = node.temple
+          ? `庙号 ${node.temple}`
+          : node.posthumous
+            ? `称号 ${node.posthumous}`
+            : '无庙号';
         return `
           <button type="button" class="emperor-card ${statusClass}" data-emperor="${esc(node.id)}">
             <span class="card-top">
-              <span class="temple">${esc(node.temple || '')}</span>
+              <span class="temple">${esc(titleLine)}</span>
               <span class="reign">${esc(node.reign || '')}</span>
             </span>
             <strong>${esc(node.name)}</strong>
             <span class="personal">${esc(node.personal || '')}</span>
             <span class="card-bottom">
               <span class="rel-tag ${relClass}">${esc(node.tag || node.relation || '—')}</span>
-              <span class="era">${esc(node.era || '')}</span>
+              <span class="era">年号 ${esc(node.era || '—')}</span>
             </span>
           </button>
         `;
@@ -722,7 +733,7 @@
 
       /* ---------- 检索 ---------- */
       function haystack(node) {
-        return [node.name, node.personal, node.temple, node.reign, node.era, node.note]
+        return [node.name, node.personal, node.temple, node.posthumous, node.reign, node.era, node.note]
           .filter(Boolean).join(' ').toLowerCase();
       }
 
@@ -730,9 +741,10 @@
         const name = String(node.name || '').toLowerCase();
         const personal = String(node.personal || '').toLowerCase();
         const temple = String(node.temple || '').toLowerCase();
+        const posthumous = String(node.posthumous || '').toLowerCase();
         if (name === query || personal === query) return 0;
-        if (name.startsWith(query) || personal.startsWith(query) || temple.startsWith(query)) return 1;
-        if (name.includes(query) || personal.includes(query) || temple.includes(query)) return 2;
+        if (name.startsWith(query) || personal.startsWith(query) || temple.startsWith(query) || posthumous.startsWith(query)) return 1;
+        if (name.includes(query) || personal.includes(query) || temple.includes(query) || posthumous.includes(query)) return 2;
         return 3;
       }
 
@@ -845,13 +857,17 @@
         const year = Number.isFinite(node.year) ? node.year : null;
         openDrawer(`
           <h2 id="drawer-title">${esc(node.name)}</h2>
-          <p class="sub">${esc(node.personal || '')}${node.temple ? ` · ${esc(node.temple)}` : ''}${dyn ? ` · ${esc(dyn.title)}` : ''}</p>
+          <p class="sub">${esc(node.personal || '')}${dyn ? ` · ${esc(dyn.title)}` : ''}${node.temple ? ` · 庙号${esc(node.temple)}` : ''}</p>
           <p class="lead">${esc(relationSentence(node))}</p>
           <dl class="detail-grid">
-            <div><dt>在位</dt><dd>${esc(node.reign || '未详')}</dd></div>
-            <div><dt>年号</dt><dd>${esc(node.era || '未详')}</dd></div>
-            <div><dt>前任/父系</dt><dd>${esc(parent ? parent.name : '—')}</dd></div>
-            <div><dt>继位关系</dt><dd>${esc(node.relation || '—')}</dd></div>
+            <div><dt>庙号</dt><dd>${esc(node.temple || '—')}</dd></div>
+            <div><dt>谥号/称号</dt><dd>${esc(node.posthumous || '—')}</dd></div>
+            <div><dt>姓名</dt><dd>${esc(node.personal || '—')}</dd></div>
+            <div><dt>年号</dt><dd>${esc(node.era || '—')}</dd></div>
+            <div><dt>在位</dt><dd>${esc(node.reign || '—')}</dd></div>
+            <div><dt>前任/父系</dt><dd>${esc(parent ? parent.name : (node.parentLabel || '—'))}</dd></div>
+            <div><dt>继位关系</dt><dd>${esc(node.tag || node.relation || '—')}</dd></div>
+            <div><dt>常用称谓</dt><dd>${esc(node.name)}</dd></div>
           </dl>
           ${node.note ? `<p class="detail-note">${esc(node.note)}</p>` : ''}
           <div class="detail-actions">

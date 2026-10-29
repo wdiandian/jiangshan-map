@@ -463,6 +463,8 @@ function main() {
       for (const node of house.nodes) {
         emperorCount += 1;
         assert(node.id && node.name && node.reign && node.relation, `Emperor node in ${dynasty.id}/${house.id} must have id, name, reign, relation`);
+        assert(!node.temple || (node.temple.length <= 4 && !/皇帝|帝$/.test(node.temple)), `Emperor ${node.id} has a non-temple value in temple: ${node.temple}`);
+        assert(!node.era || !/帝$/.test(node.era), `Emperor ${node.id} has a title in era: ${node.era}`);
         assert(!emperorIds.has(node.id), `Duplicate emperor id ${node.id}`);
         emperorIds.add(node.id);
         assert(!node.parent || localIds.has(node.parent), `Emperor ${node.id} has parent ${node.parent} outside its house`);
