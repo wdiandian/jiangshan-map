@@ -584,6 +584,16 @@
 
     .reader-head { margin-bottom: 8px; }
     .reader-kicker { margin: 0 0 4px; font-size: 11px; letter-spacing: .16em; color: var(--accent); text-transform: uppercase; }
+    .reader-note {
+      margin: 12px 0 0;
+      padding: 9px 12px;
+      border-left: 3px solid var(--gold);
+      background: var(--card-2);
+      font-size: 11.5px;
+      line-height: 1.7;
+      color: var(--ink-3);
+    }
+    .reader-note a { color: var(--accent-deep); text-decoration: none; border-bottom: 1px solid rgba(138,59,46,.3); }
     .reader-nav {
       display: flex;
       align-items: center;
@@ -997,6 +1007,7 @@
 
     <!-- 摘录 -->
     <section class="view" id="view-quotes" role="tabpanel" aria-labelledby="tab-quotes" hidden>
+      <p class="panel-note">史料摘录为人工校读并施加现代标点；全文库则保留 Kanripo 白文底本原貌，两者用途不同。</p>
       <div class="toolbar">
         <div class="search-box"><input id="quote-q" type="search" placeholder="检索原文、出处或按语" aria-label="检索史料摘录" autocomplete="off"></div>
         <span class="count" id="quote-count" role="status"></span>
@@ -1043,6 +1054,7 @@
           <h2>核心史籍</h2>
           <p>勾选后载入本地全文，首次检索会读取对应数据文件。</p>
           <p class="ft-note">已收入《明史》。Kanripo 未收《清史稿》，清代史料可在<a href="https://zh.wikisource.org/wiki/%E6%B8%85%E5%8F%B2%E7%A8%BF" target="_blank" rel="noopener">維基文庫</a>阅读，或在「史料摘录」查看本站选段。</p>
+          <p class="ft-note">全文底本多为 Kanripo 白文，原书没有现代标点；阅读器保留原貌并仅按句长分段。需要标点本可到 ctext、維基文庫检索。</p>
           <div class="ft-presets">
             <button type="button" data-preset="none">清空</button>
             <button type="button" data-preset="north">北族史料</button>
@@ -1879,7 +1891,14 @@
       const readerState = { id: '', chapterIndex: 0, query: '' };
 
       function paragraphize(text) {
-        const parts = text.match(/[^。！？；]+[。！？；]?/g) || [text];
+        const clean = String(text || '');
+        // Kanripo 白文底本往往没有现代标点；无句读时按固定长度分段，避免整卷挤成一段。
+        if (!/[。！？；]/.test(clean)) {
+          const out = [];
+          for (let i = 0; i < clean.length; i += 180) out.push(clean.slice(i, i + 180));
+          return out.length ? out : [''];
+        }
+        const parts = clean.match(/[^。！？；]+[。！？；]?/g) || [clean];
         const out = [];
         let buffer = '';
         parts.forEach((part) => {
@@ -1908,6 +1927,7 @@
             <p class="reader-kicker">Kanripo 全文 · 本站阅读</p>
             <h2 id="drawer-title">${esc(book.title)}</h2>
             <p class="drawer-sub">${esc([book.dynasty, book.author].filter(Boolean).join(' · ') || '作者与朝代未详')} · ${esc(chapter.t)}</p>
+            <p class="reader-note">Kanripo 底本多为白文，原书没有现代标点；本页保留原貌，仅按句长分段。需要标点本可在 <a href="${ctext(book.title)}" target="_blank" rel="noopener">ctext</a> 或 <a href="${wikisource(book.title)}" target="_blank" rel="noopener">維基文庫</a> 检索。</p>
           </div>
           <div class="reader-nav">
             <button type="button" data-reader-prev ${readerState.chapterIndex <= 0 ? 'disabled' : ''}>← 上一卷</button>
